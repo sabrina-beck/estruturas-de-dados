@@ -8,18 +8,11 @@
 
 int lerDimensao();
 int** lerMatriz(int n);
+void escrevePontosDeSela(int** matriz, int n);
 
-//FIXME retirar isso
-void escreve(int** matriz, int n) {
-	int i, j;
-	printf("%d\n", n);
-
-	for(i = 0; i < n; i++) {
-		for(j = 0; j < n; j++)
-			printf("%d ", matriz[i][j]);
-		printf("\n");
-	}
-}
+typedef enum bool {
+	false, true
+} bool;
 
 int main() {
 	int n;
@@ -28,7 +21,7 @@ int main() {
 	n = lerDimensao();
 	matriz = lerMatriz(n);
 
-	escreve(matriz, n);
+	escrevePontosDeSela(matriz, n);
 
 	return 0;
 }
@@ -73,3 +66,53 @@ int** lerMatriz(int n) {
 
 	return matriz;
 }
+
+int indiceMenorElemento(int* vetor, int n) {
+	int i, menor = vetor[0], indice = 0;
+	for(i = 1; i < n; i++) {
+		if(menor > vetor[i]) {
+			menor = vetor[i];
+			indice = i;
+		}
+	}
+	return indice;
+} 
+
+bool ehMaiorDaColuna(int** matriz, int n, int linha, int coluna) {
+	int i, maior = matriz[0][coluna], indice = 0;
+
+	for(i = 0; i < n; i++)
+		if(matriz[i][coluna] > maior) {
+			maior = matriz[i][coluna];
+			indice = i;
+		}
+	if(linha == indice)
+		return true;
+
+	return false;
+}
+
+void escrevePontosDeSela(int** matriz, int n) {
+	int i;
+	bool achouAlgum = false;
+
+	printf("Os pontos de sela da matriz são:\n\n");
+
+	for(i = 0; i < n; i++) {
+		int colunaDoMenor = indiceMenorElemento(matriz[i], n);
+		//FIXME
+		//printf("\nMenor da linha %d é %d\n", i, matriz[i][colunaDoMenor]);
+		bool pontoDeSela = ehMaiorDaColuna(matriz, n,  i, colunaDoMenor);
+		//FIXME 
+		//printf("É maior da coluna %d ? %d\n\n", colunaDoMenor, pontoDeSela);
+		if(pontoDeSela) {
+			achouAlgum = true;
+			printf("%4d%4d%4d\n ", i, colunaDoMenor, matriz[i][colunaDoMenor]);
+		}
+	}
+
+	if(!achouAlgum)
+		printf("nenhum");
+	printf("\n");
+}
+
