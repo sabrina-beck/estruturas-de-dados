@@ -1,6 +1,6 @@
 /* Programa: conta.c                                   */
 /* Autor: Sabrina Beck Angelini           RA157240     */
-/* Disciplina: MC102                      Turma E      */
+/* Disciplina: MC202                      Turma E      */
 /* Data: 06/set/2014                                   */
 
 #include <stdio.h>
@@ -13,6 +13,11 @@ void escrevePontosDeSela(int** matriz, int n);
 typedef enum bool {
 	false, true
 } bool;
+
+typedef struct Coordenada {
+	int linha;
+	int coluna;
+} Coordenada;
 
 int main() {
 	int n;
@@ -67,52 +72,67 @@ int** lerMatriz(int n) {
 	return matriz;
 }
 
-int indiceMenorElemento(int* vetor, int n) {
-	int i, menor = vetor[0], indice = 0;
-	for(i = 1; i < n; i++) {
-		if(menor > vetor[i]) {
-			menor = vetor[i];
-			indice = i;
+Coordenada posicaoDoMenorDaLinha(int** matriz, int n, int linha) {
+	int i;
+	int menor = matriz[linha][0];
+	Coordenada coordenadaDoMenor;
+	coordenadaDoMenor.linha = linha;
+	coordenadaDoMenor.coluna = 0;
+
+	for(i = 1; i < n; i++)
+		if(menor > matriz[linha][i]) {
+			menor = matriz[linha][i];
+			coordenadaDoMenor.coluna = i;
 		}
-	}
-	return indice;
-} 
+	return coordenadaDoMenor;
+}
 
-bool ehMaiorDaColuna(int** matriz, int n, int linha, int coluna) {
-	int i, maior = matriz[0][coluna], indice = 0;
+Coordenada posicaoDoMaiorDaColuna(int** matriz, int n, int coluna) {
+	int i;
+	int maior = matriz[0][coluna];
+	Coordenada coordenadaDoMaior;
+	coordenadaDoMaior.linha = 0;
+	coordenadaDoMaior.coluna = coluna;
 
-	for(i = 0; i < n; i++)
-		if(matriz[i][coluna] > maior) {
+	for(i = 1; i < n; i++)
+		if(maior < matriz[i][coluna]) {
 			maior = matriz[i][coluna];
-			indice = i;
+			coordenadaDoMaior.linha = i;
 		}
-	if(linha == indice)
-		return true;
 
-	return false;
+	return coordenadaDoMaior;
 }
 
 void escrevePontosDeSela(int** matriz, int n) {
-	int i;
-	bool achouAlgum = false;
+	int i, j;
+	bool temPontosDeSela = false;
+	Coordenada *menoresPorLinha, *maioresPorColuna;
+	menoresPorLinha = (Coordenada*) malloc(n * sizeof(Coordenada));
+	maioresPorColuna = (Coordenada*) malloc(n * sizeof(Coordenada));
 
 	printf("Os pontos de sela da matriz são:\n\n");
 
 	for(i = 0; i < n; i++) {
-		int colunaDoMenor = indiceMenorElemento(matriz[i], n);
-		//FIXME
-		//printf("\nMenor da linha %d é %d\n", i, matriz[i][colunaDoMenor]);
-		bool pontoDeSela = ehMaiorDaColuna(matriz, n,  i, colunaDoMenor);
-		//FIXME 
-		//printf("É maior da coluna %d ? %d\n\n", colunaDoMenor, pontoDeSela);
-		if(pontoDeSela) {
-			achouAlgum = true;
-			printf("%4d%4d%4d\n ", i, colunaDoMenor, matriz[i][colunaDoMenor]);
+		menoresPorLinha[i] = posicaoDoMenorDaLinha(matriz, n, i);
+		maioresPorColuna[i] = posicaoDoMaiorDaColuna(matriz, n, i);
+	}
+
+	for(i = 0; i < n; i++) {
+		Coordenada menorLinha = menoresPorLinha[i];
+		for(j = 0; j < n; j++) {
+			Coordenada maiorColuna = maioresPorColuna[j];
+			if(maiorColuna.linha == menorLinha.linha && maiorColuna.coluna == menorLinha.coluna) {
+				int linha = maiorColuna.linha;
+				int coluna = maiorColuna.coluna;
+				printf("%4d%4d%4d\n", maiorColuna.linha, maiorColuna.coluna, matriz[linha][coluna]);
+				temPontosDeSela = true;
+			}
 		}
 	}
 
-	if(!achouAlgum)
+	if(!temPontosDeSela)
 		printf("nenhum");
+
 	printf("\n");
 }
 
