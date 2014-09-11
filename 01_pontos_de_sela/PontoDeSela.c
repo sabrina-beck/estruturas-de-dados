@@ -37,7 +37,7 @@ int lerDimensao() {
 
 	scanf("%d", &n);
 	if (n < 1 || n > 20) {
-		printf("Dados inv√°lidos");
+		printf("Dados inv·lidos");
 		exit(0);
 	}
 
@@ -110,7 +110,7 @@ void escrevePontosDeSela(int** matriz, int n) {
 	menoresPorLinha = (Coordenada*) malloc(n * sizeof(Coordenada));
 	maioresPorColuna = (Coordenada*) malloc(n * sizeof(Coordenada));
 
-	printf("Os pontos de sela da matriz s√£o:\n\n");
+	printf("Os pontos de sela da matriz s„o:\n\n");
 
 	for(i = 0; i < n; i++) {
 		menoresPorLinha[i] = posicaoDoMenorDaLinha(matriz, n, i);
