@@ -1,4 +1,4 @@
-/* Programa: conta.c                                   */
+/* Programa: selas.c                                   */
 /* Autor: Sabrina Beck Angelini           RA157240     */
 /* Disciplina: MC202                      Turma E      */
 /* Data: 11/set/2014                                   */
