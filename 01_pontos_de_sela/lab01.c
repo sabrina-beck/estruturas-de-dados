@@ -83,10 +83,10 @@ int lerDimensao() {
 	char caracter = '\0';
 
     /* Leitura da dimensão n da matriz */
-	scanf("%d", &n);
+	int conseguiuLer = scanf("%d", &n);
 	
 	/* Verificação se a dimensão dada é válida */
-	if (n < 1 || n > 20) {
+	if (n < 1 || n > 20 || conseguiuLer == EOF) {
         entradaInvalida();
 	}
 
@@ -122,7 +122,7 @@ int** lerMatriz(int n) {
 			 * Se não há valores suficientes na entrada para preencher
 			 * a matriz nxn então a entrada é inválida
 			 */
-			if(qtdLido <= 0) {
+			if(qtdLido <= 0 || qtdLido == EOF) {
                 entradaInvalida();
 	        }
 
@@ -178,91 +178,59 @@ void posicoesDoMenorDaLinha(int** matriz, int n, int linha, Coordenada* resultad
 }
 
 /*
- * Armazena no final do vetor de Coordenadas resultados as coordenadas dos
- * maiores elementos presentes na coluna dada de uma matriz
+ * Verifica se o elemento da coordenada dada é o maior de sua coluna
  */
-void posicoesDoMaiorDaColuna(int** matriz, int n, int coluna, Coordenada* resultados, int* qtdResultados) {
-    Coordenada coordAtual;
-	int i, qtd;
-	int maior = matriz[0][coluna];
-	
-	coordAtual.linha = 0;
-	coordAtual.coluna = coluna;
-	resultados[(*qtdResultados)++] = coordAtual;
-	qtd = 1;
+bool ehMaiorDaColuna(int** matriz, int n, Coordenada coord) {
+	int i;
+	int maior = matriz[0][coord.coluna];
 	
     /* Percorre a coluna procurando o maior valor */
 	for(i = 1; i < n; ++i) {
-	    coordAtual.linha = i;
-		if(maior < matriz[i][coluna]) {
-			maior = matriz[i][coluna];
-			
-			/*
-			 * Armazena as coordenadas do maior valor encontrado no vetor de resultados
-			 * Limpando o vetor de resultados, uma vez que o valor anteriormente armazenado
-			 * não é o maior da coluna
-			 */
-			*qtdResultados -= qtd;
-			resultados[(*qtdResultados)++] = coordAtual;
-			qtd = 1;
-		} else if(maior == matriz[i][coluna]) {
-    		/* Caso o maior valor se repita armazena as coordenadas de todas as ocorrências */
-		    resultados[(*qtdResultados)++] = coordAtual;
-		    qtd++;
+		if(maior < matriz[i][coord.coluna]) {
+			maior = matriz[i][coord.coluna];
 		}
-		
 	}
+	
+	return matriz[coord.linha][coord.coluna] >= maior;
 }
 
 /*
  * Escreve na tela todos os pontos de sela de uma matriz nxn
  */
 void escrevePontosDeSela(int** matriz, int n) {
-	int i, j, qtdMenores = 0, qtdMaiores = 0;
+	int i, qtdMenores = 0;
 	bool temPontosDeSela = false;
 	
 	/*
-	 * Alocação de vetores auxiliares que armazenarão as
-	 * coordenadas dos menores elementos de cada linha e
-	 * dos maiores elementos de cada coluna
+	 * Alocação do vetor auxiliar que armazenará as
+	 * coordenadas dos menores elementos de cada linha
 	 */
-	Coordenada *menoresPorLinha, *maioresPorColuna;
+	Coordenada *menoresPorLinha;
 	menoresPorLinha = (Coordenada*) malloc(n * n * sizeof(Coordenada));
-	maioresPorColuna = (Coordenada*) malloc(n * n * sizeof(Coordenada));
 
 	printf("Os pontos de sela da matriz são:\n\n");
 
     /*
      * Encontra as coordenadas dos menores elementos de cada linha
-     * e dos maiores elementos de cada coluna
      */
 	for(i = 0; i < n; i++) {
 		posicoesDoMenorDaLinha(matriz, n, i, menoresPorLinha, &qtdMenores);
-		posicoesDoMaiorDaColuna(matriz, n, i, maioresPorColuna, &qtdMaiores);
 	}
 
     /*
-     * Percorre os vetores auxiliares
+     * Percorre o vetor auxiliar verificando se cada uma coordenadas representa também
+     * o maior elemento de sua coluna, nesse caso é um ponto de sela
      */
 	for(i = 0; i < qtdMenores; i++) {
-		Coordenada menorLinha = menoresPorLinha[i];
-		for(j = 0; j < qtdMaiores; j++) {
-			Coordenada maiorColuna = maioresPorColuna[j];
-			/*
-			 * Se a mesma coordenada se repetir em ambos os vetores auxlizares,
-			 * então esse é um ponto de sela
-			 */
-			if(maiorColuna.linha == menorLinha.linha && maiorColuna.coluna == menorLinha.coluna) {
-				int linha = maiorColuna.linha;
-				int coluna = maiorColuna.coluna;
-				printf("%4d%4d%4d\n", maiorColuna.linha, maiorColuna.coluna, matriz[linha][coluna]);
-				temPontosDeSela = true;
-			}
+		if(ehMaiorDaColuna(matriz, n, menoresPorLinha[i])) {
+			int linha = menoresPorLinha[i].linha;
+			int coluna = menoresPorLinha[i].coluna;
+			printf("%4d%4d%4d\n", linha, coluna, matriz[linha][coluna]);
+			temPontosDeSela = true;
 		}
 	}
 	
 	free(menoresPorLinha);
-	free(maioresPorColuna);
 
     /*
      * Não encontrando nenhum ponto de sela em uma matriz é exibida
