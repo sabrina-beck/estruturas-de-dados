@@ -182,10 +182,10 @@ void posicoesDoMenorDaLinha(int** matriz, int n, int linha, Coordenada* resultad
  */
 bool ehMaiorDaColuna(int** matriz, int n, Coordenada coord) {
 	int i;
-	int maior = matriz[0][coord.coluna];
+	int maior = matriz[coord.linha][coord.coluna];
 	
     /* Percorre a coluna procurando o maior valor */
-	for(i = 1; i < n; ++i) {
+	for(i = 0; i < n; ++i) {
 		if(maior < matriz[i][coord.coluna]) {
 			maior = matriz[i][coord.coluna];
 		}
