@@ -23,21 +23,6 @@ typedef struct Coordenada {
 	int coluna;
 } Coordenada;
 
-/** FUNÇÃO PRINCIPAL **/
-
-int main() {
-	int n;
-	int** matriz;
-
-	n = lerDimensao();
-	matriz = lerMatriz(n);
-
-	escrevePontosDeSela(matriz, n);
-	
-	free(matriz);
-
-	return 0;
-}
 
 /** FUNÇÕES **/
 
@@ -55,8 +40,10 @@ void entradaInvalida() {
  * dado de verdade com rascunho
  */
 void lerRascunho(char ultimoCaracterLido) {
-	while (ultimoCaracterLido != '\n') {
-		scanf("%c", &ultimoCaracterLido);
+	while (ultimoCaracterLido != '\n' && ultimoCaracterLido != EOF) {
+		if(scanf("%c", &ultimoCaracterLido) == EOF) {
+			break;
+		}
 	}
 }
 
@@ -122,7 +109,7 @@ int** lerMatriz(int n) {
 			 * Se não há valores suficientes na entrada para preencher
 			 * a matriz nxn então a entrada é inválida
 			 */
-			if(qtdLido <= 0 || qtdLido == EOF) {
+			if(qtdLido != 1 || qtdLido == EOF) {
                 entradaInvalida();
 	        }
 
@@ -239,5 +226,22 @@ void escrevePontosDeSela(int** matriz, int n) {
 	if(!temPontosDeSela)
 		printf(NENHUM);
 
+}
+
+
+/** FUNÇÃO PRINCIPAL **/
+
+int main() {
+	int n;
+	int** matriz;
+
+	n = lerDimensao();
+	matriz = lerMatriz(n);
+
+	escrevePontosDeSela(matriz, n);
+	
+	free(matriz);
+
+	return 0;
 }
 
