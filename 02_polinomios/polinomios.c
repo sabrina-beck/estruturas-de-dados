@@ -11,9 +11,11 @@
 
 void InsereTermoAux(Polinomio p, int e, float c) {
 /* Insere o termo '(e,c)' após o nó apontado por 'p'.                  */
-
-/*----- COMPLETAR -----*/
-
+  Polinomio novo = MALLOC(sizeof(Polinomio));
+  novo->expo = e;
+  novo->coef = c;
+  novo->prox = p->prox;
+  p->prox = novo;
 } /* InsereTermoAux */
 
 
@@ -92,16 +94,12 @@ void InsereTermo(Polinomio p, int e, float c) {
 /* termos ordenados. Supõe que não existe ainda em 'p' um termo com     */
 /* expoente 'e', e que 'c' não é zero.                                  */
   if(c !=  0) {
-    Polinomio atual = p; /* pula nó cabeça */
-    Polinomio novo = MALLOC(sizeof(Polinomio));
-    novo->expo = e;
-    novo->coef = c;
+    Polinomio atual = p;
     /* Percorre até achar a posição de inserção */
     while(atual->prox->expo != -1 && atual->prox->expo < e) {
       atual = atual->prox;
     }
-    novo->prox = atual->prox;
-    atual->prox = novo;
+    InsereTermoAux(atual, e, c);
   }
 
 } /* InsereTermo */
@@ -121,7 +119,12 @@ Polinomio MultTermo(Polinomio p, int e, float c) {
 /* Devolve o polinômio 'p' multiplicado pelo termo '(e,c)'. Supõe       */
 /* que 'c' não é nulo. Não altera o polinômio dado.                    */
 
-  /*----- COMPLETAR -----*/
+  if(c != 0) {
+    Polinomio atual = p;
+    while(atual->prox->expo != -1 && atual->prox) {
+    
+    }
+  }
   return NULL;    /*-- PROVISÓRIO --*/
 
 } /* MultTermo */
