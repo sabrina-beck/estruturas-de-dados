@@ -47,10 +47,15 @@ void ImprimePolinomio(Polinomio p) {
 
 
 Polinomio CriaPolinomioNulo() {
-/* Devolve um novo polinômio identicamente nulo.                        */
-
-  /*----- COMPLETAR -----*/
-  return NULL;    /*-- PROVISÓRIO --*/
+/*
+ * Devolve um novo polinômio identicamente nulo. Ou seja, apenas com nó cabeça
+ * que tem expoente igual a -1, lembrando que a lista é circular
+ */
+  Polinomio nulo = MALLOC(sizeof(Polinomio));
+  nulo->expo = -1;
+  nulo->prox = nulo;
+  
+  return nulo;
 
 } /* CriaPolinomioNulo */
 
@@ -58,17 +63,26 @@ Polinomio CriaPolinomioNulo() {
 
 void LiberaPolinomio(Polinomio p) {
 /* Libera toda a memória dinâmica ocupada por um polinômio.             */
+  /* Pula o cabeça para poder identificar o final do polinômio */
+  Polinomio atual = p->prox;
+  Polinomio proximo = p->prox;
 
-  /*----- COMPLETAR -----*/
+  /* Desaloca cada termo */
+  while(atual->expo != -1) {
+    FREE(atual);
+    atual = proximo;
+    proximo = atual->prox;
+  }
+
+  /* Desaloca o nó cabeça */
+  FREE(atual);
 
 }
 
 Boolean PolinomioNulo(Polinomio p) {
 /* Verifica se o polinômio 'p' é identicamente nulo.                    */
-/* Verifica se o polinômio 'p' é identicamente nulo.                    */
-
-  /*----- COMPLETAR -----*/
-  return false;    /*-- PROVISÓRIO --*/
+  /* É identicamente nulo se só possui o nó cabeça */
+  return p->expo == -1 && p->prox->expo == -1;
 
 } /* PolinomioNulo */
 
@@ -77,8 +91,18 @@ void InsereTermo(Polinomio p, int e, float c) {
 /* Insere no polinomio 'p' o termo '(e,c)', de maneira a manter os      */
 /* termos ordenados. Supõe que não existe ainda em 'p' um termo com     */
 /* expoente 'e', e que 'c' não é zero.                                  */
-
-  /*----- COMPLETAR -----*/
+  if(c !=  0) {
+    Polinomio atual = p; /* pula nó cabeça */
+    Polinomio novo = MALLOC(sizeof(Polinomio));
+    novo->expo = e;
+    novo->coef = c;
+    /* Percorre até achar a posição de inserção */
+    while(atual->prox->expo != -1 && atual->prox->expo < e) {
+      atual = atual->prox;
+    }
+    novo->prox = atual->prox;
+    atual->prox = novo;
+  }
 
 } /* InsereTermo */
 
