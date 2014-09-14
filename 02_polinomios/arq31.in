@@ -1,0 +1,13 @@
+# Teste 31
+C 1          v[1] := 0
+T 1 1 1.0    acrescenta (1,1.0) a v[1]
+I 1          imprime v[1]               
+C 2          v[2] := 0                  
+T 2 2 2.0    acrescenta (2,2.0) a v[2]  
+I 2	     imprime v[2]               
+S 3 1 2      v[3] := v[1]+v[2]
+I 3          imprime v[3]    
+L 1          libera v[1]
+L 2          libera v[2]
+L 3          libera v[3]
+X            termina

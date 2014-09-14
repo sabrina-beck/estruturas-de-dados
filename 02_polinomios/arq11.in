@@ -1,0 +1,5 @@
+# Teste 11
+C 1    v[1]:=0
+I 1    imprime v[1]
+L 1
+X      termina

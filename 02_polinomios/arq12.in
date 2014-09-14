@@ -1,0 +1,7 @@
+# Teste 12
+C 1             v[1]:=0
+I 1             imprime v[1]
+T 1 3 -7.0      acrescenta (3,-7) a v[1]
+I 1             imprime v[1]
+L 1             libera v[1]
+X               termina
