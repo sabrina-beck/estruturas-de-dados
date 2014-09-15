@@ -66,8 +66,8 @@ Polinomio CriaPolinomioNulo() {
 void LiberaPolinomio(Polinomio p) {
 /* Libera toda a memória dinâmica ocupada por um polinômio.             */
   /* Pula o cabeça para poder identificar o final do polinômio */
-  Polinomio atual = p->prox;
-  Polinomio proximo = p->prox;
+  Polinomio atual = p->prox; /* Pula o nó cabeça */
+  Polinomio proximo = atual->prox;
 
   /* Desaloca cada termo */
   while(atual->expo != -1) {
@@ -118,15 +118,16 @@ Polinomio SomaPolinomios(Polinomio a, Polinomio b) {
 Polinomio MultTermo(Polinomio p, int e, float c) {
 /* Devolve o polinômio 'p' multiplicado pelo termo '(e,c)'. Supõe       */
 /* que 'c' não é nulo. Não altera o polinômio dado.                    */
-
+  Polinomio novo = CriaPolinomioNulo();
   if(c != 0) {
-    Polinomio atual = p;
-    while(atual->prox->expo != -1 && atual->prox) {
-    
+    Polinomio atual = p->prox; /* Pula nó cabeça */
+    /* Percorre o polinômio termo a termo */
+    while(atual->expo != -1) {
+      InsereTermo(novo, atual->expo + e, atual->coef * c);
+      atual = atual->prox;
     }
   }
-  return NULL;    /*-- PROVISÓRIO --*/
-
+  return novo;
 } /* MultTermo */
 
 
