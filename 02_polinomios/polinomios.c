@@ -109,8 +109,47 @@ Polinomio SomaPolinomios(Polinomio a, Polinomio b) {
 /* Devolve a soma dos polinômios 'a' e 'b'. Não altera os polinômios    */
 /* dados. Termos nulos não são inseridos no resultados.                 */
 
-  /*----- COMPLETAR -----*/
-  return NULL;    /*-- PROVISÓRIO --*/
+  Polinomio atualA = a->prox; /* Pula nó cabeça */
+  Polinomio atualB = b->prox;
+  Polinomio soma = CriaPolinomioNulo();
+  
+  /* Percorre os dois polinômios ao mesmo tempo */
+  while(atualA->expo != -1 && atualB->expo != -1) {
+    /* Se os termos tiverem o mesmo expoentes eles são somados */
+    if(atualA->expo == atualB->expo) {
+      int expo = atualA->expo;
+      float coef = atualA->coef + atualB->coef;
+      /* Termos com coeficiente nulos não sã adicionados na resposta */
+      if(coef != 0)
+        InsereTermo(soma, expo, coef);
+      atualA = atualA->prox;
+      atualB = atualB->prox;
+      
+      /*
+       * Os termos que não tem um correspondente em expoente no
+       * outro polinomio, são simplesmente adicionados na resposta
+       */
+    } else if(atualA->expo > atualB->expo) {
+      InsereTermo(soma, atualB->expo, atualB->coef);
+      atualB = atualB->prox;
+    } else {
+      InsereTermo(soma, atualA->expo, atualA->coef);
+      atualA = atualA->prox;
+    }
+  }
+  
+  /* Termina de processar o polinômio de mais termos */
+  while(atualA->expo != -1) {
+    InsereTermo(soma, atualA->expo, atualA->coef);
+    atualA = atualA->prox;
+  }
+  
+  while(atualB->expo != -1) {
+    InsereTermo(soma, atualB->expo, atualB->coef);
+    atualB = atualB->prox;
+  }
+
+  return soma;    /*-- PROVISÓRIO --*/
 
 } /* SomaPolinomios */
 
