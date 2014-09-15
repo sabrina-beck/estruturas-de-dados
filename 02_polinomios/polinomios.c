@@ -2,6 +2,11 @@
 /* Cada polinômio é representado por uma lista ligada circular, com nó   */
 /* cabeça. Os nós da lista representam os termos não nulos do polinômio */
 /* em ordem crescente dos seus expoentes. O nó cabeça tem expoente '-1'.*/
+/*************************************************************************/
+/* Sabrina Beck Angelini                                        RA157240 */
+/* Turma: E                                                              */
+/* Data: 14/09/2014                                                      */
+/*************************************************************************/
 
 #include "polinomios.h"
 #include "balloc.h"
@@ -138,7 +143,7 @@ Polinomio SomaPolinomios(Polinomio a, Polinomio b) {
     }
   }
   
-  /* Termina de processar o polinômio de mais termos */
+  /* Termina de processar o polinômio que tem mais termos */
   while(atualA->expo != -1) {
     InsereTermo(soma, atualA->expo, atualA->coef);
     atualA = atualA->prox;
@@ -149,8 +154,8 @@ Polinomio SomaPolinomios(Polinomio a, Polinomio b) {
     atualB = atualB->prox;
   }
 
-  return soma;    /*-- PROVISÓRIO --*/
-
+  return soma;
+  
 } /* SomaPolinomios */
 
 
@@ -167,14 +172,29 @@ Polinomio MultTermo(Polinomio p, int e, float c) {
     }
   }
   return novo;
+
 } /* MultTermo */
 
 
 Polinomio MultPolinomios(Polinomio a, Polinomio b) {
 /* Devolve o produto dos polinômios 'a' e 'b'. Não altera os polinômios */
 /* dados.                                                               */
+  Polinomio atualB = b->prox; /* Pula nó cabeça */
+  Polinomio mult = CriaPolinomioNulo();
 
-  /*----- COMPLETAR -----*/
-  return NULL;    /*-- PROVISÓRIO --*/
-
+  /* Percorre cada termo do polinomio B */
+  while(atualB->expo != -1) {
+    /* Multiplica o termo de B por cada termo do polinomio A */
+    Polinomio aMultTermo = MultTermo(a, atualB->expo, atualB->coef);
+    Polinomio multAux = mult;
+    /* Soma o polinomio A multiplicado pelo termo atual de B à resposta */
+    mult = SomaPolinomios(multAux, aMultTermo);
+    /* Anda com o "índice" do polinômio B */
+    atualB = atualB->prox;
+    /* Libera memória alocada */
+    LiberaPolinomio(aMultTermo);
+    LiberaPolinomio(multAux);
+  }
+  return mult;
+  
 } /* MultPolinomios */
