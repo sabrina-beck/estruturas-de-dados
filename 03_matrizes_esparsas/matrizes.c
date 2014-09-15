@@ -21,7 +21,7 @@ void prox_linha(void)
 void inicializa(matriz *a, int m, int n)
   {
     ap_elemento r, t;
-    int i, j;
+    int i;
     if ((m < 1) || (m > LCMAX)) { erro("inicializa: número de linhas inválido"); }
     if ((n < 1) || (n > LCMAX)) { erro("inicializa: número de colunas inválido"); }
     a->nlins = m;
@@ -54,7 +54,24 @@ void inicializa(matriz *a, int m, int n)
         a->clin[i] = t;
       }
     /* Cria cabeças das colunas: */
-    erro("!!!COMPLETAR");
+    for(i = 0; i < n; i++) {
+      t = (ap_elemento) MALLOC(sizeof(elemento));
+      if(t == NULL) {
+        erro("inicializa: memória esgotada");
+      }
+      t->lin = m;
+      t->col = i;
+      t->val = 0;
+      /* Insere logo ao lado da super-cabeça */
+      t->esq = r;
+      t->dir = r;
+      /* Faz o circular */
+      t->ac = t;
+      t->ab = t;
+      t->esq->dir = t;
+      t->dir->esq = t;
+      a->ccol[i] = t;
+    }
   }
 
 void libera(matriz *a) {
