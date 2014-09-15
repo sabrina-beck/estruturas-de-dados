@@ -1,0 +1,22 @@
+# Teste da soma com listas terminando simultaneamente
+r A 
+10 20 5
+  0  3  100.03
+  0  5  100.05
+  2  7  102.07
+  8 15  108.15
+  9 19  109.19
+r B 
+10 20 6
+  0  0  200.00
+  0  5  200.05
+  0  6  200.06
+  2  6  202.06
+  7 15  207.15
+  9 19  209.19
+s A B C
+w C
+l A 
+l B
+l C
+x

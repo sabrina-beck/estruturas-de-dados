@@ -1,0 +1,17 @@
+# Produto C = A*B cujo resultado 'e nulo:
+r A
+2 2 2
+0 0 1.0
+0 1 -1.0
+r B
+2 2 4
+0 0 2.0
+0 1 3.0
+1 0 2.0
+1 1 3.0
+m A B C
+w C
+l A
+l B
+l C
+x

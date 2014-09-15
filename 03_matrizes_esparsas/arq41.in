@@ -1,0 +1,28 @@
+# Teste de multiplica
+#
+r A
+2 3 4
+0 0 1.0
+0 1 2.0
+0 2 3.0
+1 0 1.0
+#
+r B
+3 2 3
+0 0 2.0
+1 1 1.0
+2 1 1.0
+# multiplica C = A*B
+m A B C
+w C
+l A
+l B
+# Multiplica C por matriz nula D, coloca em A
+r D
+2 2 0
+m C D A
+w A
+l A
+l C
+l D
+x

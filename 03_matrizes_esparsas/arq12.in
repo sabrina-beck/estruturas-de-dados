@@ -1,0 +1,20 @@
+# Teste de leitura, impressão, atribuição e obtenção de elementos.
+r A
+10 20 5
+  0  3  0.03
+  0  5  0.05
+  2  7  2.07
+  8 15  8.15
+  9 19  9.19
+w A 
+v A   0  1
+v A   0  3
+v A   9 19
+a A   0  2  0.02
+v A   0  2
+v A   0  3
+a A   0  5  0.0
+v A   0  5
+w A
+l A
+x
