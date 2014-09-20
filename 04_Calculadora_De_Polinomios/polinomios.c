@@ -5,7 +5,7 @@
 /*************************************************************************/
 /* Sabrina Beck Angelini                                        RA157240 */
 /* Turma: E                                                              */
-/* Data: 14/09/2014                                                      */
+/* Data: 20/09/2014                                                      */
 /*************************************************************************/
 
 #include "polinomios.h"
@@ -162,9 +162,9 @@ Polinomio SubPolinomios(Polinomio a, Polinomio b) {
 /* Devolve a diferença entre o polinômio 'a' e o polinômio 'b'. Não      */
 /* altera os polinômios dados. Termos nulos não são inseridos no         */
 /* resultado.                                                            */
-  Polinomio bNeg = MultTermo(b, -1, 0);
+  Polinomio bNeg = MultTermo(b, 0, -1);
   Polinomio sub = SomaPolinomios(a, bNeg);
-  FREE(bNeg);
+  LiberaPolinomio(bNeg);
   return sub;
 
 } /* SubPolinomios */
