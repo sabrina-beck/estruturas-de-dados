@@ -1,0 +1,208 @@
+
+<!-- saved from url=(0053)https://susy.ic.unicamp.br:9999/mc202ef/03/enunc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Laboratorio 03</title>
+</head>
+<body bgcolor="#CC9966" text="#000000">
+
+<h3>Instituto de Computação da UNICAMP</h3>
+
+<h3>Disciplina MC202: Segundo Semestre de 2014</h3>
+
+<h3>Laboratório Nº 03</h3>
+
+<i>Prof.</i> <i>Tomasz Kowaltowski (Turmas E e F)</i>
+<p>
+</p><hr>
+<p>
+
+
+</p><p>O objetivo desta tarefa é treinar o uso da representação de
+matrizes esparsas usando listas ortogonais.</p>
+
+<p>A representação está definida no arquivo <tt>matrizes.h</tt> e
+difere da estrutura descrita em aula e na seção 3.5 da apostila.  O
+tipo <tt>elemento</tt> representa um elemento não-nulo da matriz.
+Além do valor <tt>val</tt> e dos índices <tt>lin</tt> e <tt>col</tt>,
+cada elemento possui apontadores para o nó anterior e para o nó
+seguinte na mesma linha e na mesma coluna, como representado
+abaixo. Em outras palavras, são usadas <b>listas duplamente ligadas
+circulares com nós cabeça</b>.  Um elemento pode ser representado
+  esquematicamente pela figura seguinte:
+
+</p><blockquote>
+<img src="elemento.jpg">
+</blockquote>
+
+<p>O tipo <tt>matriz</tt> é a representação da matriz esparsa. Ele
+inclui as dimensões <tt>nlins</tt> (número de linhas) e <tt>ncols</tt>
+(número de colunas) da matriz original, a contagem <tt>nelems</tt> de
+elementos não nulos, e dois <b>vetores de apontadores</b>,
+<tt>clin</tt> e <tt>ccol</tt>, respectivamente para as cabeças das
+linhas e das colunas. Os vetores devem ser alocados dinamicamente e
+seus tamanhos são, respectivamente, <tt>nlins+1</tt> e
+<tt>ncols+1</tt>, pois incluem as listas das cabeças das linhas e das
+colunas.  Os elementos das linhas e das colunas são numerados a partir
+de 0 (como em C). Um nó do tipo <tt>matriz</tt> pode ser representado
+esquematicamente pela figura seguinte:
+
+
+</p><blockquote>
+<img src="matriz.jpg">
+</blockquote>
+
+<p>Os elementos não nulos de cada linha são ligados pelos apontadores
+<tt>dir</tt> e <tt>esq</tt> de modo a formar lista circular
+com cabeça. Da mesma forma, os elementos de cada coluna são ligados
+pelos apontadores <tt>abaixo (ab)</tt> e <tt>acima (ac)</tt>. As cabeças das
+colunas também são ligadas entre si, como se elas formassem a linha de
+índice <tt>nlins</tt>. As cabeças das linhas igualmente formam uma
+coluna de índice <tt>ncols</tt>. Estas duas listas compartilham o
+mesmo nó super-cabeça <tt>clin[nlins] = ccol[ncols]</tt>.</p>
+
+
+<blockquote>
+<!-- <img -->
+<!-- SRC="http://www.grad.ic.unicamp.br:8888/~mc202/exemplo-matriz.jpg"> -->
+<img src="exemplo_matriz.jpg">
+</blockquote>
+
+(Os nós cabeça estão à direita e embaixo.)
+
+<h3>O que deve ser feito</h3>
+
+<p>É fornecido o programa principal e o esqueleto de um módulo
+(<tt>matrizes</tt>) que define a estrutura de dados acima, e as
+operações com matrizes. Sua tarefa é completar a implementação do
+módulo <tt>matrizes</tt>, preenchendo os lugares marcados com
+"!!!COMPLETAR".</p>
+
+O programa principal é um interpretador de comandos que opera sobre as
+matrizes A, B, C e D.  Os significados dos comandos estão listados abaixo:
+
+<blockquote> <table> <tbody><tr> <td><b>z</b> &nbsp; <i>X &nbsp; nlin &nbsp; ncol
+&nbsp; </i> </td><td><i> </i> inicializa matriz <i>X</i> de <i>nlin</i>
+linhas e  <i>ncol</i> colunas, identicamente nula;</td> </tr>
+
+<tr> 
+<td><b>l &nbsp; <i>X</i> </b> </td><td> libera espaço ocupado pela
+representação da matriz <i>X</i>;</td>
+</tr>
+
+<tr> 
+<td><b>r &nbsp; <i> X</i> </b> </td><td>  inicializa e lê a matriz X, desde 
+que suas
+dimensões e elementos sejam fornecidos da seguinte forma: </td></tr>
+<tr><td> </td><td> <pre>nlin ncol nelems
+  lin col val
+  lin col val
+  ...
+  lin col val
+</pre></td>
+</tr>
+
+<tr> 
+<td><b>w &nbsp; <i>X</i> </b> </td><td>  imprime a matriz <i>X</i></td>
+</tr>
+
+<tr> 
+<td><b>a &nbsp; <i>X &nbsp; lin &nbsp; col &nbsp; val&nbsp;</i> </b> </td><td> 
+atribui <i>val</i> a  <i>X[lin, col]</i></td>
+</tr>
+
+<tr> 
+<td><b>v &nbsp; <i>X &nbsp; lin &nbsp; col &nbsp;</i> </b> </td><td> 
+imprime (verifica) o valor de <i>X[lin, col]</i></td>
+</tr>
+
+<tr> 
+<td><b>s &nbsp; <i>X &nbsp; Y &nbsp; Z &nbsp;</i> </b> </td><td>  <i>Z</i>
+recebe a soma de <i>X</i> e <i>Y</i></td>
+</tr>
+
+<tr> 
+<td><b>m &nbsp; <i>X &nbsp; Y &nbsp; Z&nbsp;</i> </b> </td><td>  <i>Z</i>
+recebe o produto de <i>X</i> e <i>Y</i></td>
+</tr>
+
+<tr> 
+<td><b>t &nbsp; <i>X &nbsp; Y &nbsp;</i> </b> </td><td>  <i>Y</i>
+recebe a transposta de <i>X</i></td>
+</tr>
+
+<tr> 
+<td><b>x</b> </td><td>  encerra interpretação</td>
+</tr>
+
+<tr> 
+<td><b>#</b> </td><td>  linha de comentário.</td>
+</tr>
+
+</tbody></table>
+</blockquote>
+
+Os testes estão classificados em quatro grupos, sendo que cada grupo
+corresponde a um conjunto de rotinas.
+
+<ul>
+<li><i>Grupo 1 </i> (<tt>arq11.in</tt> e <tt>arq12.in</tt>) -  testa as rotinas: <i>inicializa,
+libera, valor</i> e <i> atribui</i>
+</li><li><i>Grupo 2</i> (<tt>arq21.in</tt>, <tt>arq22.in</tt> e <tt>arq23.in</tt>) - testa a rotina <i>soma</i>
+</li><li><i>Grupo 3</i> (<tt>arq31.in</tt> e <tt>arq32.in</tt>) - testa a rotina <i>transposta</i>
+</li><li><i>Grupo 4</i> (<tt>arq41.in</tt>, <tt>arq42.in</tt> e <tt>arq43.in</tt>) - testa a rotina <i>multiplica</i> 
+</li></ul>
+
+<h3>Observações</h3>
+
+<ul>
+
+<li> <p align="JUSTIFY"> O objetivo desta representação é evitar o
+armazenamento e manipulação explícita dos elementos nulos.
+Portanto, <b>em momento algum durante a execução de um programa,
+poderá existir na representação um elemento com valor nulo</b>.
+
+</p></li><li> <p align="JUSTIFY"> A eficiência da implementação é
+importante. Em particular, note que o procedimento <i>atribui</i>
+contém uma malha para localizar o elemento na linha, e seu custo é
+proporcional ao número de elementos na mesma. Portanto,
+<i>insere_elem</i> (que tem custo constante) deve ser usado, sempre
+que possível, em vez de <i>atribui</i>. Veja <i>le_matriz</i>, por
+exemplo.
+
+</p></li><li> <p align="JUSTIFY"><b>Não é permitido</b> modificar a interface
+(arquivo <tt>matrizes.h</tt>).
+
+</p></li><li> <p align="JUSTIFY">Se desejar, pode declarar rotinas auxiliares
+na parte marcada do arquivo <tt>matrizes.c</tt>.
+
+</p></li><li> <p align="JUSTIFY">A fim de facilitar a verificação de
+gerenciamento de memória dinâmica, é fornecido o pacote
+<i>balloc</i> que contém funções especiais para alocar e desalocar
+memória. Estas operações devem ser realizadas utilizando-se as funções
+(macros) <i>MALLOC</i> e <i>FREE</i>, em lugar das funções habituais
+<i>malloc</i> e <i>free</i>. O programa principal invoca, ao final da
+execução, a função <i>bapply(bprint)</i> que verifica se existe alguma
+área de memória dinâmica que deixou de ser liberada. Caso exista, é
+impressa a localização do comendo que a alocou. <b>A sua implementação
+não pode utilizar as operações habituais de alocação.</b>
+
+</p></li><li> <p align="JUSTIFY">O arquivo <i>tudo.zip</i> contêm todos os
+testes e seus resultados, bem como os arquivos <tt>principal.c</tt>,
+<tt>matrizes.h</tt> e uma versão incompleta de <tt>matrizes.c</tt>,
+além do pacote <i>balloc</i>.
+
+
+</p></li><li> <p align="JUSTIFY">Deve ser submetido somente o arquivo
+<tt>matrizes.c</tt>.
+
+</p></li><li>O número máximo de submissões é 10.
+
+</li></ul>
+
+<hr>
+<small>Last update: "enunc.html: 2014-07-28 (Mon)  11:40:27 BRT (tk)" 
+</small>
+
+
+</body></html>

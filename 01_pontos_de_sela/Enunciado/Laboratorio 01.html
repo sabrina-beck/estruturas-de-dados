@@ -1,0 +1,159 @@
+
+<!-- saved from url=(0053)https://susy.ic.unicamp.br:9999/mc202ef/01/enunc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Laboratorio 01</title>
+</head>
+<body bgcolor="#CC9966" text="#000000">
+
+<h3>Instituto de Computação da UNICAMP</h3>
+
+<h3>Disciplina MC202: Primeiro Semestre de 2014</h3>
+
+<h3>Laboratório Nº 01</h3>
+
+<i>Prof.</i> <i>Tomasz Kowaltowski</i>
+<p>
+</p><hr>
+<p>
+
+</p><blockquote>
+  
+Muitas aplicações matemáticas utilizam o conceito de <u><font size="+1"><i>ponto de sela</i></font></u>  de uma superfície ilustrado nesta figura
+(pode haver mais de um):
+
+<blockquote>
+<blockquote>
+<img src="sela.png" width="400">
+</blockquote>
+</blockquote>
+<p>  
+  
+Um conceito análogo pode ser definido para uma matriz.  Um
+elemento de uma matriz retangular é dito um <font size="+1"><i>ponto de
+sela</i></font> se ele é, ao mesmo tempo, um elemento mínimo da sua
+linha e um elemento máximo da sua coluna.  Por exemplo, dada a matriz
+<i>a</i>:
+  
+</p><pre>	    1 2 3 
+	    4 5 6 
+	    7 8 9
+</pre>
+
+o elemento <i>a<sub>2,0</sub></i> é um ponto de sela (numerando as
+  linhas e as colunas a partir de 0).
+
+<p>
+Uma matriz pode não ter nenhum ponto de sela ou então pode ter
+vários; por exemplo, a seguinte matriz tem quatro pontos de
+sela:
+  
+</p><pre>	  1 2 3 1 2 3 
+	  4 5 6 4 5 6
+	  7 8 9 7 8 9
+	  1 2 3 1 2 3
+	  4 5 6 4 5 6
+	  7 8 9 7 8 9
+</pre>
+
+<p>
+
+O objetivo desta tarefa é implementar um programa que determina todos
+os pontos de sela de uma matriz quadrada, em ordem lexicográfica de
+linhas e de colunas (v. mais adiante).  O arquivo de entrada para o
+programa (<i>stdin</i>) conterá os seguintes dados:
+
+</p><ul>
+<li> uma linha com um número inteiro <i>1≤N≤20</i> que é a ordem
+  da matriz;
+</li><li> <i>N</i> linhas, cada uma com  <i>N</i> inteiros que
+  constituem a linha da matriz. 
+</li></ul>
+
+A entrada para o exemplo da matriz 6×6 acima poderia ser:
+
+<blockquote>
+<table border="1">
+<tbody><tr><td><pre>6             Ordem
+1 2 3 1 2 3   Linha 0
+4 5 6 4 5 6   Linha 1
+7 8 9 7 8 9   Linha 2
+1 2 3 1 2 3   Linha 3
+4 5 6 4 5 6   Linha 4
+7 8 9 7 8 9   Linha 5
+</pre>
+</td></tr>  
+</tbody></table>  
+</blockquote>
+
+Note-se que os eventuais comentários contidos nas linhas de entrada
+devem ser ignorados pelo programa.
+
+A saída (arquivo <i>stdout</i>) produzida pelo programa deverá ser da forma como ilustrado a
+seguir para o mesmo exemplo, incluindo os índices e o valor do ponto
+encontrado:
+
+<blockquote>
+<table border="1">
+<tbody><tr><td><pre>Os pontos de sela da matriz são:
+
+   2   0   7
+   2   3   7
+   5   0   7
+   5   3   7
+</pre>
+</td></tr>  
+</tbody></table>  
+</blockquote>
+
+ou seja, cada ponto deve ser impresso no formato
+<tt>"%4d%4d%4d\n"</tt> de C. A saída deve ser em ordem de linhas e,
+para cada linha, em ordem de colunas.  
+
+Caso não existam pontos de sela, a saída deverá ser:
+
+<blockquote>
+<table border="1">
+<tbody><tr><td><pre>Os pontos de sela da matriz são:
+
+    nenhum
+</pre>
+</td></tr>  
+</tbody></table>  
+</blockquote>
+
+Veja os exemplos de testes para ilustrar a entrada e a saída.
+
+  
+<p>
+<b>Observações:</b> 
+</p><ul>
+<li> O programa deve ser submetido em linguagem C, padrão C99.
+</li><li> O programa deve produzir, ainda no arquivo <i>stdout</i> a mensagem <font size="+1"><tt>"Dados
+  inválidos"</tt></font> quando o valor de <i>N</i> fornecido não obedece aos
+  limites ou quando faltam dados.
+</li><li> O programa deve devolver sempre o código de execução igual a
+  zero, mesmo quando detecta dados inválidos (comandos <font size="+1"><tt>'return
+  0;'</tt></font> ou <font size="+1"><tt>'exit(0);'</tt></font>).
+</li><li> A saída do programa deverá ser <u>idêntica</u> à ilustrada nos
+  testes que acompanham a tarefa.  Em particular, os caracteres
+  acentuados devem usar a codificação <i>ISO-8859-1</i> (também
+  conhecida como <i>Latin-1</i>) ocupando um byte cada.
+</li><li> O número de operações realizado pelo programa deve ser
+  proporcional a <i>N<sup>2</sup></i> e não deve depender do
+  número de pontos de sela encontrados (<b>sugestão:</b> use vetores auxiliares).
+</li><li> O programa pode alocar uma matriz de tamanho máximo dos dados (20×20).
+</li><li> O número máximo de submissões é 10.
+</li></ul>
+
+</blockquote>
+
+<p>
+</p><hr>
+
+<p>
+<small>Last update: "enunc.html: 2014-07-24 (Thu)  11:31:15 BRT (tk)" 
+</small>
+
+
+</p></body></html>

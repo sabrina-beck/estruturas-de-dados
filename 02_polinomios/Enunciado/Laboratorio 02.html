@@ -1,0 +1,203 @@
+
+<!-- saved from url=(0053)https://susy.ic.unicamp.br:9999/mc202ef/02/enunc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Laboratorio 02</title>
+</head>
+<body bgcolor="#CC9966" text="#000000">
+
+<h3>Instituto de Computação da UNICAMP</h3>
+
+<h3>Disciplina MC202: Segundo Semestre de 2014</h3>
+
+<h3>Laboratório Nº 02</h3>
+
+<i>Prof.</i> <i>Tomasz Kowaltowski</i>
+<p>
+</p><hr>
+<p>
+
+</p><p align="JUSTIFY"> O objetivo desta tarefa é a implementação de um
+módulo <tt>polinomios.c</tt> que disponibiliza algumas operações sobre
+polinômios em uma variável. Cada polinômio é representado como uma
+<b>lista ligada circular com nó cabeça</b>, em que cada nó corresponde
+a um termo com coeficiente
+<b>não nulo</b>; os termos aparecem na lista em <b>ordem crescente dos
+expoentes</b>. Por exemplo, os polinômios:
+</p><blockquote>
+<i>
+P<sub>1</sub> = -10x<sup>5</sup> + 7x<sup>3</sup> - x + 5<br>
+</i>
+</blockquote>
+  
+e<br>
+  
+<blockquote>
+<i>
+P<sub>2</sub> = 0 
+</i> &nbsp;&nbsp;&nbsp;&nbsp;(identicamente nulo)
+</blockquote>
+seriam representados pelas listas:
+<p>
+
+</p><blockquote>
+<img src="polinomios.jpg">
+</blockquote>
+
+<p align="JUSTIFY">O módulo está parcialmente pronto, particularmente
+a especificação da parte de interface (<tt>polinomios.h</tt>),
+acompanhada de comentários que descrevem a funcionalidade de cada
+rotina. As suas implementações no arquivo <tt>polinomios.c</tt> devem
+ser completadas. Elas estão declaradas de maneira a não causar erros
+de compilação e contêm, eventualmente, comandos provisórios de
+devolução de resultados. A fim de facilitar a depuração, a
+implementação da rotina <i>ImprimePolinomio</i> já vem completa.
+
+</p><p align="JUSTIFY">O teste deste módulo é realizado pelo programa
+<tt>principal.c</tt> que é fornecido na íntegra. É um interpretador de
+comandos, sendo que cada comando testa geralmente uma das rotinas que
+manipulam os polinômios. O programa manipula até quatro polinômios,
+elementos de um vetor <i>v</i>.  Cada comando do interpretador é
+representado por um caractere e eventuais argumentos. Não há diferença
+entre letras maiúsculas e minúsculas. Os significados dos comandos
+são:
+
+</p><blockquote> 
+<table> 
+<tbody><tr> 
+<td><b>C</b>
+&nbsp; <i>k</i> </td><td><i> v[k]</i> recebe polinômio nulo;</td>
+</tr>
+
+<tr> 
+<td><b>L &nbsp; <i>k</i> </b> </td><td> liberar espaço ocupado pela
+representação de <i>v[k]</i>;</td>
+</tr>
+
+<tr> 
+<td><b>N &nbsp; <i>k</i> </b> </td><td>  verificar se <i>v[k]</i> é nulo;</td>
+</tr>
+
+<tr> 
+<td><b>T &nbsp; <i>k &nbsp; e &nbsp; c</i> </b> </td><td>  inserir o
+termo <i>(e,c)</i> em <i>v[k]</i>;</td>
+</tr>
+
+<tr> 
+<td><b>I &nbsp; <i>k</i> </b> </td><td>  imprimir <i>v[k]</i>;</td>
+</tr>
+
+<tr> 
+<td><b>S &nbsp; <i>k &nbsp; m &nbsp; n</i> </b> </td><td>  <i>v[k]</i>
+recebe a soma de <i>v[m]</i> e <i>v[n]</i>;</td>
+</tr>
+
+<tr> 
+<td><b>R &nbsp; <i>k &nbsp; m &nbsp; e &nbsp; c</i> </b> </td><td> 
+<i>v[k]</i> recebe o produto de <i>v[m]</i> pelo termo <i>(e,c)</i>;</td>
+</tr>
+
+<tr> 
+<td><b>M &nbsp; <i>k &nbsp; m &nbsp; n</i> </b> </td><td>  <i>v[k]</i>
+recebe o produto de <i>v[m]</i> e <i>v[n]</i>;</td>
+</tr>
+
+<tr> 
+<td><b>H</b> </td><td>  imprime resumo dos comandos;</td>
+</tr>
+
+<tr> 
+<td><b>X</b> ou <b>Q</b> </td><td>  encerra interpretação;</td>
+</tr>
+
+<tr> 
+<td><b>#</b> </td><td>  linha de comentário.</td>
+</tr>
+
+</tbody></table>
+</blockquote>
+
+<p align="JUSTIFY">Os eventuais argumentos de cada comando podem ser
+seguidos de comentários. <b>Note que o interpretador já está
+pronto!</b> Após a compilação, a sua execução é invocada com o comando:
+</p><blockquote>
+<pre>      
+./principal &lt; arqN.in &gt; arqN.res
+</pre>
+</blockquote>
+
+
+<p align="JUSTIFY">Os testes estão classificados em quatro grupos, sendo
+que cada grupo corresponde a um conjunto de rotinas, em ordem
+crescente de dificuldade:
+
+</p><ul>
+<li><i>Grupo 1</i> -  testa as rotinas: <i>CriaPolinomioNulo,
+InsereTermo, LiberaPolinomio</i> e <i> PolinomioNulo</i>;
+</li><li><i>Grupo 2</i> - testa a rotina <i>MultTermo</i> (usa as rotinas
+do grupo 1);
+</li><li><i>Grupo 3</i> - testa a rotina <i>SomaPolinomios</i> (usa as rotinas
+do grupo 1);
+</li><li><i>Grupo 4</i> - testa a rotina <i>MultPolinomios</i> (usa as rotinas
+dos grupos 1, 2 e 3).
+</li></ul>
+
+<p>
+<b>Observações:</b>
+</p><ol>
+
+<li> <p align="JUSTIFY">A soma dos polinômios deve seguir o mesmo
+paradigma do processo de intercalação, de acordo com os valores dos
+expoentes. Termos resultantes nulos não devem ser inseridos na
+resposta.
+
+</p></li><li> <p align="JUSTIFY">O produto de polinômios pode ser calculado
+como uma sucessão de somas de polinômios obtidos da multiplicação de
+um deles por cada termo do outro.
+
+</p></li><li> <p align="JUSTIFY">Numa multiplicação de dois termos, os
+expoentes são somados e os coeficientes são multiplicados.
+
+</p></li><li> <p align="JUSTIFY">Não use recursão.
+  
+</p></li><li> <p align="JUSTIFY"><b>Não é permitido</b> modificar a interface
+(arquivo <tt>polinomios.h</tt>).
+
+</p></li><li> <p align="JUSTIFY">Se desejar, pode declarar rotinas auxiliares
+na parte marcada do arquivo <tt>polinomios.c</tt>.
+
+</p></li><li> <p align="JUSTIFY">A fim de facilitar a verificação de
+gerenciamento de memória dinâmica, é fornecido o pacote <i>balloc</i>
+que contém funções especiais para alocar e desalocar memória. Estas
+operações devem ser realizadas utilizando-se as funções (macros)
+<i>MALLOC</i> e <i>FREE</i>, em lugar das funções habituais
+<i>malloc</i> e <i>free</i>. O programa principal invoca, ao final da
+execução, a função <i>bapply(bprint)</i> que verifica se existe alguma
+área de memória dinâmica que deixou de ser liberada. Caso exista, é
+impressa a localização do comando que a alocou. <b>A sua implementação
+não pode utilizar as operações habituais de alocação</b> <i>malloc</i>
+e <i>free</i>.
+
+</p></li><li> <p align="JUSTIFY">As palavras em português impressas pelo
+  programa <tt>polinomios.c</tt> usam codificação <i>iso-8859-1</i>
+  também conhecida como <i>latin-1</i> (um byte por caractere).
+  
+</p></li><li> <p align="JUSTIFY">O pacote <i>tudo.zip</i> contêm todos os
+testes e seus resultados, bem como os arquivos <tt>principal.c</tt>,
+<tt>polinomios.h</tt> e uma versão incompleta de
+<tt>polinomios.c</tt>, além do pacote <i>balloc</i>.
+
+</p></li><li> <p align="JUSTIFY">Deve ser submetido somente o arquivo
+<tt>polinomios.c</tt>.
+
+</p></li><li>O número de submissões não pode passar de 10.
+
+</li></ol>
+
+<p>
+</p><hr>
+<small>Last update: "enunc.html: 2014-07-24 (Thu)  12:05:59 BRT (tk)" 
+</small>
+
+
+</body></html>
