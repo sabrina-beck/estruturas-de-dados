@@ -62,21 +62,45 @@ void inicializa(matriz *a, int m, int n)
       t->lin = m;
       t->col = i;
       t->val = 0;
-      /* Insere logo ao lado da super-cabeça */
-      t->esq = r;
-      t->dir = r;
-      /* Faz o circular */
       t->ac = t;
       t->ab = t;
-      t->esq->dir = t;
+      t->esq = r->esq;
+      t->dir = r;
+      /* Insere depois do cabeça nó */
       t->dir->esq = t;
+      t->esq->dir = t;
       a->ccol[i] = t;
     }
   }
 
 void libera(matriz *a) {
   /* Libera toda a memória dinâmica ocupada por uma matriz */
-    erro("!!!COMPLETAR");
+    /* Libera as linhas */
+    int i;
+    int nlins = a->nlins;
+    for(i = 0; i < nlins; i++) {
+      ap_elemento cabecaLinha = a->clin[i];
+      ap_elemento atual = cabecaLinha->esq;
+      ap_elemento prox;
+      /* Libera o conteúdo de cada linha */
+      while(atual != cabecaLinha) {
+        prox = atual->esq;
+        FREE(atual);
+        atual = prox;
+      }
+      /* Libera o cabeça da linha */
+      FREE(cabecaLinha);
+    }
+    
+    for(i = 0; i <= a->ncols; i++) {
+      /* Libera as cabeças das colunas e o super cabeça */
+      FREE(a->ccol[i]);
+    }
+    
+    /* Libera vetores de linha e de coluna */
+    FREE(a->clin);
+    FREE(a->ccol);
+    
 }
 
 void encontra(matriz *a, int i, int j, ap_elemento *ppl, ap_elemento *ppc)
@@ -119,8 +143,14 @@ float valor(matriz *a, int i, int j)
 void remove_elem(matriz *a, ap_elemento r)
   /* Função auxiliar: elimina um elemento "r" da matriz "a". */
   {
-    erro("!!!COMPLETAR");
+    /* Acerta ponteiros para retirar o elemento da matriz */
+    r->ab->ac = r->ac;
+    r->ac->ab = r->ab;
+    r->esq->dir = r->dir;
+    r->dir->esq = r->esq;
+    /* Libera a memória */
     FREE(r);
+    /* Decrementa o numero de elementos durante a remoção */
     a->nelems--;
   }
  
@@ -139,7 +169,17 @@ void insere_elem(matriz *a, int i, int j, float v, ap_elemento pl, ap_elemento p
     r->col = j;
     r->val = v;
     /* Insere o elemento nas listas da linha e da coluna: */
-    erro("!!!COMPLETAR");
+    /* Acerta os ponteiros na coluna */
+    r->ab = pc;
+    r->ac = pc->ac;
+    pc->ac = r;
+    r->ac->ab = r;
+    /* Acerta os ponteiros na linha */
+    r->esq = pl;
+    r->dir = pl->dir;
+    pl->dir = r;
+    r->dir>esq = r;
+    /* Incrementa o numero de elementos na inclusão */
     a->nelems++;
   }   
 
