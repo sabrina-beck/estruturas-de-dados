@@ -241,10 +241,12 @@ void soma(matriz *a, matriz *b, matriz *s)
     for(i = 0; i < a->nlins; i++)
       for(j = 0; j < a->ncols; j++) {
         float soma = valor(a, i, j) + valor(b, i, j);
-        ap_elemento pl;
-        ap_elemento pc;
-        encontra(s, i, j, &pl, &pc);
-        insere_elem(s, i, j, soma, pl, pc); 
+        if(soma != 0) {
+          ap_elemento pl;
+          ap_elemento pc;
+          encontra(s, i, j, &pl, &pc);
+          insere_elem(s, i, j, soma, pl, pc); 
+        }
       }
   }
 
