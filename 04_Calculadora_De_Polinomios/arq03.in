@@ -1,0 +1,8 @@
+# Teste 13
+a A 1 1.0           A <- x 
+i A                 imprime A
+r B AA-             B <- A-A
+i B                 imprime B 
+l A                 libera A
+l B                 libera B  
+x                   termina 

@@ -1,0 +1,11 @@
+# Teste 22
+a A 1 1.0           A <- x 
+a B 2 2.0           B <- 2x^2
+r C AB+A*           C <- (A+B)*A
+r D CA-AB+*         D <- (C-A)*(A+B)
+i D                 imprime D
+l A                 libera A
+l B                 libera B 
+l C                 libera C
+l D                 libera D
+x                   termina 
