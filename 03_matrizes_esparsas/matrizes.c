@@ -1,5 +1,7 @@
 /* Laboratório 03 - matrizes esparsas ligadas - implementação. */
 /* Adaptação do exercício originalmente preparado por Jorge Stolfi */
+/* Sabrina Beck Angelini                                RA157240 */
+/* Data: 20/09/2014                                     Turma: E */
 
 /* Complete todos os trechos indicados. */
 
@@ -200,12 +202,10 @@ void atribui(matriz *a, int i, int j, float v)
 void le_matriz(matriz *a)
   { int m, n, d;
     int i, j; float v;
-    int ip, jp; /* Índices do elemento anterior. */
     int k;
 
     scanf("%d %d %d", &m, &n, &d); prox_linha();
     inicializa(a, m, n);
-    ip = -1; jp = n-1;
     for (k = 0; k < d; k++)
       { scanf("%d %d %f", &i, &j, &v); prox_linha();
         if (v != 0) { insere_elem(a, i, j, v, a->clin[i], a->ccol[j]); }
@@ -231,7 +231,7 @@ void transpoe(matriz *a, matriz *t)
     for(i = 0; i < a->nlins; i++) {
       ap_elemento atual = a->clin[i]->dir;
       /* Percorre as colunas da matriz */
-      while(atual->val != 0) {
+      while(atual->val != 0.0) {
         int linha = atual->col;
         int coluna = atual->lin;
         float valor = atual->val;
@@ -252,20 +252,51 @@ void soma(matriz *a, matriz *b, matriz *s)
     inicializa(s, a->nlins, a->ncols);
     for(i = 0; i < a->nlins; i++)
       for(j = 0; j < a->ncols; j++) {
-        float soma = valor(a, i, j) + valor(b, i, j);
-        if(soma != 0) {
-          ap_elemento pl;
-          ap_elemento pc;
+        v = valor(a, i, j) + valor(b, i, j);
+        if(v != 0.0) {
           /* Insere a soma de cada elemento na matriz de resultados */
-          insere_elem(s, i, j, soma, s->clin[i], s->ccol[j]);
+          insere_elem(s, i, j, v, s->clin[i], s->ccol[j]);
         }
       }
   }
-
+  
 void multiplica(matriz *a, matriz *b, matriz *p) 
   {
     int i, j;
     if ((a->ncols) != (b->nlins)) { erro("multiplica: tamanhos invalidos"); }
     inicializa(p, a->nlins, b->ncols);
-    erro("!!!COMPLETAR");
+    /* i percorre as linhas de a */
+    for(i = 0; i < a->nlins; i++) {
+      /* j percorre as colunas de b */
+      for(j = 0; j < b->ncols; j++) {
+          float mult = 0.0;
+          ap_elemento atualLinhaA = a->clin[i]->dir;
+          ap_elemento atualColunaB = b->ccol[j]->ab;
+          /*
+           * Percorre a linha i de a e a coluna j de b fazendo um
+           * produto escalar entre esses vetores
+           */
+          while(atualLinhaA->val != 0 && atualColunaB->val != 0) {
+            /* Se coluna e linha baterem multiplica os valores */
+            if(atualLinhaA->col == atualColunaB->lin) {
+              mult += atualLinhaA->val * atualColunaB->val;
+              atualLinhaA = atualLinhaA->dir;
+              atualColunaB = atualColunaB->ab;
+            }
+            /*
+             * Se não baterem é porque o elemento correspondente na
+             * multiplicação da outra matriz é nulo, logo o resultado
+             * da multiplicação será nulo também
+             */
+            else if(atualLinhaA->col < atualColunaB->lin)
+              atualLinhaA = atualLinhaA->dir;
+            else
+              atualColunaB = atualColunaB->ab;
+        }
+        /* Insere o valor na matriz resultante somente se ele não for nulo */
+        if(mult != 0.0)
+          insere_elem(p, i, j, mult, p->clin[i], p->ccol[j]);
+      }
+    }
   }
+
