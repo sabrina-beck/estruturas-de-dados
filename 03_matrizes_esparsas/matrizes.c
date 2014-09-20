@@ -175,10 +175,10 @@ void insere_elem(matriz *a, int i, int j, float v, ap_elemento pl, ap_elemento p
     pc->ac = r;
     r->ac->ab = r;
     /* Acerta os ponteiros na linha */
-    r->esq = pl;
-    r->dir = pl->dir;
-    pl->dir = r;
-    r->dir>esq = r;
+    r->dir = pl;
+    r->esq = pl->esq;
+    pl->esq = r;
+    r->esq->dir = r;
     /* Incrementa o numero de elementos na inclusão */
     a->nelems++;
   }   
@@ -238,7 +238,14 @@ void soma(matriz *a, matriz *b, matriz *s)
       erro("soma: matrizes com tamanhos diferentes");
     /* Inicializa matriz "s" com mesmas dimensoes de "a" e "b": */
     inicializa(s, a->nlins, a->ncols);
-    erro("!!!COMPLETAR");
+    for(i = 0; i < a->nlins; i++)
+      for(j = 0; j < a->ncols; j++) {
+        float soma = valor(a, i, j) + valor(b, i, j);
+        ap_elemento pl;
+        ap_elemento pc;
+        encontra(s, i, j, &pl, &pc);
+        insere_elem(s, i, j, soma, pl, pc); 
+      }
   }
 
 void multiplica(matriz *a, matriz *b, matriz *p) 
