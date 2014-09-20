@@ -227,7 +227,19 @@ void imprime_matriz(matriz *a)
 void transpoe(matriz *a, matriz *t)
   { int i;
     inicializa(t, a->ncols, a->nlins);
-    erro("!!!COMPLETAR");
+    /* Percorre as linhas da matriz */
+    for(i = 0; i < a->nlins; i++) {
+      ap_elemento atual = a->clin[i]->dir;
+      /* Percorre as colunas da matriz */
+      while(atual->val != 0) {
+        int linha = atual->col;
+        int coluna = atual->lin;
+        float valor = atual->val;
+        /* Insere elementos na transposta trocando linha por coluna */
+        insere_elem(t, linha, coluna, valor, t->clin[linha], t->ccol[coluna]);
+        atual = atual->dir;
+      }
+    }
   }
 
 void soma(matriz *a, matriz *b, matriz *s)
@@ -244,8 +256,8 @@ void soma(matriz *a, matriz *b, matriz *s)
         if(soma != 0) {
           ap_elemento pl;
           ap_elemento pc;
-          encontra(s, i, j, &pl, &pc);
-          insere_elem(s, i, j, soma, pl, pc); 
+          /* Insere a soma de cada elemento na matriz de resultados */
+          insere_elem(s, i, j, soma, s->clin[i], s->ccol[j]);
         }
       }
   }
