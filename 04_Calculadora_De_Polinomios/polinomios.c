@@ -117,6 +117,7 @@ Polinomio SomaPolinomios(Polinomio a, Polinomio b) {
   Polinomio atualA = a->prox; /* Pula nó cabeça */
   Polinomio atualB = b->prox;
   Polinomio soma = CriaPolinomioNulo();
+  Polinomio atualSoma = soma;
   
   /* Percorre os dois polinômios ao mesmo tempo */
   while(atualA->expo != -1 && atualB->expo != -1) {
@@ -125,8 +126,10 @@ Polinomio SomaPolinomios(Polinomio a, Polinomio b) {
       int expo = atualA->expo;
       float coef = atualA->coef + atualB->coef;
       /* Termos com coeficiente nulos não sã adicionados na resposta */
-      if(coef != 0)
-        InsereTermo(soma, expo, coef);
+      if(coef != 0) {
+        InsereTermoAux(atualSoma, expo, coef);
+        atualSoma = atualSoma->prox;
+      }
       atualA = atualA->prox;
       atualB = atualB->prox;
       
@@ -135,23 +138,27 @@ Polinomio SomaPolinomios(Polinomio a, Polinomio b) {
        * outro polinomio, são simplesmente adicionados na resposta
        */
     } else if(atualA->expo > atualB->expo) {
-      InsereTermo(soma, atualB->expo, atualB->coef);
+      InsereTermoAux(atualSoma, atualB->expo, atualB->coef);
       atualB = atualB->prox;
+      atualSoma = atualSoma->prox;
     } else {
-      InsereTermo(soma, atualA->expo, atualA->coef);
+      InsereTermoAux(atualSoma, atualA->expo, atualA->coef);
       atualA = atualA->prox;
+      atualSoma = atualSoma->prox;
     }
   }
   
   /* Termina de processar o polinômio que tem mais termos */
   while(atualA->expo != -1) {
-    InsereTermo(soma, atualA->expo, atualA->coef);
+    InsereTermoAux(atualSoma, atualA->expo, atualA->coef);
     atualA = atualA->prox;
+    atualSoma = atualSoma->prox;
   }
   
   while(atualB->expo != -1) {
-    InsereTermo(soma, atualB->expo, atualB->coef);
+    InsereTermoAux(atualSoma, atualB->expo, atualB->coef);
     atualB = atualB->prox;
+    atualSoma = atualSoma->prox;
   }
 
   return soma;
@@ -173,12 +180,14 @@ Polinomio MultTermo(Polinomio p, int e, float c) {
 /* Devolve o polinômio 'p' multiplicado pelo termo '(e,c)'. Supõe       */
 /* que 'c' não é nulo. Não altera o polinômio dado.                    */
   Polinomio novo = CriaPolinomioNulo();
+  Polinomio novoAtual = novo;
   if(c != 0) {
     Polinomio atual = p->prox; /* Pula nó cabeça */
     /* Percorre o polinômio termo a termo */
     while(atual->expo != -1) {
-      InsereTermo(novo, atual->expo + e, atual->coef * c);
+      InsereTermoAux(novoAtual, atual->expo + e, atual->coef * c);
       atual = atual->prox;
+      novoAtual = novoAtual->prox;
     }
   }
   return novo;
