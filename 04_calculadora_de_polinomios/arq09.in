@@ -1,0 +1,5 @@
+# Teste 32
+a A 1 1.0           A <- x 
+r B AA+A            B <- expressão inválida
+# deveria interromper a execução com mensagem de erro
+x

@@ -1,0 +1,15 @@
+# Teste 23
+a A 2 3.0           A <- 3x^2 
+a B 1 2.0           B <- 2x
+r C AB*~            C <- -(A*B)
+i C                 imprime C
+r D CC~+            D <- C +(-C)
+i D                 imprime D
+r E AB+C+D*         E <- (A+B+C)*D
+i E 
+l A                 libera A
+l B                 libera B 
+l C                 libera C
+l D                 libera D
+l E                 libera E
+x                   termina 

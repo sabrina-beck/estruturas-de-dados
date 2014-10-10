@@ -1,0 +1,8 @@
+# Teste 11
+a A 1 1.0           A <- x 
+i A                 imprime A
+r B A               B <- A
+i B                 imprime B 
+l A                 libera A
+l B                 libera B  
+x                   termina 

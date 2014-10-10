@@ -1,0 +1,9 @@
+# Teste 21
+a A 1 1.0           A <- x 
+a B 2 2.0           B <- 2x^2
+r C AB+A*           C <- (A+B)*A
+i C                 imprime C 
+l A                 libera A
+l B                 libera B 
+l C                 libera C
+x                   termina 

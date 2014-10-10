@@ -1,0 +1,194 @@
+
+<!-- saved from url=(0053)https://susy.ic.unicamp.br:9999/mc202ef/04/enunc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Laboratorio 04</title>
+</head>
+<body bgcolor="#CC9966" text="#000000">
+
+<h3>Instituto de Computação da UNICAMP</h3>
+
+<h3>Disciplina MC202: Segundo Semestre de 2014</h3>
+
+<h3>Laboratório Nº 04</h3>
+
+<i>Prof.</i> <i>Tomasz Kowaltowski (Turmas E e F)</i>
+<p>
+</p><hr>
+<p>
+
+</p><p align="JUSTIFY"> O objetivo desta tarefa é integrar a implementação do
+módulo <tt>polinomios.c</tt> desenvolvido para a tarefa 02 com 
+um mecanismo de avaliação de expressões pós-fixas utilizando uma pilha. 
+
+
+</p><h3>Polinômios</h3>
+
+Cada polinômio é representado como uma <b>lista ligada circular com nó
+cabeça</b>, em que cada nó corresponde a um termo com coeficiente
+<b>não nulo</b>; os termos aparecem na lista em <b>ordem crescente dos
+expoentes</b>. Além das funcionalidades já implementadas, uma rotina
+para a subtração de polinômios deverá ser incorporada.
+
+<h3>Expressões pós-fixas</h3>
+
+<p align="JUSTIFY"> As operações serão feitas sobre uma base de dados
+  (um vetor) que contém cinco polinômios, nomeados com as letras de
+  <tt>A</tt> a <tt>E</tt>.  Inicialmente, o usuário pode preencher a
+  base com polinômios formados por um único termo, sendo que
+  polinômios mais elaborados podem ser construídos a partir da
+  avaliação de expressões. As expressões são escritas na forma
+  pós-fixa e podem incluir os operadores binários <tt>+</tt>,
+  <tt>-</tt>, <tt>*</tt> e o operador unário <tt>~</tt>.  Alguns
+  exemplos de expressões válidas são:
+
+</p><pre>	    A~    AB+   AB-BC+* 
+</pre>
+
+<h3>Pilhas</h3>
+
+<p align="JUSTIFY"> Para auxiliar a avaliação das expressões deverá
+ser implementada uma estrutura do tipo pilha, que deverá conter
+apontadores para polinômios. A figura abaixo ilustra um momento da
+avaliação da expressão CAB+* (equivalente à expressão C*(A+B) em
+notação infixa) imediatamente <u><b>antes</b></u> do tratamento do
+operador *. Na primeira posição da pilha há um apontador para o
+polinômio C da base de dados. Na segunda posição há um apontador para
+o polinômio resultante da soma A+B. Após o cálculo final da expressão,
+este polinômio deverá ser liberado. O polinômio C, no entanto, só
+poderá ser liberado mediante uma chamada explícita à função de
+liberação de memória pelo usuário do programa. Para diferenciar
+polinômios temporários (auxiliares para o cálculo da expressão) dos
+polinômios da base de dados, todo elemento empilhado deve conter um
+apontador e uma marca (círculos vazios ou cheios na fígura).
+
+</p><blockquote>
+<img src="lab04_exemplo.jpg">
+</blockquote>
+
+<p align="JUSTIFY"> Para que esta implementação de pilhas possa ser
+usada livremente em outros contextos, os elementos empilhados são do
+tipo <tt>void *</tt>.
+
+</p><h3>Tratamento de erros</h3>
+
+O programa deve emitir uma mensagem e interromper sua execução ao
+encontrar um erro. Os erros que devem ser tratados são: falta de
+operandos, operadores e/ou caracteres inválidos, tentativa de
+desempilhar elementos de uma pilha vazia ou empilhar elementos em uma
+pilha cheia.
+
+<h3>Programa principal</h3>
+
+O programa principal opera de acordo com os seguintes comandos (podem
+ser usadas letras maiúsculas ou minúsculas):
+
+
+<blockquote> 
+<table> 
+
+<tbody><tr> 
+<td><b>A &nbsp; <i>X &nbsp; e &nbsp; c</i> </b> </td><td>  atribui o
+termo <i>(e,c)</i> ao polinômio <i>X</i>;</td>
+</tr>
+
+<tr> 
+<td><b>L &nbsp; <i>X</i> </b> </td><td> libera espaço ocupado pela
+representação de <i>X</i>;</td>
+</tr>
+
+<tr> 
+<td><b>I &nbsp; <i>X</i> </b> </td><td>  imprime <i>X</i>;</td>
+</tr>
+
+<tr> 
+<td><b>R &nbsp; <i>X &nbsp; expr &nbsp;</i> </b> </td><td> 
+<i>X</i> recebe o resultado da expressão pós-fixa <i>expr</i>;</td>
+</tr>
+
+<tr> 
+<td><b>H</b> </td><td>  imprime resumo dos comandos;</td>
+</tr>
+
+<tr> 
+<td><b>X</b> ou <b>Q</b> </td><td>  encerra interpretação;</td>
+</tr>
+
+<tr> 
+<td><b>#</b> </td><td>  linha de comentário.</td>
+</tr>
+
+</tbody></table>
+</blockquote>
+
+<p align="JUSTIFY">Os eventuais argumentos de cada comando podem ser
+seguidos de comentários. Os testes estão separados em três grupos
+da seguinte forma:
+
+</p><ul>
+<li><i>Grupo 1</i> (<tt>arq1*.in</tt>) - testa a avaliação de expressões corretas simples;
+
+</li><li><i>Grupo 2</i> (<tt>arq2*.in</tt>) - testa a avaliação de expressões corretas mais
+elaboradas;
+
+</li><li><i>Grupo 3</i> (<tt>arq3*.in</tt>) - testa a verificação de expressões inválidas.
+
+</li></ul>
+
+
+
+<h3>Observações:</h3>
+
+<ol>
+
+<li> <p align="JUSTIFY">O arquivo <i>polinomios.c</i> já deve ter sido
+desenvolvido pelo aluno. Além da implementação da
+função <i>SubPolinomios</i> podem ser feitas melhorias sobre a versão
+entregue no laboratório nº 2.
+
+</p></li><li> <p align="JUSTIFY">Não é permitido modificar os arquivos
+de interface (arquivos <i>.h</i>).
+
+</p></li><li> <p align="JUSTIFY">Não é permitido usar recursão.
+  
+</p></li><li> <p align="JUSTIFY">É permitida a declaração de rotinas auxiliares.
+
+</p></li><li> <p align="JUSTIFY">Em caso de erro de execução, deve ser emitida
+uma mensagem de erro e o programa deve ser interrompido por meio de
+uma chamada à macro <i>IMPRIME_ERRO</i> conforme o exemplo no arquivo incompleto
+<i>calculadora.c</i>.
+
+</p></li><li> <p align="JUSTIFY">A função <i>CalcExpr</i> deve devolver sempre
+  um novo polinômio, mesmo que a expressão seja uma variável simples
+  como é o caso do teste <i>arq11.in</i>.
+
+</p></li><li> <p align="JUSTIFY">Para fazer acesso aos elementos da pilha no
+módulo <i>calculadora</i>, só é permitida a utilização das rotinas
+presentes na interface <i>pilha.h</i>. Não é permitido o acesso
+direto aos campos <i>topo</i> ou <i>vetor</i>. Note que esta
+política torna mais simples, por exemplo, a substituição da
+implementação sequencial de pilhas por uma implementação ligada.
+
+</p></li><li> <p align="JUSTIFY">Devem ser utilizadas as macros <i>MALLOC</i>
+e <i>FREE</i> fornecidas com o pacote <i>balloc</i>. A sua
+implementação não pode utilizar as operações habituais de
+alocação.
+
+</p></li><li> <p align="JUSTIFY">O arquivo  <i>tudo.zip</i>
+contém todos os testes e seus resultados, bem como os arquivos
+<i>principal.c</i>, <i>polinomios.h</i>, <i>pilha.h</i>,
+<i>calculadora.h</i>, <i>boolean.h</i> e versões incompletas dos
+arquivos <i>polinomios.c</i>, <i>pilha.c</i> e <i>calculadora.c</i>,
+além do pacote <i>balloc</i>.
+
+</p></li><li> <p align="JUSTIFY">Devem ser submetidos os arquivos
+<i>polinomios.c</i>, <i>pilha.c</i> e <i>calculadora.c</i>
+
+</p></li><li>O número máximo de submissões é 10.
+
+</li></ol>
+
+<p>
+</p><hr>
+ 
+</body></html>
