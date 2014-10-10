@@ -1,0 +1,36 @@
+# Teste com expressões inválidas
+
+# Operando esperado
++
+*
+(
+)
+a-
+  a  -
+a--b
+a - - b
+a*b/  
+ a * b/
+a*b/((c+d)-                
+()
+a+( )
+((((a-b)*c)^d^e)-)
+
+# Operador esperado
+ab
+a      b
+a*b+c*d^e/f-gh^i*j
+a+b)+c
+((a-b)))+c
+
+# Fecha parênteses esperado
+(a-b
+(((a-b))
+((a-b)*(b-c)
+a*b*c-(e-f
+
+# Caracteres inválidos
+!
+a;
+a - b @
+a%c

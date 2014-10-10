@@ -1,0 +1,9 @@
+# Testes com espaços em branco
+         a
+      +    a-a
+ a  +  b
+ a / b   - c*d + e -f- g-h + i*  j*k*l/m
+( (a-b) * (c-d)/e )
+   ( ( (   (a - b) *c    )^ d ^ e)   )
+# Agora vem uma cadeia de 10 brancos
+          
