@@ -1,8 +1,8 @@
 /*
-  Autor:         COMPLETAR!
-  RA:            COMPLETAR!
+  Autor:         Sabrina Beck Angelini
+  RA:            157240
   Disciplina:    MC202
-  Turma:         COMPLETAR!
+  Turma:         E
   
   Tarefa 05 
   Segundo semestre de 2014
@@ -16,6 +16,11 @@
 
 #include "analisador.h"
 #include <ctype.h>
+
+/* Enum de boolean */
+typedef enum {
+  false, true
+} boolean;
 
 /* Variáveis globais a este módulo */
 
@@ -45,11 +50,16 @@ Erro InPos(char *infixa, char *posfixa) {
 /* Transforma uma expressão da notação infixa para a pós-fixa. Em caso
    de erro, devolve o código e a posição na cadeia de entrada onde o
    erro foi encontrado.  */
+  Erro erro;
 
-  /***** COMPLETAR!  *****/
+  in = infixa;
+  indIn = 0;
+  pos = posfixa;
+  indPos = 0;
+  erro = Expressao();
   
-  posfixa[0] = '\0';  /***** PROVISÓRIO ******/  
-  return resCorreto;  /***** PROVISÓRIO ******/  
+  posfixa[indPos] = '\0';
+  return erro;
   
 }
 
@@ -59,10 +69,12 @@ Erro InPos(char *infixa, char *posfixa) {
 
 Erro montaErro(int codigo, int posicao) {
 /* Devolve estrutura com código de erro e posição */
+  Erro erro;
 
-  /***** COMPLETAR!  *****/
+  erro.posicao = posicao;
+  erro.codigoErro = codigo;
   
-  return resCorreto;  /***** PROVISÓRIO ******/  
+  return erro;
 
 } /* montaErro */
 
@@ -70,7 +82,16 @@ Erro montaErro(int codigo, int posicao) {
 Erro Expressao() {
 /* Processa uma expressão da cadeia de entrada.  */
 
-  /***** COMPLETAR!  *****/
+  Termo();
+  boolean fim = false;
+  do {
+    char atual = in[indIn];
+    if(atual == '+' || atual == '-') {
+      indIn++;
+      Termo();
+      pos[indPos++] = atual;
+    } else fim = true;
+  } while(!fim);
   
   return resCorreto;  /***** PROVISÓRIO ******/  
 
@@ -81,9 +102,19 @@ Erro Expressao() {
 Erro Termo() {
 /* Processa um termo da cadeia de entrada.  */
 
-  /***** COMPLETAR!  *****/
+  Fator();
+  boolean fim = false;
+  do {
+    char atual = in[indIn];
+    if(atual == '*' || atual == '/') {
+      indIn++;
+      Fator();
+      pos[indPos++] = atual;
+    } else fim = true;
+    
+  } while(!fim);
   
-  return resCorreto;  /***** PROVISÓRIO ******/  
+  return resCorreto;
 
 } /* Termo */
 
@@ -91,10 +122,21 @@ Erro Termo() {
 Erro Fator() {
 /* Processa um fator da cadeia de entrada.  */
 
+  char atual = in[indIn];
 
-  /***** COMPLETAR!  *****/
+  if(atual >= 'a' && atual <= 'z') {
+    pos[indPos++] = atual;
+    indIn++;
+  } else if (atual == '(') {
+    indIn++;
+    Expressao();
+    if(in[indIn] == ')')
+      indIn++;
+    else
+      return montaErro(FECHA_PARENTESE_ESPERADO, indIn);
+  }
   
-  return resCorreto;  /***** PROVISÓRIO ******/  
+  return resCorreto;  
 
 } /* Fator */
 
