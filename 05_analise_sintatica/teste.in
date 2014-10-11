@@ -1,0 +1,7 @@
+# Operador esperado
+ab
+a      b
+a*b+c*d^e/f-gh^i*j
+a+b)+c
+((a-b)))+c
+
