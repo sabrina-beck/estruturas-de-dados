@@ -1,0 +1,9 @@
+# Expressões simples sem parênteses
+a
+-a
++a
+a+b
+a-b
+a*b
+a/b
+a^b

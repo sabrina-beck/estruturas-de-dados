@@ -1,0 +1,16 @@
+# Testes para remoção simples
+i 016924 José da Silva
+r 016924
+n
+i 016924 José da Silva
+i 023774 Maria de Souza
+i 024098 João Rodrigues
+i 031147 Antônio Nogueira
+r 023774
+r 016924
+r 042674
+n
+a
+p
+l
+x

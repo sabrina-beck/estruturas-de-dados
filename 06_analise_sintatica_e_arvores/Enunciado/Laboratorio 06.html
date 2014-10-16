@@ -1,0 +1,124 @@
+
+<!-- saved from url=(0053)https://susy.ic.unicamp.br:9999/mc202ef/06/enunc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Laboratorio 06</title>
+</head>
+<body bgcolor="#CC9966" text="#000000">
+
+<h3>Instituto de Computação da UNICAMP</h3>
+
+<h3>Disciplina MC202: Segundo Semestre de 2014</h3>
+
+<h3>Laboratório Nº 06</h3>
+
+<i>Prof.</i> <i>Tomasz Kowaltowski (Turmas E e F)</i>
+<p>
+</p><hr>
+<p>
+
+</p><p align="JUSTIFY"> O objetvo desta tarefa é estender a tarefa 05 para
+  que a análise sintática de uma expressão infixa produza uma árvore
+  binária que a representa, conforme explicado em aula.  Por exemplo,
+  as expressões "<tt>-a+b</tt>" e "<tt>(a-b)*(c-d)/e</tt>" devem
+  produzir as árvores:
+
+</p><blockquote>
+<img src="arvs.png">
+</blockquote>  
+
+<p align="JUSTIFY"> O programa principal, análogo ao da tarefa 05,
+recebe como entrada uma série de expressões na forma infixa, uma por
+linha. Linhas de comentário devem ser precedidas por <tt>#</tt> na
+primeira posição.  A saída do programa, para cada expressão, deverá
+produzir duas linhas: a expressão dada na forma pré-fixa e na forma
+pós-fixa. Devem ser implementadas, portanto, duas funções
+(<i>ArvPre</i> e <i>ArvPos</i>) que produzem as representações
+desejadas <b>através de percurso recursivo das árvores</b>. No caso
+dos exemplos acima, a saída completa deveria ser:
+
+</p><pre>Infixa: -a+b
+Prefixa: +~ab
+Posfixa: a~b+
+
+Infixa: (a-b)*(c-d)/e
+Prefixa: /*-ab-cde
+Posfixa: ab-cd-*e/
+</pre>  
+
+<p align="JUSTIFY"> Além disto, o espaço ocupado pelas árvores
+binárias deve ser desalocado através da implementação de mais uma
+função denominada <i>LiberaArv</i> que será invocada dentro do
+programa principal.
+
+</p><p align="JUSTIFY"> O tratamento de erros é idêntico ao da tarefa 05.
+
+</p><h3>Observações:</h3>
+
+<ol>
+
+<li> <p align="JUSTIFY"> A cadeia de entrada pode conter caracteres em
+branco. 
+
+</p></li><li> <p align="JUSTIFY">O pacote <i>tudo.zip</i> contém todos os
+testes abertos e os seus resultados, bem como os arquivos
+<i>principal.c</i>, <i>balloc.h</i>, <i>balloc.c</i>,
+<i>imprimearvore.c</i>, <i>imprimearvore.h</i>,
+<i>analisador.h</i> e <i>analisador.c</i>: uma versão
+incompleta do arquivo <i>analisador.c</i> que deve ser completado.
+
+</p></li><li> O arquivo <i>principal.c</i> inclui a declaração da
+função <i>despejaArv</i> que imprime uma árvore "deitada"; por
+exemplo, as árvores correspondentes às expressões acima
+seriam impressas como:
+
+<pre>                                    
+				         
+				     /e  
+	     /b		           /     
+	   +		               /d
+	      /a		      /- 
+	     \~		               \c
+				     \*  
+				       /b
+				      \- 
+				       \a
+
+</pre>  
+
+(Note-se que o caractere "/" é usado para representar tanto o
+apontador para a subárvore direita quanto o operador de divisão.)
+Esta função foi definida através de chamada de uma função mais geral
+declarada nos arquivos <i>imprimearvore.c</i> e
+<i>imprimearvore.h</i>.
+
+<p> A chamada da  função <i>despejaArv</i> pode ser utilizada para depurar as
+funções do seu programa: basta remover os delimitadores de comentário
+na sua chamada.
+    
+</p></li><li> <p align="JUSTIFY"> Deve ser submetido apenas o arquivo
+<tt>analisador.c</tt>. 
+
+</p></li><li> <p align="JUSTIFY"> Não é permitido alterar o arquivo 
+de interface <i>analisador.h</i>. 
+
+</p></li><li> <p align="JUSTIFY"> Devem ser utilizadas as macros <i>MALLOC</i>
+e <i>FREE</i> fornecidas com o pacote <i>balloc</i>. A sua
+implementação <b>não pode</b> utilizar as operações habituais de
+alocação.
+
+</p></li><li> <p align="JUSTIFY"> O número máximo de submissões é 10.
+
+ </p></li></ol>
+
+
+<p>
+</p><hr>
+
+<small><i>Last update: "enunc.html: 2014-10-06 (Mon)  07:46:25 BRT (tk)"</i></small>
+
+
+ 
+
+
+</body></html>

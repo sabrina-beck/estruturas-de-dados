@@ -1,0 +1,123 @@
+
+<!-- saved from url=(0053)https://susy.ic.unicamp.br:9999/mc202ef/07/enunc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Laboratorio 07</title>
+</head>
+<body bgcolor="#CC9966" text="#000000">
+
+<h3>Instituto de Computação da UNICAMP</h3>
+
+<h3>Disciplina MC202: Segundo Semestre de 2014</h3>
+
+<h3>Laboratório Nº 07</h3>
+
+<i>Prof.</i> <i>Tomasz Kowaltowski (Turmas E e F)</i>
+<p>
+</p><hr>
+<p>
+
+</p><p align="JUSTIFY"> O objetivo deste laboratório é a implementação e
+ teste de uma pequena base de dados que conterá registros referentes a
+ alunos da UNICAMP.  As informações correspondentes a cada aluno serão
+ o RA e o nome, sendo que o RA constituirá a chave para as operações
+ de manipulação da base de dados.
+
+</p><p align="justify">
+Esta base de dados será implementada através de uma <b><i>árvore
+binária de busca</i></b>, sem nenhuma otimização. A implementação
+seguirá a idéia de um tipo abstrato de dados realizado através de um
+par de arquivos <tt>base.h</tt> e <tt>base.c</tt> e testado por um
+programa <tt>principal.c</tt>. O programa principal aceita os
+seguintes comandos:
+
+</p><blockquote> 
+<table> 
+<tbody><tr> 
+<td><b>i &nbsp; <i>ra</i> &nbsp; <i>nome</i>&nbsp;</b> </td>
+    <td> insere novo registro com <i>ra</i> e <i>nome</i> na base;</td>
+</tr>
+
+<tr> 
+<td><b>c &nbsp; <i>ra</i> &nbsp;</b> </td>
+    <td> consulta registro com <i>ra</i> na base;</td>
+</tr>
+
+<tr> 
+<td><b>r &nbsp; <i>ra</i> &nbsp;</b> </td>
+    <td> remove registro com <i>ra</i> da base;</td>
+</tr>
+
+<tr> 
+<td><b>l &nbsp;</b> </td>
+    <td> libera espaço ocupado pela base;</td>
+</tr>
+
+<tr> 
+<td><b>n &nbsp;</b> </td>
+    <td> imprime o número de elementos na base;</td>
+</tr>
+
+<tr> 
+<td><b>a &nbsp;</b> </td>
+    <td> imprime a altura da base (árvore binária);</td>
+</tr>
+
+<tr> 
+<td><b>p &nbsp; </b></td>
+    <td> executa um percurso inordem na base, imprimindo os elementos;</td>
+</tr>
+
+<tr> 
+<td><b>h</b> </td><td>  imprime resumo dos comandos;</td>
+</tr>
+
+<tr> 
+<td><b>x</b> ou <b>q</b> </td><td>  encerra interpretação;</td>
+</tr>
+
+<tr> 
+<td><b>#</b> </td><td>  linha de comentário.</td>
+</tr>
+
+</tbody></table>
+</blockquote>
+
+<p>
+<b>Observações:</b>
+</p><ol>
+
+<li> <p align="JUSTIFY">Um  <b>RA</b> sempre será <b>representado por
+um número inteiro</b> e <b>não</b> é precedido das letras <tt>ra</tt>
+(veja exemplos nos testes).
+ 
+</p></li><li> <p align="JUSTIFY">A representação da base como uma <i>árvore binária</i> está
+escondida do usuário que deve enxergá-la apenas como um <i>tipo
+abstrato de dados</i>. Note no arquivo <tt>base.h</tt> que isso é
+feito em <i>C</i> definindo o tipo <tt>Base</tt> como um apontador do
+tipo <tt>void</tt>.  A declaração do tipo <i>árvore binária</i> ficará
+escondida no arquivo <tt>base.c</tt> onde as conversões de tipo
+apropriadas (<i>casting</i>) deverão ser efetuadas.
+
+</p></li><li><p align="JUSTIFY">Para as operações de inserção e remoção da base de dados é
+importante que sejam seguidas as idéias explicadas na apostila. Para a
+remoção, em caso de ajuste na árvore, deverá ser usado o <b>sucessor</b> no
+percurso em inordem como substituto do nó removido (<b>mínimo</b> da
+subárvore direita).
+
+ </p></li><li> <p align="JUSTIFY">Devem ser utilizadas as macros <i>MALLOC</i>
+e <i>FREE</i> fornecidas com o pacote <i>balloc</i>. A sua
+implementação não pode utilizar as operações habituais de
+alocação.
+
+</p></li><li> O número máximo de submissões é 10.  </li>
+
+</ol>
+<p>
+</p><hr>
+
+<small><i>Last update: "enunc.html: 2014-10-14 (Tue)  16:40:40 BRT (tk)"</i></small>
+
+
+
+</body></html>
