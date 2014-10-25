@@ -1,0 +1,91 @@
+# Expressões simples sem parênteses
+a
+-a
++a
+a+b
+a-b
+a*b
+a/b
+a^b
+
+# Expressões com os operadores binários + - * / 
+a+b+c
+a+b-c
+a*b*c
+a*b/c
+a-b*c/d-e
+a-b*c+d+e/f*g-h
+a/b-c*d+e-f-g-h+i*j*k*l/m
+
+# Expressões com os operadores binários + - * / e ^
+a^b^c
+a^b^c*d
+a^b^c*d^e
+a+b-c/d^e
+a*b+c*d^e/f-g*h^i*j
+
+# Testes com parênteses
+(a)
+(((a)))
+(+a)
+(a+b)*c^d
+((a-b)*(c-d)/e)
+a^(b*c-d)^e-f
+(-a^b*(c-b))
+((((a-b)*c)^d^e))
+
+# Testes com espaços em branco
+         a
+      +    a-a
+ a  +  b
+ a / b   - c*d + e -f- g-h + i*  j*k*l/m
+( (a-b) * (c-d)/e )
+   ( ( (   (a - b) *c    )^ d ^ e)   )
+
+# Teste com expressões inválidas
+
+# Operando esperado
++
+*
+(
+)
+a-
+  a  -
+a--b
+a - - b
+a*b/  
+ a * b/
+a*b/((c+d)-                
+()
+a+( )
+((((a-b)*c)^d^e)-)
+
+# Operador esperado
+ab
+a      b
+a*b+c*d^e/f-gh^i*j
+a+b)+c
+((a-b)))+c
+
+# Fecha parênteses esperado
+(a-b
+(((a-b))
+((a-b)*(b-c)
+a*b*c-(e-f
+
+# Caracteres inválidos
+!
+a;
+a - b @
+a%c
+
+
+# Expressões longas
+
+(-(+(-(+(-(+(-(+(-(+(-(+a))))))))))))*(-(+(-(+(-(+(-(+(-(+(-(+a))))))))))))
+((-(+(-(+(-(+(-(+(-(+(-(+a))))))))))))*(-(+(-(+(-(+(-(+(-(+(-(+a))))))))))))+(((((((b))))))))
+(-(+(-(+(-(+(-(+(-(+(-(+a))))))))))))*(-(+(-(+(-(+(-(+(-(+(-(+a))))))))))))+(-(+(-(+(-(+(-(+(-(+(-(+a))))))))))))/(-(+(-(+(-(+(-(+(-(+(-(+a))))))))))))
+(((((((((((((((((((((((((((((((((((((((a)))))))))))))))))))))))))))))))))))))))/b
+(((((((((((((((((((((((((((((((((((((((a)))))))))))))))))))))))))))))))))))))))/(((((((((((((((((((((((((((((((((((((((a)))))))))))))))))))))))))))))))))))))))
+
+    ##########

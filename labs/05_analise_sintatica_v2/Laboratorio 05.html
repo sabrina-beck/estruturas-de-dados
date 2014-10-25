@@ -1,0 +1,156 @@
+
+<!-- saved from url=(0053)https://susy.ic.unicamp.br:9999/mc202ef/05/enunc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Laboratorio 05</title>
+</head>
+<body bgcolor="#CC9966" text="#000000">
+
+<h3>Instituto de Computação da UNICAMP</h3>
+
+<h3>Disciplina MC202: Segundo Semestre de 2014</h3>
+
+<h3>Laboratório Nº 05</h3>
+
+<i>Prof.</i> <i>Tomasz Kowaltowski (Turmas E e F)</i>
+<p>
+</p><hr>
+<p>
+
+</p><p align="JUSTIFY"> O objetivo desta tarefa é escrever um analisador
+sintático que transforma expressões da notação infixa para a notação
+pós-fixa utilizando recursão, estendendo as funções descritas na seção
+5.3 da apostila e explicadas em aula. Nestas expressões, os operandos
+são representados por letras minúsculas e os operadores diádicos (ou
+binários, de dois argumentos) válidos são <tt>+</tt>, <tt>-</tt>,
+<tt>*</tt>, <tt>/</tt> e <tt>^</tt>.  A fim de evitar ambiguidade, os
+operadores monádicos (unários) <tt>+</tt> e <tt>-</tt> da notação
+infixa são representados, respectivamente, por <tt>&amp;</tt> e <tt>~</tt>
+na notação pós-fixa. As expressões na forma infixa podem conter
+parênteses. A tabela abaixo mostra alguns exemplos de transformações.
+
+</p><p>
+
+</p><center>
+<table style="width: 50%; text-align: left;" border="1" cellpadding="2" cellspacing="2">
+<tbody>
+<tr>
+<td style="vertical-align: top; text-align: center;"><b>Infixa</b><br>
+</td>
+<td style="vertical-align: top; text-align: center;"><b>Pós-fixa</b><br>
+</td>
+</tr>
+<tr>
+<td><tt>a+b</tt></td>
+
+<td><tt>ab+</tt></td>
+
+</tr>
+<tr>
+<td><tt>-a+b</tt></td>
+
+<td><tt>a~b+</tt></td>
+
+</tr>
+<tr>
+<td><tt>+a-(-b)</tt></td>
+
+<td><tt>a&amp;b~-</tt></td>
+
+</tr>
+<tr>
+<td><tt>a+b-c</tt></td>
+
+<td><tt>ab+c-</tt></td>
+
+</tr>
+<tr>
+<td><tt>a^b^c</tt></td>
+
+<td><tt>abc^^</tt></td>
+
+</tr>
+<tr>
+<td><tt>a-b*c+d+e/f*g-h</tt></td>
+
+<td><tt>abc*-d+ef/g*+h-</tt></td>
+
+</tr>
+<tr>
+<td><tt>((a-b)*(c-d)/e)</tt></td>
+
+<td><tt>ab-cd-*e/</tt></td>
+
+</tr>
+</tbody>
+</table>
+</center>
+
+<p align="JUSTIFY"> O programa principal recebe como entrada uma série
+de expressões na forma infixa, uma por linha. Linhas de comentário
+devem ser precedidas por <tt>#</tt> na primeira posição.
+
+</p><h3>Tratamento de erros</h3>
+
+Eventualmente, uma expressão na entrada pode estar incorreta. Você
+deverá indicar a posição e o código do erro, como definido no arquivo
+<tt>analisador.h</tt>. O programa principal escreverá a mensagem de erro
+na saída padrão. Veja alguns exemplos:
+
+<blockquote>
+<pre>Infixa: a--b
+Erro:     ^
+        Operando esperado nesta posição.
+
+Infixa: ab
+Erro:    ^
+        Operador esperado nesta posição.
+
+Infixa: (a-b
+Erro:       ^
+        Fecha parêntese esperado nesta posição.
+
+Infixa: a%c
+Erro:    ^
+        Caractere inválido nesta posição.
+</pre>
+</blockquote>
+
+<h3>Observações:</h3>
+
+<ol>
+
+<li> <p align="JUSTIFY"> É obrigatório o uso da recursão.
+
+</p></li><li> <p align="JUSTIFY"> A cadeia de entrada pode conter caracteres em
+branco. 
+
+</p></li><li> <p align="JUSTIFY">O pacote <i>tudo.zip</i> contém todos os
+testes abertos e seus resultados, bem como os arquivos
+<i>principal.c</i>, <i>analisador.h</i> e <i>analisador.c</i>; este
+  último deve ser completado.
+
+</p></li><li> <p align="JUSTIFY"> Deve ser submetido apenas o arquivo
+<tt>analisador.c</tt>. 
+
+</p></li><li> <p align="JUSTIFY"> Não é permitido alterar o arquivo 
+de interface <tt>analisador.h</tt>. 
+
+</p></li><li> <p align="JUSTIFY"> Esta tarefa não deve alocar memória dinâmica
+(<i>malloc</i> ou <i>MALLOC</i>).
+
+</p></li><li> <p align="JUSTIFY"> O número máximo de submissões é 10.
+
+ </p></li></ol>
+
+
+<p>
+</p><hr>
+
+<small><i>Last update: "enunc.html: 2014-09-27 (Sat)  14:03:04 BRT (tk)"</i></small>
+
+
+ 
+
+
+</body></html>
