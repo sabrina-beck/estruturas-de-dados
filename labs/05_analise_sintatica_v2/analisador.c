@@ -35,6 +35,7 @@ Erro Expressao();
 Erro Termo();
 Erro Fator();
 Erro Primario();
+Erro Unario();
 void ignoraBrancos();
 
 /* Função auxiliar */
@@ -122,8 +123,13 @@ Erro montaErro(int codigo, int posicao) {
 
 Erro Expressao() {
 /* Processa uma expressão da cadeia de entrada.  */
-  Erro erro = Termo();
   char atual;
+  Erro erro;
+  
+  if(in[indIn] == '+' || in[indIn] == '-')
+    erro = Unario();
+  else
+    erro = Termo();
   
   if(erro.codigoErro != EXPR_VALIDA)
     return erro;
@@ -245,25 +251,40 @@ Erro Primario() {
       indIn++;
     else
       return montaErro(FECHA_PARENTESE_ESPERADO, indIn);
-  } else if (atual == '+') {
-    indIn++;
-    erro = Primario();
-    
-    if(erro.codigoErro != EXPR_VALIDA)
-        return erro;
-    
-    pos[indPos++] = '&';
-  } else if (atual == '-') {
-    indIn++;
-    erro = Termo();
-    
-    if(erro.codigoErro != EXPR_VALIDA)
-      return erro;
-    
-    pos[indPos++] = '~';
   } else
     return montaErro(OPERANDO_ESPERADO, indIn);
   
   return erro;
 
 } /* Primario */
+
+Erro Unario() {
+ char atual = in[indIn];
+ Erro erro = resCorreto;
+
+ if (atual == '+') {
+    int anterior = indIn++;
+    erro = Termo();
+    
+    if(erro.codigoErro != EXPR_VALIDA)
+        return erro;
+        
+    if(anterior == indIn)
+      return montaErro(OPERANDO_ESPERADO, indIn);
+    
+    pos[indPos++] = '&';
+  } else if (atual == '-') {
+    int anterior = indIn++;
+    erro = Termo();
+    
+    if(erro.codigoErro != EXPR_VALIDA)
+      return erro;
+    
+    if(anterior == indIn)
+      return montaErro(OPERANDO_ESPERADO, indIn);
+    
+    pos[indPos++] = '~';
+  }
+  
+  return erro;
+}
