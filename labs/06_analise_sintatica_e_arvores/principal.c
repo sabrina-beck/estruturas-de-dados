@@ -108,7 +108,7 @@ int main() {
     if (erro.codigoErro == EXPR_VALIDA) {
       ArvPre(arv,res);
       /* para ser usado em depuração: basta descomentar */
-      despejaArv(arv);
+      /*despejaArv(arv);*/
       printf("Prefixa: %s\n",res);
       ArvPos(arv,res);
       printf("Posfixa: %s\n\n",res);

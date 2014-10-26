@@ -18,6 +18,9 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include "balloc.h"
+#include <string.h>
+#include <stdio.h>
+/*FIXME tirar stdio*/
 
 /* Variáveis globais a este módulo */
 
@@ -46,7 +49,7 @@ void ignoraBrancos();
 
 /* Função auxiliar -- declarada mais adiante */
 Erro montaErro(int codigo, int pos);
-
+bool fimDaCadeia(char c);
 
 /*************************************************************/
 /*                 Função   principal                        */
@@ -56,13 +59,26 @@ Erro InArv(char *infixa, ArvBin *arv) {
 /* Transforma a notação infixa em árvore binária.  Em caso de erro,
    devolve o código e a posição na cadeia de entrada onde o erro foi
    encontrado.  */
+  Erro erro;
 
   in = infixa;
   indIn = 0;
   
   *arv = NULL;
-    
-  return Expressao(arv);
+  
+  ignoraBrancos();
+  if(!in[indIn])
+    return montaErro(CADEIA_DE_BRANCOS, 0);
+  
+  erro = Expressao(arv);
+
+  if(erro.codigoErro != EXPR_VALIDA)
+    return erro;
+  
+  if(!fimDaCadeia(in[indIn]))
+    erro = montaErro(OPERADOR_ESPERADO, indIn);
+  
+  return erro;
 
 }
 
@@ -100,10 +116,6 @@ Erro verificaEntrada() {
   return resCorreto;
 }
 
-bool ehFimExpressao(char atual) {
-  return atual == ')' || fimDaCadeia(atual);
-}
-
 Erro montaErro(int codigo, int posicao) {
 /* Devolve estrutura com código de erro e posição */
   Erro erro;
@@ -114,7 +126,7 @@ Erro montaErro(int codigo, int posicao) {
 } /* montaErro */
 
 void criaNoArv(ArvBin *arv) {
-  *arv = malloc(sizeof(NoArvBin));
+  *arv = MALLOC(sizeof(NoArvBin));
   (*arv)->esq = NULL;
   (*arv)->dir = NULL;
 }
@@ -124,7 +136,7 @@ Erro Expressao(ArvBin *arv) {
 
   char atual;
   Erro erro;
-  ArvBin *noAtual = arv, filhoEsq, filhoDir;
+  ArvBin *noAtual = arv, filhoEsq;
   
   if(in[indIn] == '+' || in[indIn] == '-')
     erro = Unario(noAtual);
@@ -146,20 +158,17 @@ Erro Expressao(ArvBin *arv) {
     if(atual == '+' || atual == '-') {
       criaNoArv(noAtual);
       (*noAtual)->info = atual;
+      (*noAtual)->esq = filhoEsq;
       indIn++;
       
-      erro = Termo(&filhoDir);
-      if(erro.codigoErro != EXPR_VALIDA)
+      erro = Termo(&((*noAtual)->dir));
+      if(erro.codigoErro != EXPR_VALIDA) {
+        LiberaArv(*noAtual);
         return erro;
-      
-      (*noAtual)->esq = filhoEsq;
-      (*noAtual)->dir = filhoDir;
+      }
     } else
       break;
   } while (true);
-
-  if(!ehFimExpressao(atual))
-    erro = montaErro(OPERADOR_ESPERADO, indIn);
   
   *arv = *noAtual;
   
@@ -169,7 +178,7 @@ Erro Expressao(ArvBin *arv) {
 
 Erro Termo(ArvBin *arv) {
 /* Processa um termo da cadeia de entrada.  */
-  ArvBin *noAtual = arv, filhoEsq, filhoDir;
+  ArvBin *noAtual = arv, filhoEsq;
   Erro erro;
   
   erro = Fator(noAtual);
@@ -190,14 +199,15 @@ Erro Termo(ArvBin *arv) {
     if(atual == '*' || atual == '/') {
       criaNoArv(noAtual);
       (*noAtual)->info = atual;
+      (*noAtual)->esq = filhoEsq;
       indIn++;
       
-      erro = Fator(&filhoDir);
+      erro = Fator(&((*noAtual)->dir));
       
-      if(erro.codigoErro != EXPR_VALIDA)
+      if(erro.codigoErro != EXPR_VALIDA) {
+          LiberaArv(*noAtual);
           return erro;
-      (*noAtual)->esq = filhoEsq;
-      (*noAtual)->dir = filhoDir;
+      }
     } else
       break;
   } while (true);
@@ -211,10 +221,9 @@ Erro Termo(ArvBin *arv) {
 Erro Fator(ArvBin *arv) {
 /* Processa um fator da cadeia de entrada.  */
   char atual;
-  ArvBin operando, *noAtual;
   Erro erro;
 
-  erro = Primario(&operando);
+  erro = Primario(arv);
   if(erro.codigoErro != EXPR_VALIDA)
       return erro;
   
@@ -222,32 +231,20 @@ Erro Fator(ArvBin *arv) {
   if(erro.codigoErro != EXPR_VALIDA)
     return erro;
                 
-  noAtual = &operando;
-  
-  if(*arv != NULL) {
-    operando->dir = (*arv)->dir;
-    FREE(*arv);
-  }
   atual = in[indIn];
   if(atual == '^') {
-    ArvBin subarvoreDir;
-
-    criaNoArv(&subarvoreDir);
-    subarvoreDir->dir = operando;
+    ArvBin aux = *arv;
+    criaNoArv(arv);
+    (*arv)->esq = aux;
+    (*arv)->info = atual;
     
-    criaNoArv(noAtual);
-    (*noAtual)->info = atual;
     indIn++;
     
-    erro = Fator(&subarvoreDir);
+    erro = Fator(&((*arv)->dir));
     
     if(erro.codigoErro != EXPR_VALIDA)
         return erro;
-        
-    (*noAtual)->dir = subarvoreDir;
   }
-  
-  *arv = *noAtual;
   
   return erro;  
 } /* Fator */
@@ -270,7 +267,6 @@ Erro Primario(ArvBin *arv) {
   } else if(atual == '(') {
     indIn++;
     erro = Expressao(arv);
-    
     if(erro.codigoErro != EXPR_VALIDA)
         return erro;
     
@@ -304,6 +300,7 @@ Erro Unario(ArvBin *arv) {
   } else if (atual == '-') {
     int anterior = indIn++;
     erro = Termo(&((*arv)->dir));
+    (*arv)->info = '~';
     
     if(erro.codigoErro != EXPR_VALIDA)
       return erro;
@@ -311,7 +308,6 @@ Erro Unario(ArvBin *arv) {
     if(anterior == indIn)
       return montaErro(OPERANDO_ESPERADO, indIn);
     
-     (*arv)->info = '~';
   }
   
   return erro;
@@ -322,27 +318,40 @@ Erro Unario(ArvBin *arv) {
 void ArvPre(ArvBin arv, char *pre) {
  /* Produz a representação pré-fixa a partir da árvore. */
  
-  /***** COMPLETAR!  *****/
-  
-  *pre = '\0';
+  if(arv != NULL) {
+    char preDir[TAM_MAX_EXPR + 1];
+    *pre = arv->info;
+    ArvPre(arv->esq, pre + 1);
+    ArvPre(arv->dir, preDir);
+    strcat(pre, preDir);
+  } else
+    *pre = '\0';
 
 }
 
 void ArvPos(ArvBin arv, char *pos) {
 /* Produz a representação pós-fixa a partir da árvore. */  
 
-  /***** COMPLETAR!  *****/
-
-  *pos = '\0';   /***** PROVISÓRIO ******/  
+  if(arv != NULL) {
+    char posDir[TAM_MAX_EXPR + 1], atual[2];
+    atual[0] = arv->info;
+    atual[1] = '\0';
+    ArvPos(arv->esq, pos);
+    ArvPos(arv->dir, posDir);
+    strcat(pos, posDir);
+    strcat(pos, atual);
+  } else
+    *pos = '\0';
 
 }
 
 
 void LiberaArv(ArvBin arv) {
 /* Libera o espaço ocupado pela árvore. */
-
-  /***** COMPLETAR!  *****/
-
-
+  if(arv != NULL) {
+    LiberaArv(arv->esq);
+    LiberaArv(arv->dir);
+    FREE(arv);
+  }
 }
 
