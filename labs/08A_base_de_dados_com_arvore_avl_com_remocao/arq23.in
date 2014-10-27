@@ -1,0 +1,85 @@
+# Remoção com rotações simples, mas com sub-árvores não vazias.
+i 032136 José da Silva
+i 031470 João do Rego
+i 033245 Elaine Costa
+i 031339 Vera Cintra
+i 032693 Marcos Ferreira
+i 033498 Alberto Araújo
+i 032346 Frederico Souza
+i 033148 Nicolau Medeiros
+i 033340 Vítor Luz
+i 034021 Xavier Nogueira
+r 031339
+p
+a
+d
+l
+i 032136 José da Silva
+i 031470 João do Rego
+i 033245 Elaine Costa
+i 031339 Vera Cintra
+i 032693 Marcos Ferreira
+i 033498 Alberto Araújo
+i 033340 Frederico Souza
+i 034021 Nicolau Medeiros
+r 031339
+p
+a
+d
+l
+i 032136 José da Silva
+i 031470 João do Rego
+i 033245 Elaine Costa
+i 031339 Vera Cintra
+i 032693 Marcos Ferreira
+i 033498 Alberto Araújo
+i 032346 Frederico Souza
+i 033148 Nicolau Medeiros
+r 031339
+p	
+a
+d
+l
+x
+i 033340 José da Silva
+i 032346 João do Rego
+i 033498 Elaine Costa
+i 031470 Vera Cintra
+i 033148 Marcos Ferreira
+i 034021 Alberto Araújo
+i 032136 Frederico Souza
+i 033245 Nicolau Medeiros
+i 031339 Vítor Luz
+i 032693 Xavier Nogueira
+r 034021
+p
+a
+d
+l
+i 033340 José da Silva
+i 032346 João do Rego
+i 033498 Elaine Costa
+i 031470 Vera Cintra
+i 033148 Marcos Ferreira
+i 034021 Alberto Araújo
+i 033245 Frederico Souza
+i 032693 Nicolau Medeiros
+r 034021
+p	
+a
+d
+l
+i 033340 José da Silva
+i 032346 João do Rego
+i 033498 Elaine Costa
+i 031470 Vera Cintra
+i 033148 Marcos Ferreira
+i 034021 Alberto Araújo
+i 032136 Frederico Souza
+i 031339 Nicolau Medeiros
+r 034021
+p
+a
+d
+l
+x

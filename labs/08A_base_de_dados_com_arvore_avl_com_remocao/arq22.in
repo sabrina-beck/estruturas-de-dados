@@ -1,0 +1,64 @@
+# Testes de rotação simples para a função remove
+# Rotação RR 
+i 042875 João da Silva
+i 035684 José Moreno
+i 044144 Maria Batista
+i 046808 Tadeu Monteiro
+r 035684
+p 
+a
+d
+l
+# Rotação RL
+i 042875 João da Silva
+i 035684 José Moreno
+i 046808 Tadeu Monteiro
+i 044144 Maria Batista
+r 035684
+p 
+a
+d
+l
+# Rotação LL
+i 044144 Maria Batista
+i 046808 Tadeu Monteiro
+i 042875 João da Silva
+i 035684 José Moreno
+r 046808
+p 
+a
+d
+l  
+# Rotação LR 
+i 044144 Maria Batista
+i 046808 Tadeu Monteiro
+i 035684 José Moreno
+i 042875 João da Silva
+r 046808
+p 
+a
+d
+l
+# Rotação LL
+i 045116 Marcelo Fontana
+i 046874 José Carvalho
+i 042683 Marcos da Costa
+i 034257 Tiago Ferreira
+i 041780 Elena Cintra
+r 046874
+p 
+a
+d
+l  
+# Rotação RR 
+i 041780 Elena Cintra
+i 034257 Tiago Ferreira
+i 045116 Marcelo Fontana
+i 042683 Marcos da Costa
+i 046874 José Carvalho
+r 034257
+p 
+a
+d
+l
+x

@@ -1,0 +1,80 @@
+# Testes sem rotação para a função remove
+# Remove a raiz 
+i 036462 João Moreira
+r 036462
+n
+d
+l
+# Remove raiz contendo apenas o filho direito
+i 036462 João Moreira
+i 661116 José Neves
+r 036462
+p
+d
+l
+# Remove raiz contendo apenas o filho esquerdo
+i 661116 José Neves
+i 036462 João Moreira
+r 661116
+p
+d
+l
+# Remove folha da sub-árvore esquerda
+i 013774 Mário Bragança
+i 032875 José Souza
+i 006924 Ricardo Silva
+r 006924
+p  
+d
+l
+# Remove folha da sub-árvore direita
+i 013774 Mário Bragança
+i 032875 José Souza
+i 006924 Ricardo Silva
+r 032875
+p  
+d
+l
+# Remove nó contendo apenas o filho esquerdo
+i 031780 Elaine Ferreira
+i 036206 Carlos Nogueira
+i 025680 Renato de Souza
+i 014098 Pedro Silveira
+r 025680
+p
+a
+d
+l
+# Remove folha 
+i 031780 Elaine Ferreira
+i 036206 Carlos Nogueira
+i 025680 Renato de Souza
+i 014098 Pedro Silveira
+r 014098
+p
+a
+d
+l
+# Remove nó contendo apenas o filho direito
+i 031780 Elaine Ferreira
+i 036206 Carlos Nogueira
+i 014098 Pedro Silveira
+i 025680 Renato de Souza
+r 014098
+p
+a
+d
+l
+# Remove folha 
+i 031780 Elaine Ferreira
+i 036206 Carlos Nogueira
+i 014098 Pedro Silveira
+i 025680 Renato de Souza
+r 025680
+# Testa remoção de elemento ausente
+r 021470
+p
+a
+d
+l
+x

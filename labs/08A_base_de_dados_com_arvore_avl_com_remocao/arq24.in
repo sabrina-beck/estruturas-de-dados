@@ -1,0 +1,44 @@
+# Testes de remoção da raiz da árvore
+i 032136 José da Silva
+i 031470 João do Rego
+i 033245 Elaine Costa
+i 031339 Vera Cintra
+i 032693 Marcos Ferreira
+i 033498 Alberto Araújo
+i 032346 Frederico Souza
+i 033148 Nicolau Medeiros
+i 033340 Vítor Luz
+i 034021 Xavier Nogueira
+r 032136
+p
+a
+d
+l
+i 032136 José da Silva
+i 031470 João do Rego
+i 033245 Elaine Costa
+i 031339 Vera Cintra
+i 032693 Marcos Ferreira
+i 033498 Alberto Araújo
+i 033148 Frederico Souza
+i 033340 Nicolau Medeiros
+i 034021 Vítor Luz
+r 032136
+p
+a
+d
+l
+i 032136 José da Silva
+i 031470 João do Rego
+i 033245 Elaine Costa
+i 031339 Vera Cintra
+i 032693 Marcos Ferreira
+i 033498 Alberto Araújo
+i 033340 Frederico Souza
+i 034021 Nicolau Medeiros
+r 032136
+p
+a
+d
+l
+x

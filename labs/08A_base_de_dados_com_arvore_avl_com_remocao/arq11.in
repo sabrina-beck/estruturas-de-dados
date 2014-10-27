@@ -1,0 +1,42 @@
+# Testes simples com três elementos
+# Sem rotações
+i 033799 Maria da Silva
+i 031780 João de Souza
+i 034144 José de Morais
+p
+a
+d
+l
+# RR
+i 031780 João de Souza
+i 033799 Maria da Silva
+i 034144 José de Morais
+p 
+a
+d
+l
+# RL
+i 031780 João de Souza
+i 034144 José de Morais
+i 033799 Maria da Silva
+p
+a
+d
+l
+# LL
+i 032210 Helena de Almeida
+i 031780 João de Souza
+i 013627 Marcos Pereira
+p
+a
+d
+l
+# LR
+i 032210 Helena de Almeida
+i 013627 Marcos Pereira
+i 031780 João de Souza
+p
+a
+d
+l
+x

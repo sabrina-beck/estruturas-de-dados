@@ -1,0 +1,146 @@
+
+<!-- saved from url=(0054)https://susy.ic.unicamp.br:9999/mc202ef/08A/enunc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Laboratorio 07</title>
+</head>
+<body bgcolor="#CC9966" text="#000000">
+
+<h3>Instituto de Computação da UNICAMP</h3>
+
+<h3>Disciplina MC202: Segundo Semestre de 2014</h3>
+
+<h3>Laboratório Nº 08</h3>
+
+<i>Prof.</i> <i>Tomasz Kowaltowski </i>
+<p>
+</p><hr>
+<p>
+
+</p><p align="JUSTIFY"> O objetivo deste laboratório é a implementação e
+teste de uma base de dados semelhante à proposta no Laboratório 07.
+Desta vez, a base de dados será implementada através de uma
+<b><i>árvore AVL</i></b>. A implementação seguirá novamente a idéia de
+um tipo abstrato de dados realizado através de um par de arquivos
+<tt>base.h</tt> e <tt>base.c</tt> e testado por um programa
+<tt>principal.c</tt>. O programa principal aceita os seguintes
+comandos:
+
+</p><blockquote> 
+<table> 
+<tbody><tr> 
+<td><b>i &nbsp; <i>ra</i> &nbsp; <i>nome</i>&nbsp;</b> </td>
+    <td> insere novo registro com <i>ra</i> e <i>nome</i> na base;</td>
+</tr>
+
+<tr> 
+<td><b>c &nbsp; <i>ra</i> &nbsp;</b> </td>
+    <td> consulta registro com <i>ra</i> na base;</td>
+</tr>
+
+<tr> 
+<td><b>d</b> </td><td>  imprime a base sob forma gráfica;</td>
+</tr>
+
+<tr> 
+<td><b>r &nbsp; <i>ra</i> &nbsp;</b> </td>
+    <td> remove registro com <i>ra</i> da base;</td>
+</tr>
+
+<tr> 
+<td><b>l &nbsp;</b> </td>
+    <td> libera espaço ocupado pela base;</td>
+</tr>
+
+<tr> 
+<td><b>n &nbsp;</b> </td>
+    <td> imprime o número de elementos na base;</td>
+</tr>
+
+<tr> 
+<td><b>a &nbsp;</b> </td>
+    <td> imprime a altura da base (árvore binária);</td>
+</tr>
+
+<tr> 
+<td><b>p &nbsp; </b></td>
+    <td> executa um percurso inordem na base, imprimindo os elementos;</td>
+</tr>
+
+<tr> 
+<td><b>h</b> </td><td>  imprime resumo dos comandos;</td>
+</tr>
+
+<tr> 
+<td><b>x</b> ou <b>q</b> </td><td>  encerra interpretação;</td>
+</tr>
+
+<tr> 
+<td><b>#</b> </td><td>  linha de comentário.</td>
+</tr>
+
+</tbody></table>
+</blockquote>
+
+<p>
+<b>Observações:</b>
+</p><ol>
+
+<li> <p align="justify"> Um  <b>RA</b> sempre será <b>representado por
+um número inteiro</b> e <b>não</b> é precedido das letras <tt>RA</tt>.
+ 
+</p></li><li> <p align="justify">A representação da base está escondida do
+usuário que deve enxergá-la apenas como um <i>tipo abstrato de
+dados</i>. Note no arquivo <tt>base.h</tt> que isso é feito em
+<i>C</i> definindo o tipo <tt>Base</tt> como um apontador do tipo
+<tt>void</tt>.  A declaração do tipo <i>árvore AVL</i> ficará
+escondida no arquivo <tt>base.c</tt> onde as conversões de tipo
+apropriadas (<i>casting</i>) deverão ser efetuadas.
+
+</p></li><li><p align="justify"> A operação de remoção é <b>opcional</b> e vale
+até 2 pontos extra na <b>versão A</b> desta tarefa (até 12 pontos), sendo que
+a média final máxima de laboratório (todas as tarefas) é 10.
+
+</p></li><li><p align="justify"> A versão B não testa a função de remoção e
+  vale no máximo 10.  
+
+</p></li><li><p align="justify"> Se for feita submissão nas duas versões,
+  valerá aquela que produzir resultados corretos.  Se ambas submissões
+  produzirem resultados corretos, valerá a versão A.
+
+</p></li><li><p align="justify"> Para as operações de inserção e remoção da
+base de dados é importante que sejam seguidas as idéias explicadas em
+aula e expostas nas transparências e na apostila. Para a remoção, em
+caso de ajuste na árvore deverá ser usado o sucessor no percurso em
+inordem como substituto do nó removido (<u>mínimo da subárvore
+direita</u>).
+
+</p></li><li> <p align="JUSTIFY">Devem ser utilizadas as macros <i>MALLOC</i>
+e <i>FREE</i> fornecidas com o pacote <i>balloc</i>. A sua
+implementação não pode utilizar as operações habituais de
+alocação.
+
+</p></li><li><p align="justify"> A função <i>VerificaBase</i> declarada em
+<tt>principal.c</tt> é invocada pelo programa principal imediatamente
+após uma inserção ou remoção e percorre a base conferindo as
+restrições de árvores AVL. Algumas funções (<i>SubEsq</i>,
+<i>SubDir</i>,<i>FatorBal</i>) foram incluídas na especificação
+somente para permitir esta verificação.
+
+</p></li><li><p align="justify"> A função <i>ImprimeBase</i> exibe a árvore
+binária "deitada", com a raiz do lado esquerdo. A função é fornecida
+pronta no arquivo incompleto <tt>base.c</tt> e utiliza o pacote
+<tt>imprimearvore</tt> também fornecido na íntegra. A função é chamada
+pelo comando <b>d</b> explicado acima. Inserção deste comando em mais
+pontos dos arquivos de teste pode facilitar a depuração.
+  
+</p></li><li><p align="justify">  O número máximo de submissões é 10.  </p></li>
+
+</ol>
+<p>
+</p><hr>
+<small><i>Last update: "enunc.html: 2014-10-23 (Thu)  14:06:31 BRST (tk)"</i></small>
+
+
+
+</body></html>
