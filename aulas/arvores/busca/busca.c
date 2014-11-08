@@ -61,6 +61,11 @@ bool inserirRecursivo(Arvore *arv, int x) {
 bool removerRecursivo(Arvore *arv, int x) {
   if(*arv == NULL)
     return false;
+  
+  if((*arv)->info > x)
+    return removerRecursivo(&((*arv)->esq), x);
+  if((*arv)->info < x)
+    return removerRecursivo(&((*arv)->dir), x);
 
   if((*arv)->esq == NULL) {
     Arvore removido = *arv;
@@ -85,9 +90,4 @@ bool removerRecursivo(Arvore *arv, int x) {
   }
     
   return true;
-  
-  if((*arv)->info > x)
-    return removerRecursivo(&((*arv)->esq), x);
-  if((*arv)->info < x)
-    return removerRecursivo(&((*arv)->dir), x);
 }
