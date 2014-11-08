@@ -1,0 +1,164 @@
+
+<!-- saved from url=(0054)https://susy.ic.unicamp.br:9999/mc202ef/10c/enunc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Laboratorio 10</title>
+</head>
+<body bgcolor="#CC9966" text="#000000">
+
+<h3>Instituto de Computação da UNICAMP</h3>
+
+<h3>Disciplina MC202: Primeiro Semestre de 2013</h3>
+
+<h3>Laboratório Nº 10</h3>
+
+<i>Prof.</i> <i>Tomasz Kowaltowski </i>
+<p>
+</p><hr>
+<p>
+
+</p><p align="JUSTIFY"> O objetivo desta tarefa de laboratório é a
+implementação e teste de <i>árvores digitais</i> (<i>ADs</i>), também
+conhecidas como <i>tries</i>. A implementação deverá seguir
+extatamente o exposto em aula, com a opção mais simples para os nós,
+conforme indicado na transparência 259, relativa ao alfabeto padrão de 26
+letras minúsculas.
+
+</p><p>
+Será seguida novamente a idéia de um tipo abstrato de dados
+realizado através de um par de arquivos <tt>trie.h</tt> e
+<tt>trie.c</tt>. O arquivo <tt>trie.h</tt> contém a especificação
+exata das funções de interface.
+  
+</p><p> A implementação será testada por um programa <tt>principal.c</tt>
+que usará uma AD para administrar um conjunto de cadeias.  O programa
+principal aceita os seguintes comandos:
+
+</p><blockquote> 
+<blockquote> 
+<table> 
+<tbody><tr> 
+<td><b>c</b> </td>
+    <td> cria e devolve uma AD vazia (v. obs. 4)</td>
+</tr>
+<tr> 
+<td><b>i &nbsp; <i>s</i> </b> </td>
+    <td> insere a cadeia <i>s</i> na AD (<i>s</i> pode ser vazia)</td>
+</tr>
+
+<tr> 
+<td><b>v &nbsp; <i>s</i> </b> </td>
+    <td> verifica se a cadeia <i>s</i> está na AD (<i>s</i> pode ser vazia)</td>
+</tr>
+
+<tr> 
+<td><b>r &nbsp; <i>s</i> </b> </td>
+    <td> remove a cadeia <i>s</i> da AD (<i>s</i> pode ser vazia)</td>
+</tr>
+
+
+<tr> 
+<td><b>p</b> </td>
+    <td> visita as cadeias da AD em ordem alfabética</td>
+</tr>
+
+<tr> 
+<td><b>n</b> </td>
+    <td> imprime o número de nós da AD</td>
+</tr>
+
+<tr> 
+<td><b>a</b> </td>
+    <td> imprime a altura da AD</td>
+</tr>
+
+<tr> 
+<td><b>k</b> </td>
+    <td> imprime imprime o número de cadeias na AD</td>
+</tr>
+
+<tr> 
+<td><b>l</b> </td>
+    <td> libera a memória dinâmica ocupada pela AD</td>
+</tr>
+
+<tr> 
+<td><b>h</b> </td><td>  imprime o resumo dos comandos</td>
+</tr>
+
+<tr> 
+<td><b>x</b> ou <b>q</b> </td><td>  encerra a interpretação</td>
+</tr>
+
+<tr> 
+<td><b>#</b> </td><td>  linha de comentário</td>
+</tr>
+
+</tbody></table>
+</blockquote>
+</blockquote>
+
+<p>
+<b>Observações:</b>
+</p><ol>
+
+ <li> <p align="justify">A representação da AD está escondida do
+usuário que deve enxergá-la apenas como um <i>tipo abstrato de dados
+(TAD)</i>. Isto é feito no arquivo <tt>trie.h</tt> definindo o tipo
+<tt>Trie</tt> como um apontador para o tipo <tt>void</tt>.  A
+declaração do tipo usado para implementação ficará escondida no
+arquivo <tt>trie.c</tt> onde as conversões de tipo apropriadas
+(<i>casting</i>) deverão ser efetuadas, se necessário (algumas são
+automáticas).
+
+</p></li><li> <p align="justify"> É fornecida uma versão incompleta do arquivo
+  <tt>trie.c</tt>.  Ele contém algumas funções prontas e sugestões de
+  algumas funções auxiliares.  É o único arquivo a ser submetido.
+
+</p></li><li> <p align="justify"> A cadeia a ser inserida ou removida poderá
+ser vazia (isto é, de comprimento zero); neste caso, a marca de
+<i>fim</i> de cadeia da raiz da AD indicará este fato.
+
+</p></li><li> A fim de facilitar a implementação, a árvore digital vazia (AD
+  inicial) deverá ser criada com um nó raiz com todas as subárvores
+  vazias e a marca de <i>fim</i> de cadeia falsa.
+  
+</li><li><p align="justify">Os testes para a tarefa estão divididos em três
+  grupos:
+
+  </p><ul>
+    <li> Grupo 1 (11, 12, 13, 14, 15): são testadas todas as funções, exceto
+    <i>removeAD</i> e <i>percorreAD</i>;
+    </li><li> Grupo 2 (21, 22, 23, 24, 25): são testadas todas as funções, exceto
+    <i>percorreAD</i>;
+    </li><li> Grupo 3 (31, 32, 33, 34, 35): são testadas todas as funções.
+  </li></ul>
+
+</li><li><p align="justify">A tarefa 10a executará todos os testes e sua nota
+  máxima será 12,0; a tarefa 10b executará os testes dos grupos 1 e 2 e
+  sua nota máxima será 10,0; a tarefa 10c executará apenas os testes do
+  grupo 1 e sua nota máxima será 7,0.
+
+</p></li><li><p align="JUSTIFY">Devem ser utilizadas as macros <i>MALLOC</i>
+e <i>FREE</i> fornecidas com o pacote <i>balloc</i>. A sua
+implementação não pode utilizar as operações habituais de
+alocação.
+
+</p></li><li><p align="JUSTIFY">Algumas funções podem ser facilmente implementadas sem usar
+  recursão: <i>consultaAD</i>, <i>insereAD</i>, <i>removeAD</i>. A
+  decisão fica livre. (No caso de <i>removeAD</i> seria necessária uma
+  pilha.)  As outras funções têm implementação mais simples com o uso
+  da recursão.
+
+</p></li><li><p align="JUSTIFY"> Podem ser declaradas outras funções auxiliares.
+
+</p></li><li><p align="justify">  O número máximo de submissões de cada tarefa é 10.  </p></li>
+
+</ol>
+<p>
+</p><hr>
+<small><i>Last update: "enunc.html: 2014-11-05 (Wed)  15:48:49 BRST (tk)"</i></small>
+
+
+
+</body></html>

@@ -1,0 +1,144 @@
+
+<!-- saved from url=(0053)https://susy.ic.unicamp.br:9999/mc202ef/09/enunc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Laboratorio 09</title>
+</head>
+<body bgcolor="#CC9966" text="#000000">
+
+<h3>Instituto de Computação da UNICAMP</h3>
+
+<h3>Disciplina MC202: Segundo Semestre de 2014</h3>
+
+<h3>Laboratório Nº 09</h3>
+
+<i>Prof.</i> <i>Tomasz Kowaltowski </i>
+<p>
+</p><hr>
+<p>
+
+</p><p align="JUSTIFY"> O objetivo desta tarefa de laboratório é a
+implementação e teste de uma fila de prioridades (FP).  A
+representação da fila será sequencial adotada para <i>árvores binárias
+quase-completas</i>.
+
+</p><p>
+A implementação seguirá novamente a idéia de um tipo abstrato de dados
+realizado através de um par de arquivos <tt>heap.h</tt> e
+<tt>heap.c</tt>, sendo que os elementos da fila serão apontadores
+para valores de tipo desconhecido.  A comparação desses elementos será
+realizada por uma função passada como argumento quando da construção
+da fila — o arquivo <tt>heap.h</tt> contém a especificação exata
+das funções de interface.
+  
+</p><p> A implementação será testada por um programa <tt>principal.c</tt>
+que usará a fila para ordenar um conjunto de dados referentes a
+alunos, com a mesma estrutura das tarefas anteriores. O RA do aluno
+será usado como chave para comparações, sendo que o elemento da raiz
+da FP será o de RA mais baixo; este efeito será produzido pela função
+<i>comparaAlunos</i> passada pelo programa principal. O programa
+principal aceita os seguintes comandos:
+
+</p><blockquote> 
+<table> 
+<tbody><tr> 
+<td><b>i &nbsp; <i>ra</i> &nbsp; <i>nome</i>&nbsp;</b> </td>
+    <td> insere um novo registro de aluno com <i>ra</i> e <i>nome</i> na FP;</td>
+</tr>
+
+<tr> 
+<td><b>r &nbsp; </b> </td>
+    <td> remove e imprime o registro da raiz da FP;</td>
+</tr>
+
+<tr> 
+<td><b>p &nbsp; </b> </td>
+    <td> imprime e remove todos os dados contidos na FP, em ordem
+      natural desta estrutura (crescente de RA);</td>
+</tr>
+
+
+<tr> 
+<td><b>l &nbsp;</b> </td>
+    <td> libera espaço ocupado pela FP (mas não por seus elementos);</td>
+</tr>
+
+<tr> 
+<td><b>n &nbsp;</b> </td>
+    <td> imprime o número de elementos da FP;</td>
+</tr>
+
+<tr> 
+<td><b>v &nbsp;</b> </td>
+    <td> verifica a estrutura da FP;</td>
+</tr>
+
+<tr> 
+<td><b>d &nbsp;</b> </td>
+    <td> imprime a FP sob a forma de uma árvore binária "deitada" (depuração);</td>
+</tr>
+
+
+<tr> 
+<td><b>h</b> </td><td>  imprime o resumo dos comandos;</td>
+</tr>
+
+<tr> 
+<td><b>x</b> ou <b>q</b> </td><td>  encerra a interpretação;</td>
+</tr>
+
+<tr> 
+<td><b>#</b> </td><td>  linha de comentário.</td>
+</tr>
+
+</tbody></table>
+</blockquote>
+
+<p>
+<b>Observações:</b>
+</p><ol>
+
+<li> <p align="justify">No caso desta tarefa, o tipo <i>Aluno</i> está
+declarado dentro do próprio programa principal.
+  
+</p></li><li> <p align="justify"> Um  RA sempre será <b>representado por
+um número inteiro</b> e <b>não</b> é precedido das letras <tt>ra</tt>.
+ 
+</p></li><li> <p align="justify">A representação da FP está escondida do
+usuário que deve enxergá-la apenas como um <i>tipo abstrato de dados
+(TAD)</i>. Isto é feito no arquivo <tt>heap.h</tt> definindo o tipo
+<tt>Heap</tt> como um apontador para o tipo <tt>void</tt>.  A
+declaração do tipo usado para implementação ficará escondida no
+arquivo <tt>heap.c</tt> onde as conversões de tipo apropriadas
+(<i>casting</i>) deverão ser efetuadas, se necessário (algumas são
+automáticas).
+
+</p></li><li><p align="justify"> Para as operações de inserção e remoção na FP
+é importante que sejam seguidas as idéias explicadas em aula e
+expostas nas transparências e na apostila.  Em particular, a função 
+<i>CriaInicializaHeap</i> deve usar a construção mais eficiente.
+
+</p></li><li><p align="justify">O programa principal não testa a função
+<i>CriaInicializaHeap</i> — ela poderá ser utilizada numa tarefa posterior.
+
+
+</p></li><li><p align="justify">A função <i>Elemento</i> incluída em
+  <tt>heap.h</tt> não faz parte, conceitualmente, do TAD pois ela
+  pressupõe uma implementação sequencial.  Será usada somente para
+  fins de verificação da estrutura.
+  
+</p></li><li><p align="JUSTIFY">Devem ser utilizadas as macros <i>MALLOC</i>
+e <i>FREE</i> fornecidas com o pacote <i>balloc</i>. A sua
+implementação não pode utilizar as operações habituais de
+alocação.
+
+</p></li><li><p align="justify">  O número máximo de submissões é 10.  </p></li>
+
+</ol>
+<p>
+</p><hr>
+<small><i>Last update: "enunc.html: 2014-10-23 (Thu)  14:15:44 BRST (tk)"</i></small>
+
+
+
+</body></html>
