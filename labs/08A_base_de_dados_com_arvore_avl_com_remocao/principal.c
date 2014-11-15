@@ -129,6 +129,7 @@ int main() {
 	  printf("Ra %06d já estava presente na base de dados.\n", aluno.ra);
 	  FREE(aluno.nome);
 	} else 
+    /*ImprimeBase(&base);*/
 	  if (!VerificaBase(base))
 	    ErroAVL();
 	break;
@@ -157,6 +158,7 @@ int main() {
 	ImprimeComentario();
 	if (RemoveBase(&base, ra)) {
 	  printf("Ra %06d removido.\n", ra);
+    ImprimeBase(&base);
 	  if (!VerificaBase(base))
 	    ErroAVL();
 	}

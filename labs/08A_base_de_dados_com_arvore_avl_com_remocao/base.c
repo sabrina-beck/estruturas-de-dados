@@ -31,6 +31,11 @@ typedef struct AuxNoArv {
 /* Pode ajudar na depuração */
 
 Boolean InsereAVL(Base *p, Aluno a, Boolean *alt);
+void rotacaoSimplesLL(Base* p);
+void rotacaoSimplesRR(Base* p);
+void rotacaoDuplaLR(Base* p);
+void rotacaoDuplaRL(Base* p);
+
 
 char cadeiainfo[7] = "0000000"; /* conterá os dígitos do RA */
 char *vazia = "Árvore vazia\n";
@@ -77,49 +82,58 @@ Base CriaBase() {
 Base SubEsq(Base *p) {
 /* Devolve a subárvore esquerda da base 'p' se não for vazia; caso
    contrário devolve NULL. */
-   return ((ImplBase)p)->esq;
+   ImplBase *raiz = (ImplBase*)p;
+   if(*raiz == NULL)
+    return NULL;
+   return (*raiz)->esq;
 }
 
 Base SubDir(Base *p) {
 /* Devolve a subárvore direita da base 'p' se não for vazia; caso
    contrário devolve NULL. */
-   return ((ImplBase)p)->dir;
+   ImplBase *raiz = (ImplBase*)p;
+   if(*raiz == NULL)
+    return NULL;
+   return (*raiz)->dir;
 }
 
-/*FIXME:Como é pra fazer??*/
 int FatorBal(Base *p) {
 /* Devolve o fator de balanceamento da raiz da base: altura da
    subárvore direita menos a altura da subárvore esquerda; devolve
    zero se a árvore é vazia. */
-   return ((ImplBase) p)->bal;
+   ImplBase raiz = (ImplBase) *p;
+   if(raiz == NULL)
+      return 0;
+   return AlturaBase((Base*) &(raiz->dir)) - AlturaBase((Base*) &(raiz->esq));
+   
 }
 
 Boolean InsereBase(Base *p, Aluno a) {
 /* Insere o registro 'a' na base 'p' se não existe aluno
    com o mesmo valor de 'ra', e devolve 'true';  caso
    contrário devolve 'false' */
-   Boolean *alt = false;
-   return InsereAVL(p, a, alt);
+   Boolean alt = false;
+   return InsereAVL(p, a, &alt);
 }
   
 Boolean ConsultaBase(Base *p, int ra, Aluno *a) {
 /* Devolve 'true' se existe um registro com 'ra' dado na
    base 'p';  caso contrário devolve 'false'. 'a' conterá 
    os dados do aluno, se encontrado. */
-   ImplBase raiz = (ImplBase) *p;
-   if(raiz == NULL)
+   ImplBase* raiz = (ImplBase*) p;
+   if(*raiz == NULL)
       return false;
 
-   if(raiz->info.ra == ra) {
-      *a = raiz->info;
+   if((*raiz)->info.ra == ra) {
+      *a = (*raiz)->info;
       return true;
    }
    
-   if(raiz->info.ra > ra) {
-      return ConsultaBase((Base*) &((raiz->dir)), ra, a);
+   if((*raiz)->info.ra > ra) {
+      return ConsultaBase((Base*) &((*raiz)->esq), ra, a);
    }
    
-   return ConsultaBase((Base*) &(raiz->esq), ra, a);
+   return ConsultaBase((Base*) &((*raiz)->dir), ra, a);
 }
    
 int AlturaBase(Base *p) {
@@ -132,8 +146,8 @@ int AlturaBase(Base *p) {
   altEsq = AlturaBase((Base*) (&raiz->esq));
   altDir = AlturaBase((Base*) (&raiz->dir));
   if(altEsq > altDir)
-    return altEsq;
-  return altDir;
+    return altEsq + 1;
+  return altDir + 1;
 }
 
 int NumeroNosBase(Base *p) {
@@ -147,22 +161,23 @@ int NumeroNosBase(Base *p) {
 void PercorreBase(Base *p, TipoVisita Visita) {
 /* Executa um percurso inordem na base, invocando a função Visita
    para todos os elementos. */
-  ImplBase raiz = (ImplBase) *p;
-  if(raiz != NULL) {
-    PercorreBase((Base*) (&raiz->esq), Visita);
-    Visita(&(raiz->info));
-    PercorreBase((Base*) (raiz->dir), Visita);
+  ImplBase *raiz = (ImplBase*) p;
+  if(*raiz != NULL) {
+    PercorreBase((Base*) &((*raiz)->esq), Visita);
+    Visita(&((*raiz)->info));
+    PercorreBase((Base*) &((*raiz)->dir), Visita);
   }
 }
 
 void LiberaBase(Base *p) {
 /* Libera todos os nós da base apontada por 'p', bem 
    como todas as cadeias que guardam os nomes. */
-  ImplBase raiz = (ImplBase) *p;
-  if(raiz != NULL) {
-    LiberaBase((Base*) (&raiz->esq));
-    LiberaBase((Base*) (raiz->dir));
-    free(raiz);
+  ImplBase* raiz = (ImplBase*) p;
+  if(*raiz != NULL) {
+    LiberaBase((Base*) &((*raiz)->esq));
+    LiberaBase((Base*) &((*raiz)->dir));
+    FREE((*raiz)->info.nome);
+    FREE(*raiz);
   }
 }
 
@@ -179,71 +194,146 @@ Boolean RemoveBase(Base *p, int ra) {
 
 /* FUNÇÕES AUXILIARES */
 Boolean InsereAVL(Base *p, Aluno a, Boolean *alt) {
-   ImplBase raiz = (ImplBase) *p;
-   if(raiz == NULL) {
-      raiz = malloc(sizeof(NoArv));
-      raiz->esq = raiz->dir = NULL;
-      raiz->info = a;
-      raiz->bal = 0;
+   ImplBase* raiz = (ImplBase*) p;
+   if(*raiz == NULL) {
+      *raiz = MALLOC(sizeof(NoArv));
+      (*raiz)->esq = (*raiz)->dir = NULL;
+      (*raiz)->info = a;
+      (*raiz)->bal = 0;
       *alt = true;
       return true;
    }
    
-   Aluno info = raiz->info;
+   Aluno info = (*raiz)->info;
    if(a.ra == info.ra)
       return false;
    
    if(a.ra < info.ra) {
-      Boolean inseriu = InsereAVL((Base*) &(raiz->esq), a, alt);
+      Boolean inseriu = InsereAVL((Base*) &((*raiz)->esq), a, alt);
       if(!inseriu)
         return false;
       
       if(*alt) {
-          short int bal = raiz->bal;
+          short int bal = (*raiz)->bal;
           if(bal > 0) {
-              raiz->bal = 0;
+              (*raiz)->bal = 0;
               *alt = false;
           } else if(bal == 0) {
-              raiz->bal = -1;
+              (*raiz)->bal = -1;
               /* Alt continua true */
           } else {
-              ImplBase aux = raiz->esq;
+              ImplBase aux = (*raiz)->esq;
               if(aux->bal > 0) {
-                  /* TODO: Rotação dupla esquerda-direita */
+                  /* Rotação dupla esquerda-direita */
+                  rotacaoDuplaLR((Base*) raiz);
               } else {
-                  /* TODO: Rotação simples esquerda-esquerda */
+                  /* Rotação simples esquerda-esquerda */
+                  rotacaoSimplesLL((Base*) raiz);
               }
-              raiz->bal = 0;
+              aux->bal = 0;
               *alt = false;
           }
       }
       
-      return true;
    } else {
-      Boolean inseriu = InsereAVL((Base*) &(raiz->dir), a, alt);
+      Boolean inseriu = InsereAVL((Base*) &((*raiz)->dir), a, alt);
       if(!inseriu)
         return false;
       
       if(*alt) {
-        short int bal = raiz->bal;
+        short int bal = (*raiz)->bal;
         if(bal < 0) {
-            raiz->bal = 0;
+            (*raiz)->bal = 0;
             *alt = false;
         } else if(bal == 0) {
-            raiz->bal = 1;
+            (*raiz)->bal = 1;
             /* Alt continua true */
         } else {
-            ImplBase aux = raiz->esq;
+            ImplBase aux = (*raiz)->dir;
             if(aux->bal < 0) {
-                /* TODO: Rotação Dupla Direita-Esquerda */
+                /* Rotação Dupla Direita-Esquerda */
+                rotacaoDuplaRL((Base*) raiz);
             } else {
-                /* TODO: Rotação Simples Direita-Direita */
+                /* Rotação Simples Direita-Direita */
+                rotacaoSimplesRR((Base*) raiz);
             }
+            aux->bal = 0;
+            *alt = false;
         }
-        raiz->bal = 0;
-        *alt = false;
       }
    }
    return true;
 }
 
+
+void rotacaoSimplesLL(Base* p) {
+  ImplBase* base = (ImplBase*) p;
+  ImplBase novaRaiz = (*base)->esq;
+  (*base)->esq = novaRaiz->dir;
+  novaRaiz->dir = *base;
+  (*base)->bal = 0;
+  novaRaiz->bal = 0;
+  *p = novaRaiz;
+}
+
+void rotacaoSimplesRR(Base* p) {
+  ImplBase base = (ImplBase) *p;
+  ImplBase novaRaiz = base->dir;
+  base->dir = novaRaiz->esq;
+  novaRaiz->esq = base;
+  base->bal = 0;
+  novaRaiz->bal = 0;
+  *p = novaRaiz;
+}
+
+void rotacaoDuplaLR(Base* p) {
+  ImplBase base = (ImplBase) *p;
+  ImplBase itermediario = base->esq;
+  ImplBase novaRaiz = itermediario->dir;
+  base->esq = novaRaiz->dir;
+  itermediario->dir = novaRaiz->esq;
+  novaRaiz->esq = itermediario;
+  novaRaiz->dir = base;
+  switch(novaRaiz->bal) {
+  case -1:
+    itermediario->bal = 0;
+    base->bal = 1;
+    break;
+  case 0:
+    itermediario->bal = 0;
+    base->bal = 0;
+    break;
+  case +1:
+    itermediario->bal = -1;
+    base->bal = 0;
+    break;
+  }
+  novaRaiz->bal = 0;
+  *p = novaRaiz;
+}
+
+void rotacaoDuplaRL(Base* p) {
+  ImplBase base = *p;
+  ImplBase intermediario = base->dir;
+  ImplBase novaRaiz = intermediario->esq;
+  intermediario->esq = novaRaiz->dir;
+  base->dir = novaRaiz->esq;
+  novaRaiz->esq = base;
+  novaRaiz->dir = intermediario;
+  switch(novaRaiz->bal) {
+  case -1:
+    base->bal = 0;
+    intermediario->bal = 1;
+    break;
+  case 0:
+    base->bal = 0;
+    intermediario->bal = 0;
+    break;
+  case +1:
+    base->bal = -1;
+    intermediario->bal = 0;
+    break;
+  }
+  novaRaiz->bal = 0;
+  *p = novaRaiz;
+}
