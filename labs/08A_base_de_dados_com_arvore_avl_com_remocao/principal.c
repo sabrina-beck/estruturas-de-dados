@@ -128,10 +128,11 @@ int main() {
 	if (!InsereBase(&base, aluno)) {
 	  printf("Ra %06d já estava presente na base de dados.\n", aluno.ra);
 	  FREE(aluno.nome);
-	} else 
-    /*ImprimeBase(&base);*/
-	  if (!VerificaBase(base))
+	} else
+	  if (!VerificaBase(base)) {
+    ImprimeBase(&base);
 	    ErroAVL();
+	  }
 	break;
 	
       case 'c':

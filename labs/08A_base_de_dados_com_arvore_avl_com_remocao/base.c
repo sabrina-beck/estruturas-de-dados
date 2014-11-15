@@ -262,6 +262,7 @@ Boolean InsereAVL(Base *p, Aluno a, Boolean *alt) {
         }
       }
    }
+
    return true;
 }
 
@@ -294,19 +295,15 @@ void rotacaoDuplaLR(Base* p) {
   itermediario->dir = novaRaiz->esq;
   novaRaiz->esq = itermediario;
   novaRaiz->dir = base;
-  switch(novaRaiz->bal) {
-  case -1:
+  if(novaRaiz->bal < 0) {
     itermediario->bal = 0;
     base->bal = 1;
-    break;
-  case 0:
+  } else if (novaRaiz->bal == 0) {
     itermediario->bal = 0;
     base->bal = 0;
-    break;
-  case +1:
+  } else {
     itermediario->bal = -1;
     base->bal = 0;
-    break;
   }
   novaRaiz->bal = 0;
   *p = novaRaiz;
@@ -320,19 +317,15 @@ void rotacaoDuplaRL(Base* p) {
   base->dir = novaRaiz->esq;
   novaRaiz->esq = base;
   novaRaiz->dir = intermediario;
-  switch(novaRaiz->bal) {
-  case -1:
+  if(novaRaiz->bal < 0) {
     base->bal = 0;
     intermediario->bal = 1;
-    break;
-  case 0:
+  } else if(novaRaiz->bal == 0) {
     base->bal = 0;
     intermediario->bal = 0;
-    break;
-  case +1:
+  } else {
     base->bal = -1;
     intermediario->bal = 0;
-    break;
   }
   novaRaiz->bal = 0;
   *p = novaRaiz;
