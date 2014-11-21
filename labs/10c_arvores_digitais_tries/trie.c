@@ -58,10 +58,13 @@ Boolean livre(ImplTrie t) {
 /* Devolve verdadeiro se o nó 't' não é final e é uma folha; usada
    durante a remoção.
 */
+  int i;
   
-  /* COMPLETAR!! */
+  for(i = 0; i < TAM_ALFABETO; i++)
+    if(t->subarv[i] != NULL)
+      return false;
   
-  return false;  /* PROVISÓRIO */
+  return !t->fim;
 
 }
 
