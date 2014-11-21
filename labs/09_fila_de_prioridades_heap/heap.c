@@ -86,6 +86,7 @@ Heap CriaHeap(int n, funcCompara *comp) {
 
 Heap CriaInicializaHeap(int n, funcCompara *comp, void *elems[]) {
 
+
   return CriaHeapAux(n,comp,elems);
 
 } /* CriaInicializaHeap */
@@ -95,7 +96,6 @@ int TamanhoHeap(Heap h) {
   return h.tam;
   
 } /* TamanhoHeap */
-
 
 void InsereHeap(Heap h, void *e) {
 
