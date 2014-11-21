@@ -115,7 +115,11 @@ Boolean consultaAD(Trie t, char *s) {
 
 }
 
-
+/*
+ * Insere na AD 't' a cadeia de caracteres 's'.  Devolve o valor
+ * verdadeiro se houve inserção; devolve o valor falso se a cadeia já
+ * ocorre em 't'.  A cadeia 's' pode ser vazia (de comprimento zero).
+ */
 Boolean insereAD(Trie t, char *s) {
 
   /* COMPLETAR!! */
@@ -126,10 +130,19 @@ Boolean insereAD(Trie t, char *s) {
 
   
 int numCadeiasAD(Trie t) {
+  ImplTrie it = t;
+  int i, soma;
+  if(it == NULL)
+    return 0;
   
-  /* COMPLETAR!! */
+  soma = 0;
+  for(i = 0; i < TAM_ALFABETO; i++)
+    soma += numCadeiaAD(it->subarv[i]);
   
-  return 0;  /* PROVISÓRIO */
+  if(it->fim)
+    soma++;
+  
+  return soma;
 
 }
 
