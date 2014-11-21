@@ -1,8 +1,8 @@
 /*
-  Autor:         COMPLETAR!
-  RA:            COMPLETAR!
+  Autor:         Sabrina Beck Angelini
+  RA:            157240
   Disciplina:    MC202
-  Turmas:        E e F
+  Turma:         E
   
   Tarefa 10
   Segundo semestre de 2014
