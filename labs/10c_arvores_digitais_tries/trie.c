@@ -182,6 +182,7 @@ void liberaAD(Trie t) {
   não fazem parte da implementação.
 */
    
+/* Devolve o número de nós da AD. */
 int numNosAD(Trie t) {
   int num, i;
   ImplTrie it = t;
@@ -196,11 +197,22 @@ int numNosAD(Trie t) {
 
 }
 
+/* Devolve a altura da AD. */
 int alturaAD(Trie t) {
 
-  /* COMPLETAR!! */
+  int maior, i;
+  ImplTrie it = t;
+  if(it == NULL)
+    return 0;
   
-  return 0;  /* PROVISÓRIO */
+  maior = alturaAD(it->subarv[0]);
+  for(i = 1; i < TAM_ALFABETO; i++) {
+    int alturaAtual = alturaAD(it->subarv[i]);
+    if(alturaAtual > maior)
+      maior = alturaAtual;
+  }
+  
+  return maior + 1;
 
 }
 
