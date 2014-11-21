@@ -121,10 +121,24 @@ Boolean consultaAD(Trie t, char *s) {
  * ocorre em 't'.  A cadeia 's' pode ser vazia (de comprimento zero).
  */
 Boolean insereAD(Trie t, char *s) {
-
-  /* COMPLETAR!! */
+  ImplTrie it = t;
+  int indice;
   
-  return false;  /* PROVISÓRIO */
+  if(*s == '\0') {
+    if(it->fim)
+      return false;
+    it->fim = true;
+    return true;
+  }
+  
+  indice = *s - 'a';
+  if(it->subarv[indice] == NULL) {
+    ImplTrie novo = criaInicializaNo();
+    it->subarv[indice] = novo;
+    return insereAD(novo, s + 1);
+  }
+  
+  return insereAD(it->subarv[indice], s + 1);
 
 }
 
