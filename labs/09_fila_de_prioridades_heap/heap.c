@@ -105,8 +105,9 @@ void InsereHeap(Heap h, void *e) {
     exit(0);
   }
 
-  /* COMPLETAR */
- 
+  h->vetor[h->tam] = e;
+  (h->tam)++;
+  Sobe(h, (h->tam) - 1);
 } /* insereHeap */
 
 
@@ -119,7 +120,10 @@ void * RemoveHeap(Heap h) {
     exit(0);
   }
 
-  /* COMPLETAR */
+  ret = h->vetor[0];
+  (h->tam)--;
+  h->vetor[0] = h->vetor[h->tam];
+  Desce(h, 0);
 
   return ret;
   
