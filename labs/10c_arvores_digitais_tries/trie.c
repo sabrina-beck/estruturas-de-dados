@@ -75,7 +75,7 @@ void percorreAux(ImplTrie t, funcVisita *v, char *buf, int m) {
   caractere '\0'; 'm' é o índice do próximo caractere em 'buf'.
 */
 
-  /* COMPLETAR!! */
+  /* COMPLETAR!! - Grupo 3 */
 
 }
 
@@ -84,19 +84,34 @@ void percorreAux(ImplTrie t, funcVisita *v, char *buf, int m) {
 /*                      Fim das sugestões                       */
 /* ------------------------------------------------------------ */
 
-
+/*
+ * Devolve uma AD vazia. Supõe uma implementação que não modifica mais
+ * o apontador para a raiz da AD.
+ */
 Trie CriaAD() {
   
   return criaInicializaNo();
   
 }
 
-
+/*
+ * Verifica se a cadeia de caracteres 's' foi inserida na AD 't'.
+ */
 Boolean consultaAD(Trie t, char *s) {
-
-  /* COMPLETAR!! */
+  ImplTrie noAtual = t;
+  int indice = -1;
+  int aresta;
   
-  return false;  /* PROVISÓRIO */
+  do {
+    indice++;
+    aresta = s[indice] - 'a';
+    noAtual = noAtual->subarv[aresta];
+  } while(noAtual != NULL && s[indice + 1]);
+
+  if(noAtual->fim)
+    return true;
+
+  return false;
 
 }
 
@@ -121,7 +136,7 @@ int numCadeiasAD(Trie t) {
 
 Boolean removeAD(Trie t, char *s) {
 
-  /* COMPLETAR!! */
+  /* COMPLETAR!! - Grupo 2 */
   
   return false;  /* PROVISÓRIO */
 
