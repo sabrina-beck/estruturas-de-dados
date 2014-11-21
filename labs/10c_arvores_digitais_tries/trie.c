@@ -137,7 +137,7 @@ int numCadeiasAD(Trie t) {
   
   soma = 0;
   for(i = 0; i < TAM_ALFABETO; i++)
-    soma += numCadeiaAD(it->subarv[i]);
+    soma += numCadeiasAD(it->subarv[i]);
   
   if(it->fim)
     soma++;
@@ -166,7 +166,13 @@ void percorreAD(Trie t, funcVisita *v) {
 
 void liberaAD(Trie t) {
 
-  /* COMPLETAR!! */
+  ImplTrie it = t;
+  if(it != NULL) {
+    int i;
+    for(i = 0; i < TAM_ALFABETO; i++)
+      liberaAD(it->subarv[i]);
+    FREE(it);
+  }
 
 }
 
