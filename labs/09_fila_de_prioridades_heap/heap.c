@@ -131,7 +131,8 @@ void * RemoveHeap(Heap h) {
 
 void LiberaHeap(Heap h) {
 
-  /* COMPLETAR */
+  FREE(h->vetor);
+  FREE(h);
 
 } /* liberaHeap */
 
