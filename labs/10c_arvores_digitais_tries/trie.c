@@ -183,10 +183,16 @@ void liberaAD(Trie t) {
 */
    
 int numNosAD(Trie t) {
-
-  /* COMPLETAR!! */
+  int num, i;
+  ImplTrie it = t;
+  if(it == NULL)
+    return 0;
   
-  return 0;  /* PROVISÓRIO */
+  num = 0;
+  for(i = 0; i < TAM_ALFABETO; i++)
+    num += numNosAD(it->subarv[i]);
+  
+  return 1 + num;
 
 }
 
