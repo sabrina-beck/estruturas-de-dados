@@ -19,14 +19,38 @@ typedef struct {
 /* Funções auxiliares para manipulação de FPs. */
 void Sobe(ImplHeap h, int m) {
 
-  /* COMPLETAR */
+  /* Posição do pai do elemento que está subindo */
+  int pai = (m + 1) / 2;
+  /* Elemento que está subindo na fila de prioridade */
+  void *subidor = h->vetor[m];
   
+  /*
+   * Enquanto o elemento não chega na raiz e não ocupa um lugar
+   * na árvore que atenda as exigência de uma fila de prioridade
+   */
+  while((m > 0) &&  h->comp(subidor, h->vetor[pai]) < 0) {
+    h->vetor[m] = h->vetor[pai];
+    m = pai;
+    pai = (m + 1) / 2;
+  }
+  
+  h->vetor[m] = subidor;  
 } /* Sobe */
 
 void Desce(ImplHeap h, int m) {
-
-  /* COMPLETAR */
+  int filho = 2 * m + 1;
+  void* descedor = h->vetor[m];
   
+  while(m < h->tam) {
+    if(m < (h->tam) - 1 && h->comp(h->vetor[filho], h->vetor[filho + 1]) > 0)
+      filho++;
+
+    h->vetor[m] = h->vetor[filho];
+    m = filho;
+    filho = 2 * m + 1;
+  }
+  
+  h->vetor[m] = descedor;
 } /* Desce */
 
 
@@ -35,8 +59,20 @@ Heap CriaHeapAux(int n, funcCompara *comp, void *elems[]) {
      valores do vetor 'elems' e transforma num heap.
   */
   ImplHeap ih = MALLOC(sizeof(RegHeap)+(n-1)*sizeof(void *));
-
-  /* COMPLETAR */
+  ih->tamMax = n;
+  ih->comp = comp;
+  
+  if(elems == NULL) {
+    ih->tam = 0;
+    ih->vetor = MALLOC(sizeof(void*));
+  } else {
+    int i;
+    ih->tam = n;
+    ih->vetor = elems;
+    
+    for(i = 1; i < ih->tam; i++)
+      Sobe(ih, i);
+  }
   
   return ih;
   
@@ -55,10 +91,8 @@ Heap CriaInicializaHeap(int n, funcCompara *comp, void *elems[]) {
 } /* CriaInicializaHeap */
 
 int TamanhoHeap(Heap h) {
-
-  /* COMPLETAR */
   
-  return 0; /* provisório */
+  return h.tam;
   
 } /* TamanhoHeap */
 
