@@ -87,7 +87,29 @@ void percorreAux(ImplTrie t, funcVisita *v, char *buf, int m) {
   caractere '\0'; 'm' é o índice do próximo caractere em 'buf'.
 */
 
-  /* COMPLETAR!! - Grupo 3 */
+  int i;
+  /*
+   * Se o nó atual representa fim de cadeia, deve-se visitar
+   * essa cadeia
+   */
+  if(t->fim) {
+    buf[m] = '\0';
+    v(buf);
+  }
+
+  /*
+   * Percorre as subárvores de 't' em ordem alfabética
+   */  
+  for(i = 0; i < TAM_ALFABETO; i++) {
+    /*
+     * Sendo a subarvore não nula, o valor de sua aresta é adicionado em 'buf'
+     * e o percurso continua
+     */
+    if(t->subarv[i] != NULL) {
+      buf[m] = i + 'a';
+      percorreAux(t->subarv[i], v, buf, m + 1);
+    }
+  }
 
 }
 
@@ -276,7 +298,12 @@ Boolean removeAD(Trie t, char *s) {
 
 }
 
-
+/*
+ * Visita, em ordem alfabética, as cadeias contidas na AD 't' e
+ * aplica, a cada cadeia, a função 'v', sob a forma "v(s)", supondo
+ * que 's' é um apontador para a cadeia que deve terminar com o
+ * caractere nulo '\0'.
+ */
 void percorreAD(Trie t, funcVisita *v) {
   
   char buf[TAM_MAX_CADEIA];
