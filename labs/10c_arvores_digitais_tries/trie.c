@@ -46,6 +46,10 @@ ImplTrie criaInicializaNo() {
     printf("Memória esgotada\n");
     exit(0);
   }
+  
+  /*
+   * AD vazia é apenas um nó que não representa fim de cadeia e não tem filhos
+   */
   p->fim = false;
   for (int k=0; k<TAM_ALFABETO; k++)
     p->subarv[k] = NULL;
@@ -58,12 +62,20 @@ Boolean livre(ImplTrie t) {
 /* Devolve verdadeiro se o nó 't' não é final e é uma folha; usada
    durante a remoção.
 */
+
   int i;
   
+  /*
+   * Para um nó ser folha, todos os seus filhos devem ser nulos, ou seja,
+   * não tem filhos
+   */
   for(i = 0; i < TAM_ALFABETO; i++)
     if(t->subarv[i] != NULL)
       return false;
   
+  /*
+   * Sendo folha, só é livre se representa fim de cadeia
+   */
   return !t->fim;
 
 }
@@ -98,20 +110,41 @@ Trie CriaAD() {
  * Verifica se a cadeia de caracteres 's' foi inserida na AD 't'.
  */
 Boolean consultaAD(Trie t, char *s) {
+
   ImplTrie noAtual = t;
-  int indice = -1;
+  int indice = 0;
   int aresta;
+
+  /*
+   * Para cadeias vazias, basta verificar se a raiz representa fim de cadeia
+   */
+  if(*s == '\0')
+    return noAtual->fim;
   
-  do {
-    indice++;
+  /*
+   * Para percorrer a cadeia 's' na AD, basta seguir as arestas de cada
+   * letra representada por índice, até chegar em uma subárvore nula ou
+   * no fim da cadeia
+   */
+  while(noAtual != NULL && s[indice]) {
     aresta = s[indice] - 'a';
     noAtual = noAtual->subarv[aresta];
-  } while(noAtual != NULL && s[indice + 1]);
+    indice++;
+  }
 
-  if(noAtual->fim)
-    return true;
+  /*
+   * Se chegou na subárvore nula, significa que a AD não contém todos os
+   * caracteres da cadeia, logo não possui a cadeia
+   */
+  if(noAtual == NULL)
+    return false;
 
-  return false;
+  /*
+   * Caso a AD possua todas as letras da cadeia, basta verificar se
+   * o nó atual representa fim de cadeia para saber se 's' pertence
+   * ap conjunto
+   */
+  return noAtual->fim;
 
 }
 
@@ -121,9 +154,15 @@ Boolean consultaAD(Trie t, char *s) {
  * ocorre em 't'.  A cadeia 's' pode ser vazia (de comprimento zero).
  */
 Boolean insereAD(Trie t, char *s) {
+
   ImplTrie it = t;
   int indice;
   
+  /*
+   * Se a cadeia 's' é vazia, basta verificar se a raiz é fim de cadeia para
+   * saber se 's' está na AD, se não estiver, a inserção se resume em
+   * fazer a raiz representar fim de cadeia
+   */
   if(*s == '\0') {
     if(it->fim)
       return false;
@@ -131,6 +170,11 @@ Boolean insereAD(Trie t, char *s) {
     return true;
   }
   
+  /*
+   * Se não existe aresta para o caracter atual da cadeia, basta
+   * criar um novo nó e apontar para ele com a aresta desejada,
+   * por último, inserir os caracteres restantes
+   */
   indice = *s - 'a';
   if(it->subarv[indice] == NULL) {
     ImplTrie novo = criaInicializaNo();
@@ -138,21 +182,37 @@ Boolean insereAD(Trie t, char *s) {
     return insereAD(novo, s + 1);
   }
   
+  /*
+   * Enquando a AD apresentar caracteres da cadeia,
+   * basta continuar a inserção para o caracter seguinte
+   */
   return insereAD(it->subarv[indice], s + 1);
 
 }
 
-  
+/* Devolve o número de cadeias contidas na AD. */ 
 int numCadeiasAD(Trie t) {
+
   ImplTrie it = t;
   int i, soma;
+  
+  /*
+   * Se a AD é nula, não há cadeias
+   */
   if(it == NULL)
     return 0;
   
+  /*
+   * Soma as cadeias das subárvores
+   */
   soma = 0;
   for(i = 0; i < TAM_ALFABETO; i++)
     soma += numCadeiasAD(it->subarv[i]);
   
+  /*
+   * Só é contada uma cadeia quando é achado um nó que
+   * representa fim de cadeia
+   */
   if(it->fim)
     soma++;
   
@@ -178,11 +238,16 @@ void percorreAD(Trie t, funcVisita *v) {
   
 }
 
+/* Libera a memória dinâmica alocada na construção da AD 't'. */
 void liberaAD(Trie t) {
 
   ImplTrie it = t;
   if(it != NULL) {
     int i;
+    /*
+     * É preciso liberar a raiz após liberar seus filhos, para não
+     * perder a referência para os mesmos
+     */
     for(i = 0; i < TAM_ALFABETO; i++)
       liberaAD(it->subarv[i]);
     FREE(it);
@@ -198,15 +263,26 @@ void liberaAD(Trie t) {
    
 /* Devolve o número de nós da AD. */
 int numNosAD(Trie t) {
+
   int num, i;
   ImplTrie it = t;
+  /*
+   * O número de nós de uma árvore vazia é 0
+   */
   if(it == NULL)
     return 0;
-  
+
+  /*
+   * Conta nós das subárvores de 't' 
+   */  
   num = 0;
   for(i = 0; i < TAM_ALFABETO; i++)
     num += numNosAD(it->subarv[i]);
   
+  /*
+   * O número de nós de uma AD é 1 (considerando a raiz) +
+   * número de nós de suas subárvores
+   */
   return 1 + num;
 
 }
@@ -216,9 +292,15 @@ int alturaAD(Trie t) {
 
   int maior, i;
   ImplTrie it = t;
+  /*
+   * Árvore nulas tem altura 0
+   */
   if(it == NULL)
     return 0;
-  
+
+  /*
+   * Calcula a maior altura dentre as subárvores de 't'
+   */  
   maior = alturaAD(it->subarv[0]);
   for(i = 1; i < TAM_ALFABETO; i++) {
     int alturaAtual = alturaAD(it->subarv[i]);
@@ -226,6 +308,10 @@ int alturaAD(Trie t) {
       maior = alturaAtual;
   }
   
+  /*
+   * A altura da AD será 1 (contando o nível da raiz) + a altura da
+   * subárvore mais alta
+   */
   return maior + 1;
 
 }
