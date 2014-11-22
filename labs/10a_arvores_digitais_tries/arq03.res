@@ -1,4 +1,4 @@
-# Algumas cadeias; remove todas
+# Algumas cadeias
 c
 i a
 n
@@ -42,22 +42,6 @@ v bb
 A cadeia não ocorre na árvore
 v aaaaa
 A cadeia não ocorre na árvore
-p
-a
-ab
-b
-ba
-r ab
-r a
-r b
-r ba
-n
-Nos: 1
-a
-Altura: 1
-k
-Cadeias: 0
-p
 l
 x
 Processamento terminado

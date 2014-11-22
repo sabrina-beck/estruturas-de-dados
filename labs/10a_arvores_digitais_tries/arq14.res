@@ -1,5 +1,5 @@
 # Misc
-C
+c
 i a
 i aa
 i aaa
@@ -16,6 +16,17 @@ i aab
 i b
 i bb
 i bbbbbbbbbbbbbbbbbbbbbbbbb
+p
+a
+aa
+aaa
+aaaa
+aaaaa
+aab
+ab
+b
+bb
+bbbbbbbbbbbbbbbbbbbbbbbbb
 v a
 A cadeia ocorre na árvore
 v aa
@@ -32,6 +43,25 @@ n
 Nos: 33
 k
 Cadeias: 10
+r b
+r bb
+r bbbbbbbbbbbbbbbbbbbbbbbbb
+v bbbbbbbbbbbbbbbbbbbbbbbbb
+A cadeia não ocorre na árvore
+p
+a
+aa
+aaa
+aaaa
+aaaaa
+aab
+ab
+a
+Altura: 6
+n
+Nos: 8
+k
+Cadeias: 7
 l
 x
 Processamento terminado

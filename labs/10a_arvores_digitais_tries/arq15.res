@@ -25,20 +25,78 @@ i for
 i her
 i it
 i or
-v form
-A cadeia não ocorre na árvore
-v from
-A cadeia ocorre na árvore
-v an
-A cadeia ocorre na árvore
-v att
-A cadeia não ocorre na árvore
+p
 a
-Altura: 5
+an
+and
+are
+as
+at
+be
+but
+by
+for
+from
+had
+have
+he
+her
+his
+i
+in
+is
+it
+no
+not
+of
+on
+or
+#
+r a
+r at
+r from
+r his
+r no
+r an
+r be
+r had
+r i
+r not
+r and
+r but
+r have
+p
+are
+as
+by
+for
+he
+her
+in
+is
+it
+of
+on
+or
+r in
+r of
+r are
+r by
+r he
+r is
+r on
+r as
+r for
+r her
+r it
+r or
+p
+a
+Altura: 1
 n
-Nos: 39
+Nos: 1
 k
-Cadeias: 25
+Cadeias: 0
 l
 x
 Processamento terminado
