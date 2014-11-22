@@ -1,0 +1,162 @@
+
+<!-- saved from url=(0053)https://susy.ic.unicamp.br:9999/mc202ef/11/enunc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Laboratorio 11</title>
+</head>
+<body bgcolor="#CC9966" text="#000000">
+
+<h3>Instituto de Computação da UNICAMP</h3>
+
+<h3>Disciplina MC202: Segundo Semestre de 2014</h3>
+
+<h3>Laboratório Nº 11</h3>
+
+<i>Prof.</i> <i>Tomasz Kowaltowski </i>
+<p>
+</p><hr>
+<p>
+
+</p><p align="JUSTIFY">
+O objetivo deste laboratório é a implementação e teste de uma pequena
+base de dados que conterá registros referentes a alunos da UNICAMP.
+As informações correspondentes a cada aluno serão o RA e o nome, sendo
+que o RA constituirá a chave para as operações de manipulação da base
+de dados.
+
+</p><p align="JUSTIFY">
+Esta base de dados será implementada através de uma tabela de
+espalhamento com encadeamento (<i>hashing with chaining</i>).  A
+tabela terá <i>MaxHash</i> entradas, numeradas de
+<i>0</i> a
+<i>MaxHash-1</i> (a constante <i>MaxHash</i> está declarada no arquivo
+<tt>base.h</tt>.)  A função de espalhamento a ser usada deve ser (já
+declarada no arquivo <tt>base.c</tt>):
+</p><p>
+</p><center>
+<i>f(RA)&nbsp; = &nbsp;RA&nbsp;%&nbsp;MaxHash</i>
+</center>
+
+<p>
+<b>Importante</b>: Dentro de cada lista, as entradas deverão estar em
+ordem <u>crescente</u> de RA.
+
+
+
+</p><p align="JUSTIFY">
+Analogamente aos laboratórios anteriores, a implementação seguirá a
+idéia de um tipo abstrato de dados realizado através de um par de
+arquivos &nbsp;<tt>base.h</tt> &nbsp;e &nbsp;<tt>base.c</tt>, &nbsp;e
+testado por um programa &nbsp;<tt>principal.c</tt>.  &nbsp;Os arquivos
+&nbsp;<tt>base.h</tt> &nbsp;e &nbsp;<tt>principal.c</tt> &nbsp;são
+fornecidos na íntegra; o arquivo incompleto &nbsp;<tt>base.c</tt> &nbsp;é um
+esboço e deve ser completado.  Os comentários esclarecem a finalidade
+de cada função. <b>Sugestão:</b> Inclua no arquivo
+&nbsp;<tt>base.c</tt> &nbsp;funções auxiliares, particularmente as que
+manipulam as listas ligadas.
+
+</p><p align="JUSTIFY"> Diferentemente das tarefas anteriores, o programa
+de teste <tt>principal.c</tt> recebe dois parâmetros que são os nomes
+dos arquivos de entrada.  O primeiro arquivo (<tt>.in1</tt>) contém os
+dados iniciais a serem inseridos na base, uma linha para cada aluno,
+com um espaço em branco separando o RA do nome.  O segundo arquivo
+(<tt>.in2</tt>) contém as operações a serem executadas.  A saída do
+programa de teste continua sendo para o arquivo padrão de saída.
+Desta maneira, a execução do programa de teste pode ser invocada por
+comandos da forma:
+
+</p><p>
+</p><pre>                 ./principal  arq.in1  arq.in2
+</pre>
+ou <br>
+<pre>                 ./principal  arq.in1  arq.in2 &gt; arq.res
+</pre>
+
+<p align="JUSTIFY"> onde &nbsp;<tt>principal</tt> &nbsp;é o arquivo
+executável gerado pela compilação e &nbsp;<tt>arq.res</tt> &nbsp;é o
+arquivo que conterá os resultados, conforme indicado pela redireção de
+saída.
+
+
+</p><p align="JUSTIFY">As operações (ações) interpretadas pelo programa de
+teste são:
+
+</p><blockquote>
+
+<table>
+<tbody><tr>
+<td width="5%"><b>i</b></td><td width="5%"><i>ra</i></td><td width="10%"><i>nome</i></td>
+<td width="80%">insere o aluno correspondente na base de dados</td>
+</tr>
+<tr>
+<td width="5%"><b>r</b></td><td width="5%"><i>ra</i></td><td width="10%"><i>&nbsp;</i></td>
+<td width="80%">remove o aluno correspondente da base de dados</td>
+</tr>
+<tr>
+<td width="5%"><b>c</b></td><td width="5%"><i>ra</i></td><td width="10%"><i>&nbsp;</i></td>
+<td width="80%">consulta a base de dados</td>
+</tr>
+<tr>
+<td width="5%"><b>w</b></td><td width="5%"><i>&nbsp;</i></td><td width="10%"><i>&nbsp;</i></td>
+<td width="80%">imprime a base de dados</td>
+</tr>
+</tbody></table>
+
+</blockquote>
+
+
+
+<p align="JUSTIFY">Note que o programa principal cria uma base
+inicialmente vazia (chamando a função <i>CriaBase</i>) e a coloca na
+variável <i>p</i>. A página deste laboratório apresenta alguns
+conjuntos de arquivos de testes e os seus respectivos resultados.
+
+</p><p><b><u>Observações</u></b>
+</p><ol>
+
+<li> <p align="justify"> Um  <b>RA</b> sempre será <b>representado por
+um número inteiro</b> e <b>não</b> é precedido das letras <tt>RA</tt>.
+ 
+</p></li><li> <p align="JUSTIFY">A representação da base como uma tabela de
+espalhamento está escondida do usuário que deve enxergá-la apenas como
+um <i>tipo abstrato de dados</i>. Note no arquivo <tt>base.h</tt> que
+isso é feito em <i>C</i> definindo o tipo <tt>Base</tt> como um
+apontador do tipo <tt>void</tt>.  A declaração do tipo da tabela
+(<i>ImplBase</i>) ficará escondida no arquivo <tt>base.c</tt> onde as
+conversões de tipo apropriadas (<i>casting</i>) deverão ser efetuadas.
+
+</p></li><li><p align="JUSTIFY">Note que a implementação da tabela inclui o
+campo <i>numregs</i> que indica o número de registros contidos na
+tabela.
+
+</p></li><li><p align="JUSTIFY"><b>Não é permitida</b> nenhuma modificação das
+declarações de tipos ou funções já completas do arquivo
+<tt>base.c</tt>.
+
+</p></li><li> <p align="JUSTIFY"> A  administração de memória deve utilizar, em
+lugar   das  funções  <tt>malloc</tt>   e  <tt>free</tt>,   as  macros
+<tt>MALLOC</tt>  e   <tt>FREE</tt>  definidas  no   pacote  modificado
+<tt>balloc</tt>.    As  chamadas  das   macros  são   análogas  às
+respectivas  funções.  Com isto,  ao  final  da  execução do  programa
+principal, será verificado se foi liberada toda a memória dinâmica.
+
+</p></li><li><p align="justify">Veja  no programa  principal  como  é feita  a
+passagem  de parâmetros  na linha  de comando  na  linguagem <i>C</i>.
+
+</p></li><li><p align="JUSTIFY">Os arquivos de entrada serão lidos até que seja
+detectada a condição de fim de arquivo (<tt>EOF</tt>).
+
+</p></li><li><p align="JUSTIFY">Deve   ser   submetido   apenas   o   arquivo
+<tt>base.c</tt>  que implementa  as funções  especificadas  no arquivo
+<tt>base.h</tt>,   além  de  funções   e  tipos   auxiliares.   
+
+</p></li><li><p align="JUSTIFY">O número máximo de submissões é 10. 
+
+</p></li>
+</ol>
+<p>
+</p><hr>
+<small><i>Last update: "enunc.html: 2014-11-15 (Sat)  14:57:25 BRST (tk)"</i></small>
+
+
+</body></html>

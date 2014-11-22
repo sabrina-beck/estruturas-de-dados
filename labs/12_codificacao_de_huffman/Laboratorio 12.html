@@ -1,0 +1,107 @@
+
+<!-- saved from url=(0053)https://susy.ic.unicamp.br:9999/mc202ef/12/enunc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Laboratorio 12</title>
+</head>
+<body bgcolor="#CC9966" text="#000000">
+
+<h3>Instituto de Computação da UNICAMP</h3>
+
+<h3>Disciplina MC202: Segundo Semestre de 2014</h3>
+
+<h3>Laboratório Nº 12</h3>
+
+<i>Prof.</i> <i>Tomasz Kowaltowski </i>
+<p>
+</p><hr>
+<p>
+  
+</p><p align="JUSTIFY"> O objetivo deste laboratório é a implementação e
+teste de algumas rotinas que implementam o método de compressão de
+Huffman.  A implementação deve seguir as idéias expostas em aula.  O
+arquivo <tt>huffman.c</tt> já contém as declarações de tipos e de
+algumas funções.  Os comentários indicam a finalidade de cada
+uma. Algumas observações importantes:
+
+</p><ul>
+
+<li> <p align="JUSTIFY"> O arquivo de entrada pode conter qualquer
+caractere (um byte tem 8 bits e, portanto, 256 possibilidades).
+
+</p></li><li><p align="JUSTIFY"> A função <i>ConstroiHuffman</i> deve
+construir, a partir de um texto original, um vetor de frequências dos
+caracteres e dois objetos globais (as variáveis já estão declaradas):
+a árvore de Huffman <i>Arvore</i> e o vetor de apontadores para as
+folhas <i>Folhas</i> da mesma árvore.  Estas estruturas são usadas por
+outras funções.  As posições não utilizadas do vetor <i>Folhas</i>
+devem ser preenchidas com apontadores nulos, para permitir a deteção
+de caracteres inválidos.
+ 
+</p></li><li><p align="JUSTIFY">A construção da árvore deverá utilizar uma fila
+de prioridades (<i>heap</i>) para determinar, em cada passo, a árvore
+parcial de peso mínimo.  Para isto, deve ser construído um vetor
+<i>floresta</i>, inicialmente igual ao vetor <i>Folhas</i> mencionado
+acima e transformado em seguida numa fila de prioridade com o elemento
+de peso mínimo na raiz.  A cada remoção de duas subárvores será
+realizada uma inserção da nova árvore que as combina. É importante que
+a construção inicial da fila utilize a versão mais eficiente do
+algoritmo indicado em aula para produzir resultados iguais aos esperados.
+
+</p></li><li><p align="JUSTIFY">Opcionalmente, poderá ser usada a implementação
+geral de filas de prioridade da tarefa 09 (possivelmente corrigida),
+feita pelo próprio aluno. Neste caso, deverá ser descomentada uma
+linha no início do arquivo incompleto <tt>huffman.c</tt> fornecido
+para que seja incluído o arquivo <tt>heap.h</tt> e submetido, além do
+arquivo <tt>huffman.c</tt>, o arquivo <tt>heap.c</tt>.  Esta opção
+vale dois pontos extra na avaliação da tarefa.  
+
+</p></li><li><p align="JUSTIFY">A  função  <i>Comprime</i>  deve  percorrer  a
+árvore,  para   cada  letra   do  texto  dado,   a  partir   da  folha
+correspondente, seguindo na direção da raiz através dos campos
+<i>pai</i>. Consequentemente, a cadeia de bits obtida deverá ser
+<b><i>invertida</i></b>.  
+
+</p></li><li><p align="JUSTIFY">O programa principal testa as funções lendo do
+arquivo padrão de entrada o texto a ser comprimido.  Este texto pode
+ser constituído de várias linhas de caracteres que são concatenadas numa
+única cadeia.  Esta cadeia é usada para compressão.  A descompressão é
+testada com a aplicação ao texto comprimido.
+
+</p></li><li><p align="JUSTIFY"> A implementação da tarefa pode seguir uma
+simplificação na qual, ao invés de verdadeiros bits, deve ser
+produzida uma sequência de caracteres '0's e '1's que simulam os
+bits. Esta opção depende do arquivo incluído, <tt>bits.h</tt> ou
+<tt>pseudo_bits.h</tt>, também no início do arquivo
+<tt>huffman.c</tt>.  Neste caso, haverá um acréscimo de até dois
+pontos na nota da tarefa que utilizar bits verdadeiros.  Os bits
+verdadeiros da representação comprimida devem ser gerados ao longo do
+processo de compressão. Uma solução que primeiro gera uma sequência
+auxiliar de pseudo-bits e depois a converte para bits verdadeiros não
+ganhará pontos extra. Para os que implementarem esta opção, uma dica é
+o uso no <b>gdb</b> do seguinte comando para imprimir uma variável em
+binário:
+
+</p><pre>    (gdb) p /t bits[0]
+    $1 = 110001
+</pre>
+
+</li><li> <p align="JUSTIFY"> A  administração de memória deve utilizar, em
+lugar   das  funções  <tt>malloc</tt>   e  <tt>free</tt>,   as  macros
+<tt>MALLOC</tt>     e     <tt>FREE</tt>     definidas    no     pacote
+<tt>balloc</tt>.
+
+</p></li><li><p align="JUSTIFY"> Caso seja utilizada a implementação separada
+da fila de prioridade, devem ser submetidos dois arquivos:
+<tt>huffman.c</tt> e <tt>heap.c</tt>; caso contrário, deve ser
+submetido apenas o primeiro.
+
+</p></li><li><p align="JUSTIFY"> O número máximo de submissões é 10.
+  
+</p></li>
+
+<p>
+</p><hr>
+
+
+</ul></body></html>

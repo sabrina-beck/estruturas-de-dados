@@ -1,0 +1,27 @@
+Free as in freedom
+------------------
+
+The term "free software" is sometimes misunderstood--it has nothing to
+do with price. It is about freedom. Here, therefore, is the definition
+of free software: a program is free software, for you, a particular
+user, if:
+
+    * You have the freedom to run the program, for any purpose.
+    * You have the freedom to modify the program to suit your needs. (To
+      make this freedom effective in practice, you must have access to
+      the source code, since making changes in a program without having
+      the source code is exceedingly difficult.)
+    * You have the freedom to redistribute copies, either gratis or for
+      a fee.
+    * You have the freedom to distribute modified versions of the
+program, so that the community can benefit from your improvements.
+
+Since "free" refers to freedom, not to price, there is no contradiction
+between selling copies and free software. In fact, the freedom to sell
+copies is crucial: collections of free software sold on CD-ROMs are
+important for the community, and selling them is an important way to
+raise funds for free software development. Therefore, a program which
+people are not free to include on these collections is not free software.
+
+
+       		                    Richard Stallman in The Gnu Project 
