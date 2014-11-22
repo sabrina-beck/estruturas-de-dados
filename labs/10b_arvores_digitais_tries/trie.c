@@ -220,32 +220,56 @@ int numCadeiasAD(Trie t) {
 
 }
 
+/*
+ * Remove da AD 't' a cadeia de caracteres 's'. Devolve o valor
+ * verdadeiro se houve remoção; devolve o valor falso se a cadeia não
+ * ocorre em '*t'.
+ */
 Boolean removeAD(Trie t, char *s) {
 
   ImplTrie it = t;
   int aresta;
-  
+ 
+  /*
+   * Se a árvore for nula, é porque a cadeia não está na AD, logo não há remoção
+   */
   if(t == NULL)
     return false;
   
+  /*
+   * Se a cadeia a ser removida é vazia, basta mudar a representação
+   * do nó atual para não ser mais fim de cadeia 
+   */
   if(*s == '\0') {
     if(it->fim) { 
       it->fim = false;
       return true;
     } else
+    /*
+     * Se ele não era fim de
+     * cadeia é porque a cadeia não está na AD e não há remoção
+     */
       return false;
   } else {
+    /*
+     * Se não existe uma aresta para o caracter atual da cadeia, então
+     * a cadeia não pertence a AD e não há remoção
+     */
     aresta = *s - 'a';
     if(it->subarv[aresta] == NULL)
       return false;
-  }
 
-  if(removeAD(it->subarv[aresta], s + 1)) {
-    if(livre(it->subarv[aresta])) {
-      FREE(it->subarv[aresta]);
-      it->subarv[aresta] = NULL;
+    if(removeAD(it->subarv[aresta], s + 1)) {
+      /*
+       * Se há a remoção da cadeia 's', é preciso verificar
+       * se a subárvore da remoção ainda possui dados da AD
+       */
+      if(livre(it->subarv[aresta])) {
+        FREE(it->subarv[aresta]);
+        it->subarv[aresta] = NULL;
+      }
+      return true;
     }
-    return true;arq12.in
   }
   
   return false;
