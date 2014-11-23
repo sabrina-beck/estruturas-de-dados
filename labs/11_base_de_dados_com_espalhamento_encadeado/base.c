@@ -36,18 +36,17 @@ int Espalha(int k) {
 
 /* FUNÇÕES AUXILIARES */
 /* ------------------ */
+void ImprimeLista(int indice, Lista lista);
 
 Boolean InsereLista(Lista *lista, Aluno *a) {
   Lista *atual = lista;
   Lista novo;
-  if(*atual != NULL) {
-    while((*atual)->prox != NULL &&
-          (*atual)->prox->aluno.ra < a->ra)
-      atual = &((*atual)->prox);
-      
-    if((*atual)->aluno.ra == a->ra)
-      return false;
-  }
+  
+  while(*atual != NULL && (*atual)->aluno.ra < a->ra)
+    atual = &((*atual)->prox);
+    
+  if(*atual != NULL && (*atual)->aluno.ra == a->ra)
+    return false;
   
   novo = MALLOC(sizeof(RegLista));
   novo->aluno = *a;
@@ -59,14 +58,17 @@ Boolean InsereLista(Lista *lista, Aluno *a) {
 
 Boolean RemoveLista(Lista *lista, int ra) {
   Lista *atual = lista;
+  Lista removido;
   while(*atual != NULL && (*atual)->aluno.ra < ra)
     atual = &((*atual)->prox);
     
-  if((*atual)->aluno.ra != ra)
+  if(*atual == NULL || (*atual)->aluno.ra != ra)
     return false;
 
-  FREE(*atual);
-  *atual = (*atual)->prox;
+  removido = *atual;
+  *atual = removido->prox;
+  FREE(removido->aluno.nome);
+  FREE(removido);
   return true;
 }
 
@@ -75,7 +77,7 @@ Boolean ConsultaLista(Lista lista, int ra, Aluno *a) {
   while(atual != NULL && atual->aluno.ra < ra)
     atual = atual->prox;
     
-  if(atual == NULL)
+  if(atual == NULL || atual->aluno.ra != ra)
     return false;
     
   *a = atual->aluno;
@@ -84,8 +86,10 @@ Boolean ConsultaLista(Lista lista, int ra, Aluno *a) {
 
 void ImprimeLista(int indice, Lista lista) {
   Lista atual = lista;
-  while(atual != NULL)
+  while(atual != NULL) {
     printf("(%3d) %06d %s\n", indice, atual->aluno.ra, atual->aluno.nome);
+    atual = atual->prox;
+  }
 }
 
 void LiberaLista(Lista lista) {
@@ -106,7 +110,11 @@ void LiberaLista(Lista lista) {
  */
 Base CriaBase() {
   ImplBase base = MALLOC(sizeof(RegBase));
+  int i;
   base->numregs = 0;
+  
+  for(i = 0; i < MaxHash; i++)
+    base->tabela[i] = NULL;
   return base;
 }
 /*
@@ -118,8 +126,11 @@ Base CriaBase() {
 Boolean InsereBase(Base p, Aluno *a) {
   ImplBase base = p;
   int hashcode = Espalha(a->ra);
-  (base->numregs)++;
-  return InsereLista(&(base->tabela[hashcode]), a);
+  if(InsereLista(&(base->tabela[hashcode]), a)) {
+    (base->numregs)++;
+    return true;
+  }
+  return false;
 }
    
 /*
