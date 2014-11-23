@@ -223,9 +223,7 @@ void LiberaHuffman() {
 /* Libera a memória dinâmica ocupada pelas estruturas criadas por
    'ConstroiHuffman'. */
 
-/*--------------------------*/
-/*       COMPLETAR !!       */
-/*--------------------------*/
+  LiberaArvoreAux(Arvore);
 
 } /* LiberaHuffman */
 
