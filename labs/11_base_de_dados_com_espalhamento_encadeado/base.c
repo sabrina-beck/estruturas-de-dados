@@ -70,6 +70,18 @@ Boolean RemoveLista(Lista *lista, int ra) {
   return true;
 }
 
+Boolean ConsultaLista(Lista lista, int ra, Aluno *a) {
+  Lista atual = lista;
+  while(atual != NULL && atual->aluno.ra < ra)
+    atual = atual->prox;
+    
+  if(atual == NULL)
+    return false;
+    
+  *a = atual->aluno;
+  return true;
+}
+
 /* FUNÇÕES DA INTERFACE */
 /* -------------------- */
 
@@ -104,13 +116,15 @@ Boolean RemoveBase(Base p, int ra) {
   return RemoveLista(&(base->tabela[hashcode]), ra);
 }
 
-/* Devolve 'true' se existe um registro com 'ra' dado na
+/*
+ * Devolve 'true' se existe um registro com 'ra' dado na
  * base 'p';  caso contrário devolve 'false'.  'a' conterá 
  * os dados do aluno, se encontrado.
  */
 Boolean ConsultaBase(Base p, int ra, Aluno *a) {
-  /*TODO*/
-  return false;
+  ImplBase base = p;
+  int hashcode = Espalha(ra);
+  return ConsultaLista(base->tabela[hashcode], ra, a);
 }
    
 /*
