@@ -263,7 +263,7 @@ Boolean Comprime(char *txt, int n,
      * invertido
      */
      for(j = qtdBits; j > 0; j--) {
-        bits |= ((bitsLetra >> j) & 1) << *numBits;
+        *bits |= (bitsLetra & (1 << i)) << *numBits;
         (*numBits)++;
      }
   }
@@ -281,11 +281,27 @@ Boolean Descomprime(char *txt, int *n,
    aparecer uma codificação incompatível com a árvore, ou se houver
    mais caracteres que 'tamMaxTxt' devolve 'false'.*/
 
-/*--------------------------*/
-/*       COMPLETAR !!       */
-/*--------------------------*/
+  int i;
+  *n = 0;
+  for (i = 0; i < numBits;) {
+    ArvHuf atual = Arvore;
+    while (atual->esq != NULL || atual->dir != NULL) {
+      int bit = ((int) *bits) & (1 << i);
+      if(bit == 0)
+        atual = atual->esq;
+      else
+        atual = atual->dir;
+      i++;
+    }
+    
+    if(*n == tamMaxTxt)
+      return false;
 
-  return true;   /* PROVISÓRIO */
+    txt[*n] = atual->letra;
+    (*n)++;
+  }
+
+  return true;
    
 } /* Descomprime */
 
