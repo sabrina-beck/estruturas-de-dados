@@ -82,6 +82,12 @@ Boolean ConsultaLista(Lista lista, int ra, Aluno *a) {
   return true;
 }
 
+void ImprimeLista(int indice, Lista lista) {
+  Lista atual = lista;
+  while(atual != NULL)
+    printf("(%3d) %06d %s\n", indice, atual->aluno.ra, atual->aluno.nome);
+}
+
 /* FUNÇÕES DA INTERFACE */
 /* -------------------- */
 
@@ -140,14 +146,18 @@ int NumeroRegsBase(Base p) {
   return base->numregs;
 }
 
-/* Imprime, os registros contidos na base 'p', um por linha.  A ordem
+/*
+ * Imprime, os registros contidos na base 'p', um por linha.  A ordem
  * de impressão segue a ordem das entradas da tabela, e para cada
  * entrada, a ordem da lista ligada.  Cada linha começa com o índice
  * correspondente na tabela de espalhamento. Deve ser usado o formato
  * "(%3d) %06d %s\n".
  */
 void ImprimeBase(Base p) {
-  /*TODO*/
+  ImplBase base = p;
+  int i;
+  for(i = 0; i < MaxHash; i++)
+    ImprimeLista(i, base->tabela[i]);
 }
    
 /*
