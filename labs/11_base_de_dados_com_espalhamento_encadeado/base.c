@@ -37,7 +37,25 @@ int Espalha(int k) {
 /* FUNÇÕES AUXILIARES */
 /* ------------------ */
 
-/* COMPLETAR SE NECESSÁRIO */
+Boolean InsereLista(Lista *lista, Aluno *a) {
+  Lista *atual = lista;
+  Lista novo;
+  if(*atual != NULL) {
+    while((*atual)->prox != NULL &&
+          (*atual)->prox->aluno.ra < a->ra)
+      atual = &((*atual)->prox);
+      
+    if((*atual)->aluno.ra == a->ra)
+      return false;
+  }
+  
+  novo = MALLOC(sizeof(RegLista));
+  novo->aluno = *a;
+  novo->prox = *atual;
+  *atual = novo;
+  
+  return true;
+}
 
 
 /* FUNÇÕES DA INTERFACE */
@@ -58,8 +76,10 @@ Base CriaBase() {
  * contrário devolve 'false'
  */
 Boolean InsereBase(Base p, Aluno *a) {
-  /*TODO*/
-  return false;
+  ImplBase base = p;
+  int hashcode = Espalha(a->ra);
+  (base->numregs)++;
+  return InsereLista(&(base->tabela[hashcode]), a);
 }
    
 /*
