@@ -36,18 +36,32 @@ int Espalha(int k) {
 
 /* FUNÇÕES AUXILIARES */
 /* ------------------ */
-void ImprimeLista(int indice, Lista lista);
 
+/*
+ * Insere um aluno '*a' na *lista com ordem crescente de ra
+ */
 Boolean InsereLista(Lista *lista, Aluno *a) {
   Lista *atual = lista;
   Lista novo;
   
+  /* 
+   * Encontra a posição de inserção, ou seja, atual será o apontador
+   * para a posição em que deve estar o novo aluno, logo avança-se com
+   * o atual até encontrar lista vazia ou um ra maior ou igual ao que
+   * está sendo inserido
+   */
   while(*atual != NULL && (*atual)->aluno.ra < a->ra)
     atual = &((*atual)->prox);
-    
+  
+  /*
+   * Se o ra a ser inserido for encontrado, então não há inserção
+   */
   if(*atual != NULL && (*atual)->aluno.ra == a->ra)
     return false;
   
+  /*
+   * Aloca-se a memório do nó do novo aluno e o insere na posição correta
+   */
   novo = MALLOC(sizeof(RegLista));
   novo->aluno = *a;
   novo->prox = *atual;
@@ -56,15 +70,28 @@ Boolean InsereLista(Lista *lista, Aluno *a) {
   return true;
 }
 
+/*
+ * Remove o aluno que possui 'ra' da lista
+ */
 Boolean RemoveLista(Lista *lista, int ra) {
   Lista *atual = lista;
   Lista removido;
+  
+  /*
+   * Procura o aluno a ser removido, considerando que a lista está ordenada,
+   * deve-se procurar pelo primeiro aluno cujo ra é maior ou igual ao
+   * desejado
+   */
   while(*atual != NULL && (*atual)->aluno.ra < ra)
     atual = &((*atual)->prox);
-    
+  
+  /* Se o ra não está na lista, não há remoção */
   if(*atual == NULL || (*atual)->aluno.ra != ra)
     return false;
 
+  /*
+   * Remove o aluno da lista, liberando a memória necessária
+   */
   removido = *atual;
   *atual = removido->prox;
   FREE(removido->aluno.nome);
@@ -72,30 +99,56 @@ Boolean RemoveLista(Lista *lista, int ra) {
   return true;
 }
 
+/*
+ * Procura o aluno de 'ra' na lista, armazena o aluno encontrado em 'a' e
+ * retorna 'true' se achou, caso contrário retorna 'false' 
+ */
 Boolean ConsultaLista(Lista lista, int ra, Aluno *a) {
   Lista atual = lista;
+  
+  /*
+   * Procura o ra na lista, ou seja, percorre a lista até achar um ra maior
+   * ou igual ao desejado uma vez que a lista está ordenada
+   */
   while(atual != NULL && atual->aluno.ra < ra)
     atual = atual->prox;
     
+  /*
+   * Se o aluno encontrado não possui o ra desejado, ele não está na base
+   */
   if(atual == NULL || atual->aluno.ra != ra)
     return false;
-    
+
   *a = atual->aluno;
   return true;
 }
 
+/*
+ * Imprime os dados da lista na ordem, cada aluno em uma linha indicado
+ * pelo seu índice na tabela de hash
+ */
 void ImprimeLista(int indice, Lista lista) {
   Lista atual = lista;
+  /*
+   * Percorre a lista até achar um ponteiro nulo == fim da lista
+   */
   while(atual != NULL) {
+    /* Imprime o aluno atual */
     printf("(%3d) %06d %s\n", indice, atual->aluno.ra, atual->aluno.nome);
+    /* Avança com o ponteiro */
     atual = atual->prox;
   }
 }
 
+/*
+ * Libera a memória ocupada pela lista e pelos nomes dos alunos nela armazenados
+ */
 void LiberaLista(Lista lista) {
   Lista atual = lista;
+  /* Percorre a lista até achar um ponteiro nulo == fim da lista */
   while(atual != NULL) {
     Lista aux = atual->prox;
+    /* Libera a memória */
     FREE(atual->aluno.nome);
     FREE(atual);
     atual = aux;
@@ -111,8 +164,11 @@ void LiberaLista(Lista lista) {
 Base CriaBase() {
   ImplBase base = MALLOC(sizeof(RegBase));
   int i;
+  
+  /* A base começa com nenhum registro */
   base->numregs = 0;
   
+  /* Coloca listas vazias em todas as posições da tabela */
   for(i = 0; i < MaxHash; i++)
     base->tabela[i] = NULL;
   return base;
@@ -125,7 +181,9 @@ Base CriaBase() {
  */
 Boolean InsereBase(Base p, Aluno *a) {
   ImplBase base = p;
+  /* Calcula posição do aluno na tabela pela função de espalhamento */
   int hashcode = Espalha(a->ra);
+  /* Insere o aluno na lista presente na posição encontrada da tabela */
   if(InsereLista(&(base->tabela[hashcode]), a)) {
     (base->numregs)++;
     return true;
@@ -139,7 +197,9 @@ Boolean InsereBase(Base p, Aluno *a) {
  */
 Boolean RemoveBase(Base p, int ra) {
   ImplBase base = p;
+  /* Calcula posição do aluno na tabela pela função de espalhamento */
   int hashcode = Espalha(ra);
+  /* Remove o aluno na lista presente na posição encontrada da tabela */
   if(RemoveLista(&(base->tabela[hashcode]), ra)) {
     (base->numregs)--;
     return true;
@@ -155,7 +215,12 @@ Boolean RemoveBase(Base p, int ra) {
  */
 Boolean ConsultaBase(Base p, int ra, Aluno *a) {
   ImplBase base = p;
+  /* Calcula posição do aluno na tabela pela função de espalhamento */
   int hashcode = Espalha(ra);
+  /*
+   * Procura o aluno desejado na lista presente na posição
+   * encontrada da tabela
+   */
   return ConsultaLista(base->tabela[hashcode], ra, a);
 }
    
@@ -177,6 +242,9 @@ int NumeroRegsBase(Base p) {
 void ImprimeBase(Base p) {
   ImplBase base = p;
   int i;
+  /*
+   * Para cada índice da tabela, imprime a lista correspondente
+   */
   for(i = 0; i < MaxHash; i++)
     ImprimeLista(i, base->tabela[i]);
 }
@@ -188,8 +256,12 @@ void ImprimeBase(Base p) {
 void LiberaBase(Base p) {
   ImplBase base = p;
   int i;
+  /*
+   * Libera a memória das listas de cada posição da tabela
+   */
   for(i = 0; i < MaxHash; i++)
     LiberaLista(base->tabela[i]);
+  /* Libera a memória da tabela */
   FREE(base);
 }
 
