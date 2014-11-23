@@ -47,8 +47,9 @@ int Espalha(int k) {
  * Devolve apontador para uma base vazia com tabela inicializada
  */
 Base CriaBase() {
-  /*TODO*/
-  return NULL;
+  ImplBase base = MALLOC(sizeof(RegBase));
+  base->numregs = 0;
+  return base;
 }
 
 /*
