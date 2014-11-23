@@ -93,8 +93,8 @@ Base CriaBase() {
   base->numregs = 0;
   return base;
 }
-
 /*
+
  * Insere o registro 'a' na base 'p' se não existe aluno
  * com o mesmo valor de 'ra', e devolve 'true';  caso
  * contrário devolve 'false'
@@ -113,7 +113,12 @@ Boolean InsereBase(Base p, Aluno *a) {
 Boolean RemoveBase(Base p, int ra) {
   ImplBase base = p;
   int hashcode = Espalha(ra);
-  return RemoveLista(&(base->tabela[hashcode]), ra);
+  if(RemoveLista(&(base->tabela[hashcode]), ra)) {
+    (base->numregs)--;
+    return true;
+  }
+  
+  return false;
 }
 
 /*
@@ -131,8 +136,8 @@ Boolean ConsultaBase(Base p, int ra, Aluno *a) {
  * Devolve o número de registros (alunos) na base 'p'.
  */
 int NumeroRegsBase(Base p) {
-  /*TODO*/
-  return 0;
+  ImplBase base = p;
+  return base->numregs;
 }
 
 /* Imprime, os registros contidos na base 'p', um por linha.  A ordem
