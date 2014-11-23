@@ -1,3 +1,9 @@
+/*
+ * Nome:    Sabrina Beck Angelini
+ * RA:      157240
+ * Turma:   E
+ */
+
 /* 
  * huffman.c - Implementação do algoritmo de Huffman. 
  */
@@ -10,17 +16,17 @@
  *
  *             Opcionalmente, poderá ser usada uma implementação
  *             independente de fila de prioridade (heap) da tarefa
- *             08. Neste caso, deverá ser submetido também o arquivo
+ *             09. Neste caso, deverá ser submetido também o arquivo
  *             "heap.c". Caso contrário, deverá ser eliminada ou
  *             comentada a linha abaixo que inclui "heap.h".
  */
 
 
-/*#include "heap.h"*/  /* descomente se necessário */
+#include "heap.h"
 
 /* Deixe descomentada uma das duas linhas */
-/*#include "bits.h"*/
-#include "pseudo_bits.h"
+#include "bits.h"
+/*#include "pseudo_bits.h"*/
 
 
 #include <string.h>
@@ -121,7 +127,17 @@ Boolean AcrescentaChar(char *s, int *n, char c, int maxCars) {
   
 } /* AcrescentaChar */
 
-
+int comparaFrequencias(void *a, void *b) {
+  /* Compara as frequencias 'a' e 'b' */
+  ArvHuf *arv1 = a;
+  ArvHuf *arv2 = b;
+  if ((*arv1)->peso>(*arv2)->peso)
+    return -1;
+  if ((*arv1)->peso<(*arv2)->peso)
+    return +1;
+  return 0;
+ 
+} /* comparaFrequencias */
 
 /* Funções auxiliares para implementação com pseudo-bits */
 /* --------------------------------------------------------- */
@@ -152,7 +168,7 @@ Boolean ConstroiHuffman(char txt[], int n) {
    construção teve sucesso; 'false' caso contrário. */
 
   ArvHuf floresta[256];
-  int freq[256], i;
+  int freq[256], i, cont;
   Heap heap;      /* Depende da implementação de heap */
   
   /* Inicializa variáveis */
@@ -166,11 +182,40 @@ Boolean ConstroiHuffman(char txt[], int n) {
     freq[(unsigned char) txt[i]]++;
   }
 
-/*--------------------------*/
-/*       COMPLETAR !!       */
-/*--------------------------*/
+  /*
+   * Inicializa a floresta com os caracteres que possuem
+   * frequência no texto, aproveita a criação das folhas
+   * para inicializar a variável global Folhas
+   */
+  cont = 0;
+  for(i = 0; i < 256; i++) {
+    if(freq[i] != 0) {
+      floresta[cont] = CriaFolha((char) i, freq[i]);
+      Folhas[i] = floresta[i];
+      cont++;
+    }
+  }
+  
+  /* FIXME confirmar se é isso mesmo */
+  if(cont == 0)
+    return false;
+  
+  /*
+   * Constroi a árvore de huffman a partir da floresta
+   */
+  heap = CriaInicializaHeap(cont, comparaFrequencias, (void **) &floresta);
+  while(TamanhoHeap(heap) > 1) {
+    ArvHuf esq = RemoveHeap(heap);
+    ArvHuf dir = RemoveHeap(heap);
+    InsereHeap(heap, CombinaArvs(esq, dir));
+  }
+  
+  /*
+   * No final a árvore de Huffman será o único elemento presente na FP
+   */
+   Arvore = RemoveHeap(heap);
 
-  return true;   /* PROVISÓRIO */
+  return true;
   
 } /* ConstroiHuffman */
 
