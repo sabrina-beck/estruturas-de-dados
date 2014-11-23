@@ -88,6 +88,16 @@ void ImprimeLista(int indice, Lista lista) {
     printf("(%3d) %06d %s\n", indice, atual->aluno.ra, atual->aluno.nome);
 }
 
+void LiberaLista(Lista lista) {
+  Lista atual = lista;
+  while(atual != NULL) {
+    Lista aux = atual->prox;
+    FREE(atual->aluno.nome);
+    FREE(atual);
+    atual = aux;
+  }
+}
+
 /* FUNÇÕES DA INTERFACE */
 /* -------------------- */
 
@@ -165,6 +175,10 @@ void ImprimeBase(Base p) {
  * todas as cadeias que guardam os nomes.
  */
 void LiberaBase(Base p) {
-  /*TODO*/
+  ImplBase base = p;
+  int i;
+  for(i = 0; i < MaxHash; i++)
+    LiberaLista(base->tabela[i]);
+  FREE(base);
 }
 
