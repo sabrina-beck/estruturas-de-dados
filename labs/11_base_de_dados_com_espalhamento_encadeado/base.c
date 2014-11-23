@@ -57,6 +57,18 @@ Boolean InsereLista(Lista *lista, Aluno *a) {
   return true;
 }
 
+Boolean RemoveLista(Lista *lista, int ra) {
+  Lista *atual = lista;
+  while(*atual != NULL && (*atual)->aluno.ra < ra)
+    atual = &((*atual)->prox);
+    
+  if((*atual)->aluno.ra != ra)
+    return false;
+
+  FREE(*atual);
+  *atual = (*atual)->prox;
+  return true;
+}
 
 /* FUNÇÕES DA INTERFACE */
 /* -------------------- */
@@ -87,8 +99,9 @@ Boolean InsereBase(Base p, Aluno *a) {
  * se ele existiu e 'false' caso contrário.
  */
 Boolean RemoveBase(Base p, int ra) {
-  /*TODO*/
-  return false;
+  ImplBase base = p;
+  int hashcode = Espalha(ra);
+  return RemoveLista(&(base->tabela[hashcode]), ra);
 }
 
 /* Devolve 'true' se existe um registro com 'ra' dado na
