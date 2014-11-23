@@ -236,11 +236,39 @@ Boolean Comprime(char *txt, int n,
    'numBits' o número total de bits gerado. Em caso de sucesso devolve
    'true'; se houver mais de 'numBitsMax' bits, devolve 'false'. */
 
-/*--------------------------*/
-/*       COMPLETAR !!       */
-/*--------------------------*/
+  int i;
+  *numBits = 0;
+  for(i = 0; i < n; i++) {
+    ArvHuf atual = Folhas[(unsigned char) txt[i]];
+    char bitsLetra = 0;
+    int qtdBits = 0;
+    int j;
+    
+    while(atual->pai != NULL) {
+      if(atual->tipoFilho == FilhoEsq) {
+        bitsLetra |= 0 << qtdBits;
+        qtdBits++;
+      } else if(atual->tipoFilho == FilhoDir) {
+        bitsLetra |= 1 << qtdBits;
+        qtdBits++;
+      }
+    }
+    
+    if((*numBits) + qtdBits > numBitsMax)
+      return false;
+    
+    /*
+     * Depois de percorrer a árvore de Huffman a partir da folha e
+     * armazenar os bits correspondentes, teremos o código da letra
+     * invertido
+     */
+     for(j = qtdBits; j > 0; j--) {
+        bits |= ((bitsLetra >> j) & 1) << *numBits;
+        (*numBits)++;
+     }
+  }
 
-  return true;   /* PROVISÓRIO */
+  return true;
   
 } /* Comprime */
 
