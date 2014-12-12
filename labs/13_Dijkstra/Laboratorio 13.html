@@ -1,0 +1,104 @@
+
+<!-- saved from url=(0053)https://susy.ic.unicamp.br:9999/mc202ef/13/enunc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Laboratorio 13</title>
+</head>
+<body bgcolor="#CC9966" text="#000000">
+
+<h3>Instituto de Computação da UNICAMP</h3>
+
+<h3>Disciplina MC202: Segundo Semestre de 2014</h3>
+
+<h3>Laboratório Nº 13</h3>
+
+<i>Prof.</i> <i>Tomasz Kowaltowski </i>
+<p>
+</p><hr>
+<p>
+  
+</p><p align="JUSTIFY"> O objetivo desta tarefa de laboratório é a
+  implementação do algoritmo de Dijkstra de busca de caminhos mínimos 
+  num <u><b>grafo orientado</b></u> representado por listas de adjacência, conforme
+  foi explicado em aula.
+
+</p><p align="JUSTIFY"> As funções a serem implementadas estão
+  especificadas na interface <tt>dijkstra.h</tt>.  O arquivo
+  <tt>dijkstra.c</tt> deve conter a implementação dessas funções bem
+  como a especificação das estruturas necessárias. É fornecido um
+  arquivo incompleto <tt>dijkstra.c</tt> que deve ser
+  completado, testado e submetido.
+
+</p><p align="JUSTIFY"> O programa <tt>principal.c</tt> é fornecido na
+  íntegra e testa as funções de <tt>dijkstra.c</tt>. A entrada de
+  dados do programa compõe-se da descrição do grafo e de uma lista dos
+  vértices a partir dos quais devem ser calculados os caminhos mínimos
+  para todos os outros vértices do grafo. Por exemplo:
+
+</p><pre>       4
+       0    2    10
+       1    2    20
+       2    1    10
+      -1   -1    -1
+       0
+       1
+       2
+       3
+      -1
+</pre>  
+
+  indica que o grafo tem quatro vértices (primera linha), com três
+  arestas <i>0→2</i>, <i>1→2</i> e <i>2→1</i>, com
+  pesos, respectivamente, <i>10, 20, 10</i>. A linha com três valores
+  <i>-1</i> é a sentinela que marca o fim das linhas que descrevem as
+  arestas.  A seguir vêm a lista dos vértices, um por linha, que devem
+  ser usados como origem para o algoritmo de Dijkstra. Esta lista
+  também termina com uma sentinela.
+  
+<p align="JUSTIFY">A saída do programa principal é auto-explicativa e
+  exemplificada nos testes que acompanham a tarefa.  No caso do
+  exemplo acima seria:
+
+</p><pre>      Grafo de 4 vértices:
+	 0:   2 (10)
+	 1:   2 (20)
+	 2:   1 (10)
+	 3:
+      Caminhos mínimos a partir do vértice 0:
+	1:  20
+	2:  10
+      Caminhos mínimos a partir do vértice 1:
+	2:  20
+      Caminhos mínimos a partir do vértice 2:
+	1:  10
+      Caminhos mínimos a partir do vértice 3:
+	nenhum
+      Processamento terminado
+</pre>  
+  
+
+<p>
+<b>Observações:</b>
+</p><ol>
+
+<li> <p align="JUSTIFY">Esta tarefa poderia utilizar uma fila de
+  prioridades semelhante àquela da tarefa 08.  Entretanto, seria
+  necessário acrescentar à interface a operação <i>Sobe</i> pois os
+  valores contidos na fila podem ter custos decrescentes durante o
+  processo.  Sugere-se, portanto, uma implementação mais simples
+  utilizando apenas vetores.
+  
+</p></li><li> <p align="JUSTIFY"> A  administração de memória deve utilizar, em
+lugar   das  funções  <tt>malloc</tt>   e  <tt>free</tt>,   as  macros
+<tt>MALLOC</tt>     e     <tt>FREE</tt>     definidas    no     pacote
+<tt>balloc</tt>.
+
+</p></li><li><p align="JUSTIFY"> O número máximo de submissões é 10.
+  
+</p></li>
+</ol>
+<p>
+</p><hr>
+
+
+</body></html>
