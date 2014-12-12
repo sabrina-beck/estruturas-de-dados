@@ -32,23 +32,78 @@ typedef struct {
   Aresta * vertices[1];  /* tamanho final será 'tam' */
 } RegGrafo, *ImplGrafo;
 
-
+/*
+ * Devolve um grafo de 'n' vértices numerados de 0 a n-1, sem arestas.
+ */
 Grafo CriaGrafoVazio(int n) {
-
-  /* COMPLETAR */
+  ImplGrafo grafo = MALLOC(sizeof(RegGrafo) + (n - 1)*sizeof(Aresta*));
+  grafo->tam = n;
   
-  return NULL;  /* PROVISÓRIO */
+  return grafo;
   
 } /* CriaGrafoVazio */
 
-Erro AcrescentaAresta(Grafo g, int u, int v, int p) {
+/*
+ * Função auxiliar que verifica se um vértice é valido
+ */
+Boolean ehValido (ImplGrafo grafo, int u) {
+  return u >= 0 && u < grafo->tam;
+}
 
-  /* COMPLETAR */
+/*
+ * Acrescenta ao grafo 'g' a aresta 'u->v' de peso 'p'.  Casos de erro
+ * detectados: valores de 'u' ou 'v' inválidos, ou a aresta já existe,
+ * ou o peso não é positivo. As listas de adjacência permanecem em
+ * ordem crescente dos vértices de destino.
+ */
+Erro AcrescentaAresta(Grafo g, int u, int v, int p) {
+  Aresta **atual, *aux, *nova;
+  ImplGrafo grafo = (ImplGrafo) g;
+  if(!ehValido(grafo, u) || !ehValido(grafo, v) || p < 0) {
+    return ERRADO;
+  }
   
+  /*
+   * Procura a posição da nova aresta na lista de arestas do vértice u,
+   * mantendo a lista em ordem crescente dos vértices de destino
+   */
+  atual = &(grafo->vertices[u]);
+  while(*atual != NULL && (*atual)->dest < v) {
+    *atual = (*atual)->prox;
+  }
+
+  /* Se a aresta já existe está errado */
+  if((*atual) != NULL && (*atual)->dest == v)
+    return ERRADO;
+
+  /* Cria a nova aresta */
+  nova = MALLOC (sizeof(Aresta));
+  nova->dest = v;
+  nova->peso = p;
+  nova->prox = NULL;
+
+  /*
+   * aux é o apontador 'prox' que deverá apontar para a nova aresta, no caso
+   * da lista estar vazia, então é o apontador do vetor
+   */
+   aux = *atual;
+   *atual = nova;
+   nova->prox = aux;
   return CERTO;   /* PROVISÓRIO */
   
 } /* AcrescentaAresta */
 
+/*
+ * Imprime as listas de adjacência do grafo sob a forma indicada neste exemplo:
+ *
+ *    1:   2 (   2)   4 (   7)   6 (  12)
+ *
+ * onde os vértices adjacentes ao vértice 1 são 2, 4 e 6 (em ordem
+ * crescente).  Cada vértice e seu peso deve ser impresso no formato
+ * %4d.  Esta função permite a verificação da representação do grafo e
+ * ajuda na depuração do programa.
+ *
+ */ 
 void ImprimeGrafo(Grafo g) {
  
   ImplGrafo ig = g;
@@ -69,15 +124,85 @@ void ImprimeGrafo(Grafo g) {
   
 } /* ImprimeGrafo */
 
+/*
+ * Para cada vértice 'v' do grafo 'g', calcula a distância mínima
+ * (soma dos pesos) de 'r' a 'v', e coloca seu valor em dist[v].  Caso
+ * o caminho não exista, deve colocar o valor INT_MAX importado de
+ * <limits.h>; o valor de dist[r] deve ser 0.
+ *
+ * Antes de retornar, deve liberar toda a memória dinâmica alocada
+ * para as variáveis auxiliares internas, exceto o grafo propriamente
+ * dito.  Deve permitir outras chamadas desta função com outro valor
+ * de 'r'.
+ *
+ */   
 void Dijkstra(Grafo g, int r, int dist[]) {
+  int i, numVertices;
+  int* vertices;
+  Aresta* aresta;
+  ImplGrafo grafo = (ImplGrafo) g;
+
+  /* Inicidliza as distâncias */
+  for(i = 0; i < grafo->tam; i++)
+    dist[i] = INT_MAX;
   
-  /* COMPLETAR */
+  dist[r] = 0;
+  
+  /* Cria o vetor auxiliar de vértices */
+  vertices = MALLOC (grafo->tam * sizeof(int));
+  numVertices = grafo->tam;
+  for(i = 0; i < numVertices; i++)
+    vertices[i] = i;
+  
+  /* Faz os percursos */
+  while(numVertices > 0) {
+    /* verticeAtual contém o índice do vertice no vetor local vertices */
+    int verticeAtual = 0;
+    /* Procura o vértice com custo mínimo */
+    for(i = 1; i < numVertices; i++)
+      if(dist[vertices[verticeAtual]] > dist[vertices[i]])
+        verticeAtual = i;
+    /* Se o vertice com custo mínimo tiver custo infinito, então esse vértice não conectado a outros vértices */
+    if(dist[vertices[verticeAtual]] == INT_MAX)
+      break;
+    
+    /* Remove o vertice atual */
+    for(i = verticeAtual; i < numVertices - 1; i++)
+      vertices[i] = vertices[i + 1];
+    numVertices--;
+    
+    /* Calcula o custo para cada vértice adjacente */
+    aresta = grafo->vertices[vertices[verticeAtual]];
+    while(aresta != NULL) {
+      int custo = dist [vertices[verticeAtual]] + aresta->peso;
+      if(custo < dist[aresta->dest]) {
+        dist[aresta->dest] = custo;
+      }
+      aresta = aresta->prox;
+    }
+  }
+  
+  FREE (vertices);
   
 } /* Dijkstra */
 
-
+/*
+ * Libera a memória dinâmica usada para representar o grafo
+ */
 void LiberaGrafo(Grafo g) {
+  int i;
+  ImplGrafo grafo = (ImplGrafo) g;
   
-  /* COMPLETAR */
+  /* Primeiro libera as listas de arestas de cada vértice */
+  for(i = 0; i < grafo->tam; i++) {
+    Aresta* atual = grafo->vertices[i];
+    while(atual != NULL) {
+      Aresta *aux = atual->prox;
+      FREE(atual);
+      atual = aux;
+    }
+  }
   
+  /* Depois libera a estrutura do Grafo */
+  FREE(grafo);
 } /* LiberaGradfo */
